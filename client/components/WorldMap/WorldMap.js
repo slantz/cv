@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as constants from '../../constants/WorldMap'
-import * as worldMapActions from '../../actions/WorldMapActions'
+import * as worldMapActions from '../../actions/worldMapActions'
 
 export default class WorldMap extends Component {
     constructor(props) {
