@@ -1,5 +1,7 @@
-var path = require('path');
-var webpack = require('webpack');
+var path = require('path')
+var webpack = require('webpack')
+var autoprefixer = require('autoprefixer');
+var precss = require('precss');
 
 var NODE_ENV = process.env.NODE_ENV;
 
@@ -18,6 +20,8 @@ module.exports = {
   target: 'web',
 
   entry: [
+    'react-hot-loader/patch',
+    'webpack-hot-middleware/client',
     'babel-polyfill',
     './client/index.js'
   ],
@@ -54,5 +58,8 @@ module.exports = {
     ],
 
     noParse: /\.min\.js/
+  },
+  postcss: function () {
+    return [autoprefixer, precss];
   }
 };
