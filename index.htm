@@ -627,6 +627,25 @@ background: -moz-linear-gradient(45deg, #1586ee 0%, #635dff 100%);
                 transform-style: preserve-3d;
             }
 
+            #header.on-start-screen .cv-logo_shadowed {
+                width: 220px;
+                height: 220px;
+                box-sizing: border-box;
+                border-radius: 50%;
+                background-color: #2be4b3;
+                -webkit-transform-style: preserve-3d;
+                transform-style: preserve-3d;
+                position: absolute;
+                left: 50%;
+                top: 0;
+                transform: translate(-50%, -5%) scale(0.5);
+                z-index: -1; 
+                opacity: 0;  
+                box-shadow: 0 0 10px 1px rgba(0,0,0,1) inset;
+                transition: all 0.75s ease-out;
+                transition-property: opacity, transform;
+            }
+
             body main {
                 position: absolute;
                 left: 0;
@@ -670,6 +689,11 @@ background: -moz-linear-gradient(45deg, #1586ee 0%, #635dff 100%);
                 -webkit-transform: scale(1.25) translateX(135vw) translateY(0) rotateZ(360deg);
                 -webkit-animation: moveAway 3s ease-in-out infinite;
                 animation: moveAway 3s ease-in-out infinite;
+            }
+
+            body.move-away #header.on-start-screen .cv-logo_shadowed {
+                opacity: 1;
+                transform: translate(-50%, 0) scale(0.75);
             }
 
             #header.on-start-screen .cv-logo:hover {
@@ -1024,7 +1048,7 @@ background: -moz-linear-gradient(45deg, #1586ee 0%, #635dff 100%);
             }
 
             @media screen and (max-width: 40em) {
-                #page.on-start-screen {
+/*                #page.on-start-screen {
                     padding-top: 1.5rem;
                     position: absolute;
                     top: 0;
@@ -1032,7 +1056,7 @@ background: -moz-linear-gradient(45deg, #1586ee 0%, #635dff 100%);
                     bottom: 0;
                     left: 0;
                     overflow: hidden;
-                }
+                }*/
                 #header .cv-logo.beforeload {
                     margin-left: 0;
                     -webkit-transform: rotateZ(0deg);
@@ -1202,10 +1226,11 @@ background: -moz-linear-gradient(45deg, #1586ee 0%, #635dff 100%);
                     <img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAALhAAAAJDkzNTU0YTNiLTUzOGEtNGRjYy05MmFkLTM4ZGFjYmZiMDUyMw.jpg" width="150px" height="150px" alt="it's me">
                 </div>
                 <br>
+                <div class="cv-logo_shadowed"></div>  
     			<div class="cv-logo i-inline-block i-transit-all beforeload">
     				<div class="i-edge"></div>
                     <h1 class="text i-inline-block">CV</h1>
-                </div>  
+                </div>
                 <h3 class="name i-transit-all i-inline-block">Alex Kobylinski</h3>
                 <div class="button-holder">
                     <div class="i-edge"></div>
