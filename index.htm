@@ -632,7 +632,7 @@ background: -moz-linear-gradient(45deg, #1586ee 0%, #635dff 100%);
                 height: 220px;
                 box-sizing: border-box;
                 border-radius: 50%;
-                background-color: #2be4b3;
+                background-color: #64C084;
                 -webkit-transform-style: preserve-3d;
                 transform-style: preserve-3d;
                 position: absolute;
@@ -644,6 +644,23 @@ background: -moz-linear-gradient(45deg, #1586ee 0%, #635dff 100%);
                 box-shadow: 0 0 10px 1px rgba(0,0,0,1) inset;
                 transition: all 0.75s ease-out;
                 transition-property: opacity, transform;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              flex-direction: column;
+              white-space: nowrap;
+              overflow: hidden;
+            }
+
+            #header.on-start-screen .cv-logo_shadowed > span {
+              font-size: 18px;
+              font-weight: bold;
+              font-family: Muli;
+              text-transform: uppercase;
+              text-indent: 50vw;
+              -webkit-filter: blur(3px);
+              transition-property: text-indent;
+              transition-delay: 0.75s;
             }
 
             body main {
@@ -694,6 +711,10 @@ background: -moz-linear-gradient(45deg, #1586ee 0%, #635dff 100%);
             body.move-away #header.on-start-screen .cv-logo_shadowed {
                 opacity: 1;
                 transform: translate(-50%, 0) scale(0.75);
+            }
+
+            body.move-away #header.on-start-screen .cv-logo_shadowed > span {
+              text-indent: 0;
             }
 
             #header.on-start-screen .cv-logo:hover {
@@ -1226,7 +1247,11 @@ background: -moz-linear-gradient(45deg, #1586ee 0%, #635dff 100%);
                     <img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAALhAAAAJDkzNTU0YTNiLTUzOGEtNGRjYy05MmFkLTM4ZGFjYmZiMDUyMw.jpg" width="150px" height="150px" alt="it's me">
                 </div>
                 <br>
-                <div class="cv-logo_shadowed"></div>  
+                <div class="cv-logo_shadowed">
+                  <span class="i-transit-all">This is test text for Alex Kobylinski CV</span>
+                  <span class="i-transit-all">This is test text for Alex Kobylinski CV</span>
+                  <span class="i-transit-all">This is test text for Alex Kobylinski CV</span>
+                </div>
     			<div class="cv-logo i-inline-block i-transit-all beforeload">
     				<div class="i-edge"></div>
                     <h1 class="text i-inline-block">CV</h1>
