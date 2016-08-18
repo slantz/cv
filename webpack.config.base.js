@@ -23,7 +23,7 @@ module.exports = {
     'react-hot-loader/patch',
     'webpack-hot-middleware/client',
     'babel-polyfill',
-    './client/index.js'
+    './client/index'
   ],
 
   output: {

@@ -35,3 +35,9 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+# generated root for js bundle files
+assets.json
+
+# build files for development
+client/dist
