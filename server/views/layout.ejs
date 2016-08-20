@@ -1,17 +1,25 @@
+<!doctype html>
 <html>
 <head>
-  <title>react-webpack-boilerplate</title>
+  <meta charset="utf-8">
+  <meta name="description" content="CV">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1,requiresActiveX=true">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta name="HandheldFriendly" content="true">
+  <meta http-equiv="cleartype" content="on">
+  <meta property="og:site_name" content="Alex Kobylinski CV">
+  <meta property="og:type" content="text.cv">
+  <meta property="og:url" content="http://kblnsk.me/">
+  <meta property="og:image" content="http://kblnsk.me/img/cv-logo.png">
+  <title>CV : Alex Kobylinski</title>
+  <link rel="author" href="ua.linkedin.com/pub/oleksii-kobylinskyi/75/409/620/">
+  <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,700|Muli:300,400,400italic,300italic|Audiowide' rel='stylesheet' type='text/css'>
 </head>
   <body>
 
-  <div id="js-main"></div>
-
   <%- body %>
 
-  <% if (env.production) { %>
-    <script async src="<%= env.assets.main.js %>"></script>
-  <% } else { %>
-    <script src="http://localhost:3000/client/main.js"></script>
-  <% } %>
+  <% include ./scripts %>
+
   </body>
 </html>

@@ -11,11 +11,12 @@ import Redbox from 'redbox-react' // workaround https://github.com/gaearon/react
 
 import {AppContainer} from 'react-hot-loader';
 
+const ROOT_ID = 'cv-root'
 const initialState = ( window && window.__INITIAL_STATE__ ) ? window.__INITIAL_STATE__ : {};
 const store = configureStore(initialState)
 if (window && window.__INITIAL_STATE__) delete window.__INITIAL_STATE__;
 
-const rootEl = window.document.getElementById('js-main');
+const rootEl = window.document.getElementById(ROOT_ID);
 const history = syncHistoryWithStore(browserHistory, store)
 
 import './styles/app.scss'

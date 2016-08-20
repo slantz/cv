@@ -49,7 +49,7 @@ if (env.production === false) {
 
   new WebpackDevServer(webpack(webpackDevConfig), {
     publicPath: '/client/',
-    contentBase: './src/',
+    contentBase: './client/',
     inline: true,
     hot: true,
     stats: false,
