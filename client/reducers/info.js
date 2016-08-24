@@ -1,6 +1,6 @@
-import * as c from '../constants/WorldMap'
+import * as c from '../constants/Info'
 
-export default function landing(state = {
+export default function info(state = {
     dimensions: {
         height: document.body.clientWidth - c.RIGHT_OFFSET,
         width: window.innerHeight

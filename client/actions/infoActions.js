@@ -1,4 +1,4 @@
-import * as c from '../constants/WorldMap'
+import * as c from '../constants/Info'
 
 export function resize(width, height) {
     return {

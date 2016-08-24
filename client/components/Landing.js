@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router'
 
-export default class LoginButton extends Component {
+export default class Landing extends Component {
     render() {
-        const { user } = this.props
         return (
             <div>
-                { !user.name && <Link to='/login'>Login</Link> }
+              <h1>CV</h1>
+              <Link activeStyle={{color: '#53acff'}} to='info'>INFO</Link>
             </div>
         )
     }
