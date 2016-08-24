@@ -3,7 +3,11 @@ import React, { Component } from 'react'
 export default class Info extends Component {
   render() {
     return (
-      <div>Данные обо мне красавчике</div>
+      <article id="cv-info">
+        <header></header>
+          <section id="cv-info__body"></section>
+        <footer></footer>
+      </article>
     )
   }
 }
