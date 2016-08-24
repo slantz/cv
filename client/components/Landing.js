@@ -6,7 +6,7 @@ export default class Landing extends Component {
         return (
             <div>
               <h1>CV</h1>
-              <Link activeStyle={{color: '#53acff'}} to='info'>INFO</Link>
+              <Link activeStyle={{color: '#53acff'}} to='/info'>INFO</Link>
             </div>
         )
     }

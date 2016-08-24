@@ -21,13 +21,9 @@ class App extends Component {
         var segment = path.split('/')[1] || 'landing';
 
         return (
-            <main>
-                <section>
-                    <ReactCSSTransitionGroup transitionName="pageSlider" transitionEnterTimeout={0} transitionLeaveTimeout={600}>
-                        {React.cloneElement(this.props.children, { key: segment })}
-                    </ReactCSSTransitionGroup>
-                </section>
-            </main>
+            <ReactCSSTransitionGroup component="section" transitionName="pageSlider" transitionEnterTimeout={0} transitionLeaveTimeout={600}>
+                {React.cloneElement(this.props.children, { key: segment })}
+            </ReactCSSTransitionGroup>
         )
     }
 }
