@@ -15,6 +15,15 @@ class App extends Component {
         const { landingActions: { hide }} = this.props
         hide()
     }
+
+    componentWillMount() {
+      window.firebase.initializeApp({
+        apiKey: "AIzaSyA_1gjVXHACTjokYtOOXynRqUet11mAj0Y",
+        authDomain: "alexcv.firebaseapp.com",
+        databaseURL: "https://alexcv-1e348.firebaseio.com/",
+        storageBucket: "alexcv-1e348.appspot.com"
+      });
+    }
     
     render() {
         const {info, infoActions, landing: { showLanding }} = this.props
@@ -22,7 +31,18 @@ class App extends Component {
         var segment = path.split('/')[1] || LANDING_CONSTANTS.LANDING;
 
         return (
-            <ReactCSSTransitionGroup id="cv-transition-group" component="section" transitionName="move-away" transitionEnterTimeout={3000} transitionLeaveTimeout={3000}>
+            <ReactCSSTransitionGroup id="cv-transition-group"
+                                     component="section"
+                                     transitionName={
+                                      {
+                                        enter: 'js-move-in',
+                                        enterActive: 'js-move-in-active',
+                                        leave: 'js-move-away',
+                                        leaveActive: 'js-move-away-active'
+                                      }
+                                     }
+                                     transitionEnterTimeout={3000}
+                                     transitionLeaveTimeout={3000}>
                 {React.cloneElement(this.props.children, { key: segment })}
             </ReactCSSTransitionGroup>
         )

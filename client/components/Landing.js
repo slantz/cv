@@ -4,7 +4,7 @@ import {Link} from 'react-router'
 export default class Landing extends Component {
     render() {
         return (
-            <article id="cv-landing">
+            <article id="cv-landing" style={{'backgroundColor': 'blue'}}>
               <div className="cv-logo i-inline-block i-transit-all beforeload">
                 <div className="i-edge"></div>
                 <Link className="i-inline-block" to='/info'>

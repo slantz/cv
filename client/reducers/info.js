@@ -1,16 +1,25 @@
 import * as c from '../constants/Info'
 
 export default function info(state = {
-    dimensions: {
-        height: document.body.clientWidth - c.RIGHT_OFFSET,
-        width: window.innerHeight
-    }
+  data: {},
+  isFetching: false
 }, { type, payload }) {
-    switch(type) {
-        case c.RESIZE:
-            return Object.assign({}, state, {
-                dimensions: payload
-            })
-        default: return state
-    }
+  switch(type) {
+    case c.INFO_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        data: payload
+      })
+    case c.INFO_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        data: payload
+      })
+    case c.INFO_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        data: {}
+      })
+    default: return state
+  }
 }
