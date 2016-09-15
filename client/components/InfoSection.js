@@ -30,7 +30,7 @@ export default class InfoSection extends Component {
                   <table>
                     {item.description.map(function(row, rowIndex){
                       return <tr key={rowIndex}>
-                        <td>{row.descr}</td>
+                        <td dangerouslySetInnerHTML={{__html: row.descr}}></td>
                         <td>{row.time}</td>
                         <td>{row.link && <div>{row.link.value} + {row.link.title} + {row.link.url}</div>}</td>
                       </tr>
