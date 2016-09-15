@@ -1,5 +1,5 @@
 import * as constants from '../constants/Landing'
 
-export const hide = () => ({
-    type: constants.HIDE_LANDING
+export const toggleBackInBlack = () => ({
+    type: constants.BACK_IN_BLACK
 })

@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import * as LANDING_CONSTANTS from '../constants/Landing'
 import * as landingActions from '../actions/LandingActions'
 import * as infoActions from '../actions/infoActions'
+import * as CONSTANTS from "../constants/Core";
 
 class App extends Component {
     constructor(props) {
@@ -14,19 +15,18 @@ class App extends Component {
     hideLanding = () => {
         const { landingActions: { hide }} = this.props
         hide()
-    }
+    };
 
     componentWillMount() {
       window.firebase.initializeApp({
-        apiKey: "AIzaSyA_1gjVXHACTjokYtOOXynRqUet11mAj0Y",
-        authDomain: "alexcv.firebaseapp.com",
-        databaseURL: "https://alexcv-1e348.firebaseio.com/",
-        storageBucket: "alexcv-1e348.appspot.com"
+        apiKey: CONSTANTS.FIREBASE_API_KEY,
+        authDomain: CONSTANTS.FIREBASE_AUTH_DOMAIN,
+        databaseURL: CONSTANTS.FIREBASE_DATABASE_URL,
+        storageBucket: CONSTANTS.FIREBASE_STORAGE_BUCKET
       });
     }
-    
+
     render() {
-        const {info, infoActions, landing: { showLanding }} = this.props
         var path = this.props.location.pathname;
         var segment = path.split('/')[1] || LANDING_CONSTANTS.LANDING;
 
