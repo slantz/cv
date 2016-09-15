@@ -4,7 +4,7 @@ import {syncHistoryWithStore} from 'react-router-redux'
 import {IntlProvider} from 'react-intl'
 import {configureStore, browserHistory} from './store/configureStore'
 import Root from './root'
-import * as CONSTANTS from "./constants/Core";
+import * as CONSTANTS from "./constants/Dom";
 
 // todo: remove errorReporter attribute from AppContainer
 // once this pull request merged https://github.com/gaearon/react-hot-loader/pull/314
@@ -16,7 +16,7 @@ const initialState = ( window && window.__INITIAL_STATE__ ) ? window.__INITIAL_S
 const store = configureStore(initialState)
 if (window && window.__INITIAL_STATE__) delete window.__INITIAL_STATE__;
 
-const rootEl = window.document.getElementById(CONSTANTS.ROOT_ID);
+const rootEl = window.document.getElementById(CONSTANTS.ID_ROOT);
 const history = syncHistoryWithStore(browserHistory, store)
 
 import './styles/app.scss'

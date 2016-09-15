@@ -5,7 +5,8 @@ import {connect} from 'react-redux'
 import * as LANDING_CONSTANTS from '../constants/Landing'
 import * as landingActions from '../actions/LandingActions'
 import * as infoActions from '../actions/infoActions'
-import * as CONSTANTS from "../constants/Core";
+import * as FIREBASE_CONSTANTS from "../constants/Firebase";
+import * as DOM_CONSTANTS from "../constants/Dom";
 
 class App extends Component {
     constructor(props) {
@@ -19,10 +20,10 @@ class App extends Component {
 
     componentWillMount() {
       window.firebase.initializeApp({
-        apiKey: CONSTANTS.FIREBASE_API_KEY,
-        authDomain: CONSTANTS.FIREBASE_AUTH_DOMAIN,
-        databaseURL: CONSTANTS.FIREBASE_DATABASE_URL,
-        storageBucket: CONSTANTS.FIREBASE_STORAGE_BUCKET
+        apiKey: FIREBASE_CONSTANTS.API_KEY,
+        authDomain: FIREBASE_CONSTANTS.AUTH_DOMAIN,
+        databaseURL: FIREBASE_CONSTANTS.DATABASE_URL,
+        storageBucket: FIREBASE_CONSTANTS.STORAGE_BUCKET
       });
     }
 
@@ -31,7 +32,7 @@ class App extends Component {
         var segment = path.split('/')[1] || LANDING_CONSTANTS.LANDING;
 
         return (
-            <ReactCSSTransitionGroup id="cv-transition-group"
+            <ReactCSSTransitionGroup id={DOM_CONSTANTS.ID_CSS_TRANSITION_GROUP}
                                      component="section"
                                      transitionName={
                                       {

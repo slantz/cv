@@ -29,7 +29,11 @@ class Info extends Component {
     return (
       <article id="cv-info">
         <header>
-          <img className="cv-avatar" src={CONSTANTS.AVATAR_LINK} width="150px" height="150px" alt="it's me" />
+          <img className="cv-avatar"
+               src={CONSTANTS.AVATAR_LINK}
+               width={CONSTANTS.AVATAR_WIDTH}
+               height={CONSTANTS.AVATAR_HEIGHT}
+               alt={CONSTANTS.AVATAR_ALT} />
           <h1>CV TEXT</h1>
         </header>
         <section id="cv-info__body" style={{'width': '100vw'}}>
