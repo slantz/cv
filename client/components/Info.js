@@ -32,7 +32,7 @@ class Info extends Component {
           <img className="cv-avatar" src={CONSTANTS.AVATAR_LINK} width="150px" height="150px" alt="it's me" />
           <h1>CV TEXT</h1>
         </header>
-        <section id="cv-info__body">
+        <section id="cv-info__body" style={{'width': '100vw'}}>
           <InfoSection info={data} />
         </section>
         <footer></footer>
