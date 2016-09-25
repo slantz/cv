@@ -17,8 +17,6 @@ class Landing extends Component {
     render() {
         const { backInBlack } = this.props
 
-        console.debug(this.props)
-
         return (
             <article id="cv-landing" style={{'backgroundColor': backInBlack}}>
               <div className="cv-logo i-inline-block i-transit-all beforeload">

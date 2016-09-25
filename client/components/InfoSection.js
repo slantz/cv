@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { Col, Row } from 'react-flexbox-grid/lib/index'
 
 export default class InfoSection extends Component {
 
@@ -23,22 +24,24 @@ export default class InfoSection extends Component {
       <section className="container car-list__inner pure-g i-ma">
         {sections.map(function(item){
           return <article className="car car--list pure-u-1-3 car--list_padding car--list_flex" key={item.title}>
-            <table>
-              <tr>
-                <td>{item.title}</td>
-                <td>
-                  <table>
+            <Row>
+                <Col xs={2}>
+                    {item.title}
+                </Col>
+                <Col xs={10}>
                     {item.description.map(function(row, rowIndex){
-                      return <tr key={rowIndex}>
-                        <td dangerouslySetInnerHTML={{__html: row.descr}}></td>
-                        <td>{row.time}</td>
-                        <td>{row.link && <div>{row.link.value} + {row.link.title} + {row.link.url}</div>}</td>
-                      </tr>
+                        return <Row middle="xs" key={rowIndex}>
+                            <Col xs={2} dangerouslySetInnerHTML={{__html: row.descr}} />
+                            <Col xs={2}>
+                                {row.time}
+                            </Col>
+                            <Col xs={8}>
+                                {row.link && <div>{row.link.value} + {row.link.title} + {row.link.url}</div>}
+                            </Col>
+                        </Row>
                     })}
-                  </table>
-                </td>
-              </tr>
-            </table>
+                </Col>
+            </Row>
           </article>;
         })}
       </section>
