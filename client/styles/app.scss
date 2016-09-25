@@ -1,4 +1,5 @@
 @import './mixins/keyframes';
+@import './mixins/animation';
 
 /************************************************************* RESET CSS *************************************************************/
 /*
@@ -632,25 +633,20 @@ body {
             height: 100vh;
             width: 100vw;
             transform: scale(1);
-            -webkit-animation: mainMoveIn 3s ease-in-out infinite;
-            animation: mainMoveIn 3s ease-in-out infinite;
-            -webkit-animation-iteration-count: 1 !important;
-            animation-iteration-count: 1 !important;
+            @include animation('mainMoveIn 3s ease-in-out infinite');
+            @include animation-iteration-count('1 !important');
         }
         #cv-landing, #cv-landing.on-start-screen .cv-logo {
-            -webkit-animation-iteration-count: 1 !important;
-            animation-iteration-count: 1 !important;
+            @include animation-iteration-count('1 !important');
         }
         #cv-landing {
             -webkit-transform: scale(0.95) translateX(-105vw);
-            -webkit-animation: pageMoveAway 3s ease-in-out infinite;
-            animation: pageMoveAway 3s ease-in-out infinite;
+            @include animation('pageMoveAway 3s ease-in-out infinite');
         }
     }
     &:not(.move-away) #cv-landing.on-start-screen .cv-logo {
         -webkit-transform: scale(1) rotateX(30deg);
-        -webkit-animation: pulse 3s ease-in-out infinite;
-        animation: pulse 3s ease-in-out infinite;
+        @include animation('pulse 3s ease-in-out infinite');
     }
     &.move-away #cv-landing.on-start-screen {
         .cv-logo {
@@ -658,8 +654,7 @@ body {
             z-index: 1;
             box-shadow: 0px 0px 0px 0px #fff;
             -webkit-transform: scale(1.25) translateX(135vw) translateY(0) rotateZ(360deg);
-            -webkit-animation: moveAway 3s ease-in-out infinite;
-            animation: moveAway 3s ease-in-out infinite;
+            @include animation('moveAway 3s ease-in-out infinite');
         }
         .cv-logo_shadowed {
             opacity: 1;
