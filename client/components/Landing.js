@@ -3,6 +3,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as landingActions from '../actions/LandingActions'
 import {Link} from 'react-router'
+import * as CORE_CONSTANTS from '../constants/Core';
 
 class Landing extends Component {
     constructor(props) {
@@ -18,7 +19,7 @@ class Landing extends Component {
         const { backInBlack } = this.props
 
         return (
-            <article id="cv-landing" className="on-start-screen" style={{'backgroundColor': backInBlack}}>
+            <article id="cv-landing" className={'on-start-screen ' + CORE_CONSTANTS.STRING_SPACE + backInBlack}>
               <div className="cv-logo i-inline-block i-transit-all beforeload">
                 <div className="i-edge"></div>
                 <Link className="i-inline-block" to='/info'>

@@ -1,12 +1,15 @@
-import * as c from '../constants/Landing'
+import * as LANDING_CONSTANTS from '../constants/Landing'
+import * as DOM_CONSTANTS from '../constants/Dom'
 
 export default function landing(state = {
-    backInBlack: c.PURPLE
+    backInBlack: false
 }, { type }) {
     switch(type) {
-        case c.BACK_IN_BLACK:
+        case LANDING_CONSTANTS.BACK_IN_BLACK:
             return Object.assign({}, state, {
-                backInBlack: state.backInBlack === c.BLACK ? c.PURPLE : c.BLACK
+                backInBlack: state.backInBlack === DOM_CONSTANTS.CLASS_BACK_IN_BLACK
+                    ? ''
+                    : DOM_CONSTANTS.CLASS_BACK_IN_BLACK
             });
         default: return state
     }
