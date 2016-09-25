@@ -1,3 +1,5 @@
+@import './mixins/keyframes';
+
 /************************************************************* RESET CSS *************************************************************/
 /*
 
@@ -109,24 +111,12 @@ ol, ul {
     }
 }
 
-@-webkit-keyframes bounce {
+@include keyframes(bounce) {
     0%, 100% {
         -webkit-transform: scale(0);
     }
 
     50% {
-        -webkit-transform: scale(1);
-    }
-}
-
-@keyframes bounce {
-    0%, 100% {
-        transform: scale(0);
-        -webkit-transform: scale(0);
-    }
-
-    50% {
-        transform: scale(1);
         -webkit-transform: scale(1);
     }
 }
@@ -481,7 +471,7 @@ body {
     overflow-x: hidden;
 }
 
-#page {
+#cv-landing {
     background-color: #fcfcfc;
     position: relative;
     padding: 0 15px 75px;
@@ -650,22 +640,22 @@ body {
             -webkit-animation-iteration-count: 1 !important;
             animation-iteration-count: 1 !important;
         }
-        #page, #header.on-start-screen .cv-logo {
+        #cv-landing, #cv-landing.on-start-screen .cv-logo {
             -webkit-animation-iteration-count: 1 !important;
             animation-iteration-count: 1 !important;
         }
-        #page {
+        #cv-landing {
             -webkit-transform: scale(0.95) translateX(-105vw);
             -webkit-animation: pageMoveAway 3s ease-in-out infinite;
             animation: pageMoveAway 3s ease-in-out infinite;
         }
     }
-    &:not(.move-away) #header.on-start-screen .cv-logo {
+    &:not(.move-away) #cv-landing.on-start-screen .cv-logo {
         -webkit-transform: scale(1) rotateX(30deg);
         -webkit-animation: pulse 3s ease-in-out infinite;
         animation: pulse 3s ease-in-out infinite;
     }
-    &.move-away #header.on-start-screen {
+    &.move-away #cv-landing.on-start-screen {
         .cv-logo {
             position: relative;
             z-index: 1;
@@ -684,12 +674,12 @@ body {
     }
 }
 
-#header.on-start-screen .cv-logo:hover {
+#cv-landing.on-start-screen .cv-logo:hover {
     box-shadow: 0px 0px 30px 30px #5c57ff;
     /* 5% darken scss*/
 }
 
-body:not(.move-away) #header.on-start-screen .cv-logo:hover {
+body:not(.move-away) #cv-landing.on-start-screen .cv-logo:hover {
     -webkit-animation-play-state: paused;
     /* Chrome, Safari, Opera */
     animation-play-state: paused;
@@ -700,7 +690,7 @@ body:not(.move-away) #header.on-start-screen .cv-logo:hover {
     -webkit-filter: saturate(7) blur(2px);
 }
 
-#header {
+#cv-landing {
     &.on-start-screen .cv-logo {
         &:active {
             box-shadow: 0px 0px 30px 30px #fff;
@@ -770,7 +760,7 @@ body:not(.move-away) #header.on-start-screen .cv-logo:hover {
     }
 }
 
-@-webkit-keyframes pulse {
+@include keyframes(pulse) {
     0% {
         -webkit-transform: scale(0.8) rotateX(-30deg) translateY(0);
         opacity: 0.5;
@@ -790,7 +780,7 @@ body:not(.move-away) #header.on-start-screen .cv-logo:hover {
     }
 }
 
-@-webkit-keyframes fade {
+@include keyframes(fade) {
     0% {
         opacity: 0.5;
         -webkit-filter: blur(1px);
@@ -810,7 +800,7 @@ body:not(.move-away) #header.on-start-screen .cv-logo:hover {
     }
 }
 
-@-webkit-keyframes moveAway {
+@include keyframes(moveAway) {
     0% {
         -webkit-transform: scale(0.9) translateX(0) translateY(-1.5vh) rotateZ(0deg);
         box-shadow: 0px 0px 30px 30px #fff;
@@ -827,7 +817,7 @@ body:not(.move-away) #header.on-start-screen .cv-logo:hover {
     }
 }
 
-@-webkit-keyframes pageMoveAway {
+@include keyframes(pageMoveAway) {
     0% {
         -webkit-transform: scale(1) translateX(0);
     }
@@ -841,7 +831,7 @@ body:not(.move-away) #header.on-start-screen .cv-logo:hover {
     }
 }
 
-@-webkit-keyframes mainMoveIn {
+@include keyframes(mainMoveIn) {
     0% {
         transform: scale(0.9);
     }
@@ -855,15 +845,15 @@ body:not(.move-away) #header.on-start-screen .cv-logo:hover {
     }
 }
 
-/*#header .cv-logo.beforeload + .name {*/
+/*#cv-landing .cv-logo.beforeload + .name {*/
 /*padding-right: 63px;*/
 /*}*/
 
-/*#header .cv-logo.afterload + .name {*/
+/*#cv-landing .cv-logo.afterload + .name {*/
 /*padding-left: 63px;*/
 /*}*/
 
-#content.i-loading #resume-text-parts, #header:not(.on-start-screen) .cv-logo .i-edge {
+#content.i-loading #resume-text-parts, #cv-landing:not(.on-start-screen) .cv-logo .i-edge {
     display: none;
 }
 
@@ -1004,10 +994,8 @@ body:not(.move-away) #header.on-start-screen .cv-logo:hover {
 /*********************************************************** MEDIA PRINT *************************************************************/
 
 @media print {
-    #page {
+    #cv-landing {
         background-color: transparent;
-    }
-    #header {
         .button-holder {
             display: none;
         }
@@ -1061,7 +1049,7 @@ body:not(.move-away) #header.on-start-screen .cv-logo:hover {
 }
 
 @media screen and (max-width: 40em) {
-    /*                #page.on-start-screen {
+    /*                #cv-root.on-start-screen {
                         padding-top: 1.5rem;
                         position: absolute;
                         top: 0;
@@ -1070,7 +1058,7 @@ body:not(.move-away) #header.on-start-screen .cv-logo:hover {
                         left: 0;
                         overflow: hidden;
                     }*/
-    #header {
+    #cv-landing {
         .cv-logo.beforeload {
             margin-left: 0;
             -webkit-transform: rotateZ(0deg);
@@ -1114,9 +1102,6 @@ body:not(.move-away) #header.on-start-screen .cv-logo:hover {
             display: none;
         }
     }
-    #page.on-start-screen + #footer {
-        display: none;
-    }
     #content.i-loading {
         &:after, &:before {
             display: none;
@@ -1137,7 +1122,7 @@ body:not(.move-away) #header.on-start-screen .cv-logo:hover {
 }
 
 @media screen and (max-width: 30em) {
-    #header {
+    #cv-landing {
         &.on-start-screen {
             .cv-logo {
                 width: 9.375rem;
@@ -1163,7 +1148,8 @@ body:not(.move-away) #header.on-start-screen .cv-logo:hover {
             display: block;
         }
     }
-    #header {
+    #cv-landing {
+        padding: 0 .938rem .938rem;
         &.on-main-screen .cv-logo {
             display: inline-block;
         }
@@ -1193,7 +1179,7 @@ body:not(.move-away) #header.on-start-screen .cv-logo:hover {
         left: .938rem;
         width: auto;
     }
-    #header {
+    #cv-landing {
         .text, .name {
             font-size: 1.313rem;
             line-height: 1.313rem;
@@ -1211,9 +1197,6 @@ body:not(.move-away) #header.on-start-screen .cv-logo:hover {
                 display: none;
             }
         }
-    }
-    #page {
-        padding: 0 .938rem .938rem;
     }
     #content {
         min-height: 0;

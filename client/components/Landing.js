@@ -18,7 +18,7 @@ class Landing extends Component {
         const { backInBlack } = this.props
 
         return (
-            <article id="cv-landing" style={{'backgroundColor': backInBlack}}>
+            <article id="cv-landing" className="on-start-screen" style={{'backgroundColor': backInBlack}}>
               <div className="cv-logo i-inline-block i-transit-all beforeload">
                 <div className="i-edge"></div>
                 <Link className="i-inline-block" to='/info'>
@@ -26,7 +26,7 @@ class Landing extends Component {
                 </Link>
               </div>
               <h3 className="name i-transit-all i-inline-block">Alex Kobylinski</h3>
-                <button onClick={this.toggleBackInBlack}>TEST</button>
+                <button onClick={this.toggleBackInBlack}>Back in black</button>
             </article>
         )
     }
