@@ -499,9 +499,10 @@ body {
 #cv-landing {
     position: relative;
     text-align: left;
-    //.cv-logo {
-    //    font-size: 0;
-    //}
+    .cv-logo {
+        margin: 0;
+        font-size: 0;
+    }
     .avatar {
         border-radius: 50%;
         font-size: 0;
