@@ -19,7 +19,7 @@ class Landing extends Component {
         const { backInBlack } = this.props
 
         return (
-            <article id="cv-landing" className={'on-start-screen ' + CORE_CONSTANTS.STRING_SPACE + backInBlack}>
+            <article id="cv-landing" className={'on-start-screen' + CORE_CONSTANTS.STRING_SPACE + backInBlack}>
               <div className="cv-logo i-inline-block i-transit-all beforeload">
                 <div className="i-edge"></div>
                 <Link className="i-inline-block" to='/info'>
