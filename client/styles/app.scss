@@ -474,7 +474,7 @@ body {
 
 #cv-landing {
     position: relative;
-    padding: 0 15px 75px;
+    padding: 70px 15px 75px;
     -webkit-transition-property: background-color;
     -moz-transition-property: background-color;
     -o-transition-property: background-color;
@@ -484,13 +484,6 @@ body {
     background: -webkit-linear-gradient(45deg, #1586ee 0%, #635dff 100%);
     background: linear-gradient(45deg, #1687EF 0%, #635dff 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1586ee', endColorstr='#635dff', GradientType=1);
-    &.on-start-screen {
-        background-color: #000;
-        padding-top: 70px;
-        #content, .button-holder {
-            display: none;
-        }
-    }
     &.back-in-black {
         background: #000;
     }
@@ -498,7 +491,9 @@ body {
 
 #cv-landing {
     position: relative;
-    text-align: left;
+    text-align: center;
+    perspective: 900px;
+    font-family: Audiowide;
     .cv-logo {
         margin: 0;
         font-size: 0;
@@ -507,6 +502,7 @@ body {
         border-radius: 50%;
         font-size: 0;
         overflow: hidden;
+        visibility: hidden;
         -webkit-transition-property: margin;
         -moz-transition-property: margin;
         -o-transition-property: margin;
@@ -529,18 +525,6 @@ body {
             width: 100%;
         }
     }
-    &.on-start-screen .avatar {
-        visibility: hidden;
-    }
-    &.on-main-screen {
-        padding: 24px 185px 24px 0;
-    }
-    &.on-start-screen .avatar {
-        margin-left: -150px;
-    }
-    &.on-main-screen .avatar {
-        margin-left: 0px;
-    }
     .avatar > img {
         width: 150px;
         height: 150px;
@@ -552,9 +536,7 @@ body {
         transform: rotateX(30deg);
     }
     &.on-start-screen {
-        text-align: center;
-        perspective: 900px;
-        font-family: Audiowide;
+
         .cv-logo {
             width: 220px;
             height: 220px;
@@ -604,10 +586,6 @@ body {
     }
 }
 
-#cv-info {
-    background-image: linear-gradient(45deg, #ca8131 0%, #2be4b3 100%);
-}
-
 #cv-transition-group {
     position: relative;
     display: flex;
@@ -616,10 +594,53 @@ body {
 
 #cv-landing {
     flex: 1 0 auto;
+    &.js-move-away {
+        transform: scale(0.95) translateX(-105vw);
+        @include animation('pageMoveAway 3s ease-in-out infinite');
+
+        &,
+        .cv-logo {
+            @include animation-iteration-count('1 !important');
+        }
+
+        .cv-logo {
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 0 0 0 #fff;
+            transform: scale(1.25) translateX(135vw) translateY(0) rotateZ(360deg);
+            @include animation('moveAway 3s ease-in-out infinite');
+        }
+
+        .cv-logo_shadowed {
+            opacity: 1;
+            transform: translate(-50%, 0) scale(0.75);
+            > span {
+                text-indent: 0;
+            }
+        }
+    }
+    &:not(.js-move-away) {
+        .cv-logo {
+            transform: scale(1) rotateX(30deg);
+            @include animation('pulse 3s ease-in-out infinite');
+        }
+    }
 }
 
 table {
     table-layout: fixed;
+}
+
+#cv-info {
+    background-image: linear-gradient(45deg, #ca8131 0%, #2be4b3 100%);
+    &.js-move-in {
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        transform: scale(1);
+        @include animation('mainMoveIn 3s ease-in-out infinite');
+        @include animation-iteration-count('1 !important');
+    }
 }
 
 body {
@@ -630,41 +651,41 @@ body {
         display: flex;
     }
     &.move-away {
-        main {
-            height: 100vh;
-            width: 100vw;
-            transform: scale(1);
-            @include animation('mainMoveIn 3s ease-in-out infinite');
-            @include animation-iteration-count('1 !important');
-        }
-        #cv-landing, #cv-landing.on-start-screen .cv-logo {
-            @include animation-iteration-count('1 !important');
-        }
-        #cv-landing {
-            -webkit-transform: scale(0.95) translateX(-105vw);
-            @include animation('pageMoveAway 3s ease-in-out infinite');
-        }
+        //main {
+        //    height: 100vh;
+        //    width: 100vw;
+        //    transform: scale(1);
+        //    @include animation('mainMoveIn 3s ease-in-out infinite');
+        //    @include animation-iteration-count('1 !important');
+        //}
+        //#cv-landing, #cv-landing.on-start-screen .cv-logo {
+        //    @include animation-iteration-count('1 !important');
+        //}
+        //#cv-landing {
+        //    -webkit-transform: scale(0.95) translateX(-105vw);
+        //    @include animation('pageMoveAway 3s ease-in-out infinite');
+        //}
     }
-    &:not(.move-away) #cv-landing.on-start-screen .cv-logo {
-        -webkit-transform: scale(1) rotateX(30deg);
-        @include animation('pulse 3s ease-in-out infinite');
-    }
-    &.move-away #cv-landing.on-start-screen {
-        .cv-logo {
-            position: relative;
-            z-index: 1;
-            box-shadow: 0px 0px 0px 0px #fff;
-            -webkit-transform: scale(1.25) translateX(135vw) translateY(0) rotateZ(360deg);
-            @include animation('moveAway 3s ease-in-out infinite');
-        }
-        .cv-logo_shadowed {
-            opacity: 1;
-            transform: translate(-50%, 0) scale(0.75);
-            > span {
-                text-indent: 0;
-            }
-        }
-    }
+    //&:not(.move-away) #cv-landing.on-start-screen .cv-logo {
+    //    -webkit-transform: scale(1) rotateX(30deg);
+    //    @include animation('pulse 3s ease-in-out infinite');
+    //}
+    //&.move-away #cv-landing.on-start-screen {
+    //    .cv-logo {
+    //        position: relative;
+    //        z-index: 1;
+    //        box-shadow: 0px 0px 0px 0px #fff;
+    //        -webkit-transform: scale(1.25) translateX(135vw) translateY(0) rotateZ(360deg);
+    //        @include animation('moveAway 3s ease-in-out infinite');
+    //    }
+    //    .cv-logo_shadowed {
+    //        opacity: 1;
+    //        transform: translate(-50%, 0) scale(0.75);
+    //        > span {
+    //            text-indent: 0;
+    //        }
+    //    }
+    //}
 }
 
 #cv-landing.on-start-screen .cv-logo:hover {

@@ -19,6 +19,11 @@ class Landing extends Component {
 
         return (
             <article id="cv-landing" className={'on-start-screen' + backInBlack}>
+              <div className="cv-logo_shadowed">
+                  <span className="i-transit-all">This is test text for Alex Kobylinski CV</span>
+                  <span className="i-transit-all">This is test text for Alex Kobylinski CV</span>
+                  <span className="i-transit-all">This is test text for Alex Kobylinski CV</span>
+              </div>
               <div className="cv-logo i-inline-block i-transit-all beforeload">
                 <div className="i-edge"></div>
                 <Link className="i-inline-block" to='/info'>
