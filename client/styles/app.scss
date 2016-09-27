@@ -114,11 +114,11 @@ ol, ul {
 
 @include keyframes(bounce) {
     0%, 100% {
-        -webkit-transform: scale(0);
+        transform: scale(0);
     }
 
     50% {
-        -webkit-transform: scale(1);
+        transform: scale(1);
     }
 }
 
@@ -145,7 +145,6 @@ ol, ul {
 }
 
 .i-box-sizing {
-    -o-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
@@ -475,9 +474,6 @@ body {
 #cv-landing {
     position: relative;
     padding: 70px 15px 75px;
-    -webkit-transition-property: background-color;
-    -moz-transition-property: background-color;
-    -o-transition-property: background-color;
     transition-property: background-color;
     background: #1586ee;
     background: -moz-linear-gradient(45deg, #1586ee 0%, #635dff 100%);
@@ -588,11 +584,14 @@ body {
 
 #cv-transition-group {
     position: relative;
+    z-index: 0;
     display: flex;
     flex: 1 0 auto;
 }
 
 #cv-landing {
+    position: relative;
+    z-index: 1;
     flex: 1 0 auto;
     &.js-move-away {
         transform: scale(0.95) translateX(-105vw);
@@ -623,6 +622,12 @@ body {
         .cv-logo {
             transform: scale(1) rotateX(30deg);
             @include animation('pulse 3s ease-in-out infinite');
+            &:hover {
+                &,
+                + .name {
+                    @include animation-play-state('paused');
+                }
+            }
         }
     }
 }
@@ -632,12 +637,20 @@ table {
 }
 
 #cv-info {
+    position: relative;
+    z-index: 0;
     background-image: linear-gradient(45deg, #ca8131 0%, #2be4b3 100%);
+    background-attachment: fixed;
     &.js-move-in {
         height: 100vh;
         width: 100vw;
         overflow: hidden;
         transform: scale(1);
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
         @include animation('mainMoveIn 3s ease-in-out infinite');
         @include animation-iteration-count('1 !important');
     }
@@ -777,19 +790,19 @@ body:not(.move-away) #cv-landing.on-start-screen .cv-logo:hover {
 
 @include keyframes(pulse) {
     0% {
-        -webkit-transform: scale(0.8) rotateX(-30deg) translateY(0);
+        transform: scale(0.8) rotateX(-30deg) translateY(0);
         opacity: 0.5;
         -webkit-filter: blur(1px);
     }
 
     50% {
-        -webkit-transform: scale(1) rotateX(30deg) translateY(-3vh);
+        transform: scale(1) rotateX(30deg) translateY(-3vh);
         opacity: 1;
         -webkit-filter: blur(0);
     }
 
     100% {
-        -webkit-transform: scale(0.8) rotateX(-30deg) translateY(0);
+        transform: scale(0.8) rotateX(-30deg) translateY(0);
         opacity: 0.5;
         -webkit-filter: blur(1px);
     }
@@ -799,50 +812,50 @@ body:not(.move-away) #cv-landing.on-start-screen .cv-logo:hover {
     0% {
         opacity: 0.5;
         -webkit-filter: blur(1px);
-        -webkit-transform: translateY(-1vh);
+        transform: translateY(-1vh);
     }
 
     50% {
         opacity: 1;
         -webkit-filter: blur(0);
-        -webkit-transform: translateY(0);
+        transform: translateY(0);
     }
 
     100% {
         opacity: 0.5;
         -webkit-filter: blur(1px);
-        -webkit-transform: translateY(-1vh);
+        transform: translateY(-1vh);
     }
 }
 
 @include keyframes(moveAway) {
     0% {
-        -webkit-transform: scale(0.9) translateX(0) translateY(-1.5vh) rotateZ(0deg);
+        transform: scale(0.9) translateX(0) translateY(-1.5vh) rotateZ(0deg);
         box-shadow: 0px 0px 30px 30px #fff;
     }
 
     25% {
-        -webkit-transform: scale(1.25) translateX(0) translateY(-1.5vh) rotateZ(0deg);
+        transform: scale(1.25) translateX(0) translateY(-1.5vh) rotateZ(0deg);
         box-shadow: 0px 0px 30px 30px #fff;
     }
 
     100% {
-        -webkit-transform: scale(1.25) translateX(135vw) translateY(0) rotateZ(360deg);
+        transform: scale(1.25) translateX(135vw) translateY(0) rotateZ(360deg);
         box-shadow: 0px 0px 0px 0px #fff;
     }
 }
 
 @include keyframes(pageMoveAway) {
     0% {
-        -webkit-transform: scale(1) translateX(0);
+        transform: scale(1) translateX(0);
     }
 
     25% {
-        -webkit-transform: scale(0.95) translateX(0);
+        transform: scale(0.95) translateX(0);
     }
 
     100% {
-        -webkit-transform: scale(0.95) translateX(-105vw);
+        transform: scale(0.95) translateX(-105vw);
     }
 }
 

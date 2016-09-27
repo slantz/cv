@@ -4,6 +4,11 @@
 }
 
 @mixin animation-iteration-count( $animationIterationCount ) {
-    -webkit-animation: #{$animationIterationCount};
-    animation: #{$animationIterationCount};
+    -webkit-animation-iteration-count: #{$animationIterationCount};
+    animation-iteration-count: #{$animationIterationCount};
+}
+
+@mixin animation-play-state( $animationPlayState ) {
+    -webkit-animation-play-state: #{$animationPlayState};
+    animation-play-state: #{$animationPlayState};
 }
