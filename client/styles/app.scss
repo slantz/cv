@@ -639,6 +639,7 @@ table {
 #cv-info {
     position: relative;
     z-index: 0;
+    color: #fff;
     background-image: linear-gradient(45deg, #ca8131 0%, #2be4b3 100%);
     background-attachment: fixed;
     &.js-move-in {
@@ -706,11 +707,11 @@ body {
     /* 5% darken scss*/
 }
 
-body:not(.move-away) #cv-landing.on-start-screen .cv-logo:hover {
-    -webkit-animation-play-state: paused;
-    /* Chrome, Safari, Opera */
-    animation-play-state: paused;
-}
+//body:not(.move-away) #cv-landing.on-start-screen .cv-logo:hover {
+//    -webkit-animation-play-state: paused;
+//    /* Chrome, Safari, Opera */
+//    animation-play-state: paused;
+//}
 
 .cv-avatar {
     border-radius: 50%;
