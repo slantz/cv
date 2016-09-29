@@ -6,6 +6,15 @@
     }
 }
 
+.i-text {
+    &-right {
+        text-align: right;
+    }
+    &-uppercase {
+        text-transform: uppercase;
+    }
+}
+
 .i-pad {
     &_block {
         &_vertical {

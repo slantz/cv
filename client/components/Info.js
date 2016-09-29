@@ -3,7 +3,8 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as infoActions from '../actions/infoActions'
 import InfoSection from './InfoSection'
-import * as CONSTANTS from '../constants/Info'
+import * as INFO_CONSTANTS from '../constants/Info'
+import * as CORE_CONSTANTS from '../constants/Core'
 
 class Info extends Component {
   constructor(props) {
@@ -30,11 +31,11 @@ class Info extends Component {
       <article id="cv-info" className="i-pad_block_horizontal">
         <header className="i-pad_block_vertical_top">
           <img className="cv-avatar i-inline-block_mid"
-               src={CONSTANTS.AVATAR_LINK}
-               width={CONSTANTS.AVATAR_WIDTH}
-               height={CONSTANTS.AVATAR_HEIGHT}
-               alt={CONSTANTS.AVATAR_ALT} />
-          <h1 className="i-inline-block_mid i-margin_block_horizontal_left">| CV | Alex Kobylinski</h1>
+               src={INFO_CONSTANTS.AVATAR_LINK}
+               width={INFO_CONSTANTS.AVATAR_WIDTH}
+               height={INFO_CONSTANTS.AVATAR_HEIGHT}
+               alt={INFO_CONSTANTS.AVATAR_ALT} />
+          <h1 className="i-inline-block_mid i-margin_block_horizontal_left">{'| ' + CORE_CONSTANTS.CV + ' | '+ CORE_CONSTANTS.ALEX_KOBYLINSKI}</h1>
         </header>
         <section id="cv-info__body" className="i-pad_block_vertical">
           <InfoSection info={data} />

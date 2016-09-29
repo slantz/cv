@@ -25,10 +25,10 @@ class Landing extends Component {
               <div className="cv-logo i-inline-block i-transit-all beforeload">
                 <div className="i-edge"></div>
                 <Link className="i-inline-block" to='/info'>
-                  <h1 className="text i-inline-block">CV</h1>
+                  <h1 className="text i-inline-block">{CORE_CONSTANTS.CV}</h1>
                 </Link>
               </div>
-              <h3 className="name i-transit-all i-inline-block">Alex Kobylinski</h3>
+              <h3 className="name i-transit-all i-inline-block">{CORE_CONSTANTS.ALEX_KOBYLINSKI}</h3>
                 <button className={'cv-landing-back-in-black-button ui-button' + backInBlackButton.className} onClick={this.toggleBackInBlack}>{backInBlackButton.text}</button>
             </article>
         )

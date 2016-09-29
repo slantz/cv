@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { Grid, Col, Row } from 'react-flexbox-grid/lib/index'
+import * as CORE_CONSTANTS from '../constants/Core'
 
 function setRowWidth(row) {
     if ( row.link ) {
@@ -15,6 +16,26 @@ function setRowWidth(row) {
     }
 }
 
+function orderSections(info) {
+    var sections = [];
+
+    for (var i in info.data) {
+        if (info.data.hasOwnProperty(i)) {
+            sections.push({
+                title: i,
+                description: info.data[i],
+                order: info.meta[i].order || 0
+            })
+        }
+    }
+
+    sections.sort(function(previous, current) {
+        return previous.order - current.order;
+    });
+
+    return sections;
+}
+
 export default class InfoSection extends Component {
 
   static propTypes = {
@@ -22,50 +43,50 @@ export default class InfoSection extends Component {
   }
 
   render() {
-    const { info } = this.props
-    let sections = []
-
-    for (var i in info.data) {
-      if (info.data.hasOwnProperty(i)) {
-        sections.push({
-          title: i,
-          description: info.data[i],
-            order: info.meta[i].order || 0
-        })
-      }
-    }
-
-    sections.sort(function(previous, current) {
-       return previous.order - current.order;
-    });
+    const { info } = this.props;
+    let sections = orderSections(info);
 
     return (
-      <section className="container car-list__inner pure-g i-ma">
+      <section className="cv-info-sections">
         {sections.map(function(item){
-          return <article className="car car--list pure-u-1-3 car--list_padding car--list_flex" key={item.title}>
-            <Row style={{'border-bottom' : '1px solid red'}}>
-                <Col xs={12} sm={2} style={{'text-transform' : 'uppercase'}}>
+          return <Grid tagName="article" className="car car--list pure-u-1-3 car--list_padding car--list_flex" key={item.title}>
+            <Row middle="xs">
+                <Col xs={12} sm={2} className="i-text-uppercase">
                     {item.title}
                 </Col>
                 <Col xs={12} sm={10}>
                     {item.description.map(function(row, rowIndex){
-                        return <Row key={rowIndex} style={{'border-bottom' : '1px solid blue'}}>
-                            <Col xs={12} sm={setRowWidth(row)} dangerouslySetInnerHTML={{__html: row.descr}} />
+                        return <Row key={rowIndex} middle="xs" className="cv-info-sections-description">
+                            <Col
+                                xs={12}
+                                sm={setRowWidth(row)}
+                                dangerouslySetInnerHTML={{__html: row.descr}}
+                                className={item.description.length > 1
+                                    ? 'cv-info-sections-description-text'
+                                    : CORE_CONSTANTS.STRING_EMPTY} />
                             {row.time &&
-                                <Col xs={12} sm={4} style={{'text-align' : 'right'}}>
+                                <Col
+                                    xs={12}
+                                    sm={4}
+                                    className="i-text-right">
                                     {row.time}
                                 </Col>
                             }
                             {row.link &&
-                                <Col xs={12} sm={8}>
-                                    <div>{row.link.value} + {row.link.title} + {row.link.url}</div>
+                                <Col
+                                    xs={12}
+                                    sm={8}>
+                                    <a
+                                        className="i-link"
+                                        href={row.link.url}
+                                        title={row.link.title}>{row.link.value}</a>
                                 </Col>
                             }
                         </Row>
                     })}
                 </Col>
             </Row>
-          </article>;
+          </Grid>;
         })}
       </section>
     )

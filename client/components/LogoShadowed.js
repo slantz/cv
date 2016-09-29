@@ -15,8 +15,8 @@ export default class LogoShadowed extends Component {
 
         return (
             <div className="cv-logo_shadowed">
-                {logos.map(function(){
-                    return <span className="i-transit-all" aria-hidden="true">{CORE_CONSTANTS.STRING_SHADOWED}</span>;
+                {logos.map(function(logo, index){
+                    return <span className="i-transit-all" aria-hidden="true" key={index}>{CORE_CONSTANTS.STRING_SHADOWED}</span>;
                 })}
             </div>
         )
