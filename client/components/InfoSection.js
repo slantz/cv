@@ -49,7 +49,7 @@ export default class InfoSection extends Component {
     return (
       <section className="cv-info-sections">
         {sections.map(function(item){
-          return <Grid tagName="article" className="car car--list pure-u-1-3 car--list_padding car--list_flex" key={item.title}>
+          return <Grid tagName="article" fluid={true} className="car car--list pure-u-1-3 car--list_padding car--list_flex" key={item.title}>
             <Row middle="xs">
                 <Col xs={12} sm={2} className="i-text-uppercase">
                     {item.title}
