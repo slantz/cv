@@ -4,7 +4,7 @@ function callApi() {
     console.info("You will be signed in now.");
     window.firebase.auth().signInAnonymously().then(function(success) {
       console.info("You've been successfully signed in. Trying to fetch data")
-      window.firebase.database().ref('/data').once('value', function(snapshot) {
+      window.firebase.database().ref('/').once('value', function(snapshot) {
         console.info("Data sucessfully fetched.");
         resolve(Object.assign({},
           snapshot.val()
