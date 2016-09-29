@@ -1,0 +1,17 @@
+.ui-button {
+    border: none;
+    background: none;
+    padding: $twiceSmallSpacing $oneAndAHalfSmallSpacing;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: Audiowide, sans-serif  ;
+    appearance: none;
+    &.black {
+        background: $color-black;
+        color: $color-white;
+    }
+    &.purple {
+        background-color: $color-purple;
+        color: $color-white;
+    }
+}

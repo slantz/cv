@@ -27,19 +27,18 @@ class Info extends Component {
     const { info: { data } } = this.props
 
     return (
-      <article id="cv-info">
-        <header>
-          <img className="cv-avatar"
+      <article id="cv-info" className="i-pad_block_horizontal">
+        <header className="i-pad_block_vertical_top">
+          <img className="cv-avatar i-inline-block_mid"
                src={CONSTANTS.AVATAR_LINK}
                width={CONSTANTS.AVATAR_WIDTH}
                height={CONSTANTS.AVATAR_HEIGHT}
                alt={CONSTANTS.AVATAR_ALT} />
-          <h1>CV TEXT</h1>
+          <h1 className="i-inline-block_mid i-margin_block_horizontal_left">| CV | Alex Kobylinski</h1>
         </header>
-        <section id="cv-info__body" style={{'width': '100vw'}}>
+        <section id="cv-info__body" className="i-pad_block_vertical">
           <InfoSection info={data} />
         </section>
-        <footer></footer>
       </article>
     )
   }

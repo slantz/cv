@@ -1,5 +1,9 @@
+@import './variables/sizes';
+@import './variables/colors';
 @import './mixins/keyframes';
 @import './mixins/animation';
+@import './interactive/layout';
+@import './interactive/ui';
 
 /************************************************************* RESET CSS *************************************************************/
 /*
@@ -485,6 +489,15 @@ body {
     }
 }
 
+.cv-landing {
+    &-back-in-black-button {
+        position: fixed;
+        left: 0;
+        top: 0;
+        opacity: 0.5;
+    }
+}
+
 #cv-landing {
     position: relative;
     text-align: center;
@@ -569,6 +582,7 @@ body {
             white-space: nowrap;
             overflow: hidden;
             > span {
+                color: $color-white;
                 font-size: 18px;
                 font-weight: bold;
                 font-family: Muli, sans-serif;

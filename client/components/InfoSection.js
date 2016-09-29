@@ -42,14 +42,14 @@ export default class InfoSection extends Component {
     return (
       <section className="container car-list__inner pure-g i-ma">
         {sections.map(function(item){
-          return <Grid tagName="article" className="car car--list pure-u-1-3 car--list_padding car--list_flex" key={item.title}>
+          return <article className="car car--list pure-u-1-3 car--list_padding car--list_flex" key={item.title}>
             <Row style={{'border-bottom' : '1px solid red'}}>
                 <Col xs={12} sm={2} style={{'text-transform' : 'uppercase'}}>
                     {item.title}
                 </Col>
                 <Col xs={12} sm={10}>
                     {item.description.map(function(row, rowIndex){
-                        return <Row middle="xs" key={rowIndex} style={{'border-bottom' : '1px solid blue'}}>
+                        return <Row key={rowIndex} style={{'border-bottom' : '1px solid blue'}}>
                             <Col xs={12} sm={setRowWidth(row)} dangerouslySetInnerHTML={{__html: row.descr}} />
                             {row.time &&
                                 <Col xs={12} sm={4} style={{'text-align' : 'right'}}>
@@ -65,7 +65,7 @@ export default class InfoSection extends Component {
                     })}
                 </Col>
             </Row>
-          </Grid>;
+          </article>;
         })}
       </section>
     )
