@@ -22,12 +22,10 @@ class Landing extends Component {
         return (
             <article id="cv-landing" className={'on-start-screen' + backInBlack}>
               <LogoShadowed amountOfLogos={CORE_CONSTANTS.NUMBER_LOGO_SHADOWED} />
-              <div className="cv-logo i-inline-block i-transit-all beforeload">
+              <Link className="cv-logo i-inline-block i-transit-all beforeload" to="/info">
                 <div className="i-edge"></div>
-                <Link className="i-inline-block" to='/info'>
-                  <h1 className="text i-inline-block">{CORE_CONSTANTS.CV}</h1>
-                </Link>
-              </div>
+                <h1 className="text i-inline-block">{CORE_CONSTANTS.CV}</h1>
+              </Link>
               <h3 className="name i-transit-all i-inline-block">{CORE_CONSTANTS.ALEX_KOBYLINSKI}</h3>
                 <button className={'cv-landing-back-in-black-button ui-button' + backInBlackButton.className} onClick={this.toggleBackInBlack}>{backInBlackButton.text}</button>
             </article>
