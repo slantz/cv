@@ -62,18 +62,15 @@ ol, ul {
 }
 
 .i-link {
-    color: #8B8BF5;
+    color: $color-aquamarine;
     text-decoration: none;
-    -webkit-transition-property: text-decoration, color;
-    -moz-transition-property: text-decoration, color;
-    -o-transition-property: text-decoration, color;
     transition-property: text-decoration, color;
     &:hover {
-        color: #A7A7C0;
+        color: $color-aquamarine_hover;
         text-decoration: underline;
     }
     &:active {
-        color: #424273;
+        color: $color-aquamarine_active;
     }
 }
 
@@ -504,7 +501,13 @@ body {
         }
     }
     &-info {
+        &-background {
+            background-image: linear-gradient(45deg, #ca8131 0%, #2be4b3 100%);
+            //background-attachment: fixed;
+        }
         &-sections {
+            position: relative;
+            min-height: calc(100vh - #{$cv-info-avatar-height + $mediumSpacing * 3});
             article {
                 padding: $smallSpacing $twiceSmallSpacing;
                 &:nth-child(even) {
@@ -616,7 +619,7 @@ body {
                 font-weight: bold;
                 font-family: Muli, sans-serif;
                 text-transform: uppercase;
-                text-indent: 50vw;
+                text-indent: 100vw;
                 -webkit-filter: blur(3px);
                 transition-property: text-indent;
                 transition-delay: 0.75s;
@@ -637,7 +640,7 @@ body {
     z-index: 1;
     flex: 1 0 auto;
     &.js-move-away {
-        transform: scale(0.95) translateX(-105vw);
+        transform: scale(0.95) translateX(-#{$moveAwayDestination});
         @include animation('pageMoveAway 3s ease-in-out infinite');
 
         &,
@@ -684,13 +687,11 @@ table {
     z-index: 0;
     width: 100vw;
     color: $color-white;
-    background-image: linear-gradient(45deg, #ca8131 0%, #2be4b3 100%);
-    background-attachment: fixed;
     box-sizing: border-box;
     &.js-move-in {
         height: 100vh;
         width: 100vw;
-        overflow: hidden;
+        overflow-x: hidden;
         transform: scale(1);
         position: absolute;
         top: 0;
@@ -886,7 +887,7 @@ body {
     }
 
     100% {
-        transform: scale(1.25) translateX(135vw) translateY(0) rotateZ(360deg);
+        transform: scale(1.25) translateX(#{$moveAwayDestinationLogo}) translateY(0) rotateZ(360deg);
         box-shadow: 0px 0px 0px 0px #fff;
     }
 }
@@ -901,7 +902,7 @@ body {
     }
 
     100% {
-        transform: scale(0.95) translateX(-105vw);
+        transform: scale(0.95) translateX(-#{$moveAwayDestination});
     }
 }
 

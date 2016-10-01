@@ -4,5 +4,9 @@ $color-text-gray: #555;
 $color-purple: #7570FF;
 $color-gray: #e0e0e0;
 
+$color-aquamarine: #48F3FF;
+$color-aquamarine_hover: lighten($color-aquamarine, 15%);
+$color-aquamarine_active: darken($color-aquamarine, 10%);
+
 $opacity-15: .15;
 $opacity-50: .5;
