@@ -64,3 +64,11 @@
         }
     }
 }
+
+.i-hide {
+    &-medium {
+        @media #{$medium-only} {
+            display: none;
+        }
+    }
+}

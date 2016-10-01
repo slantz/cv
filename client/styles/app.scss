@@ -2,6 +2,7 @@
 @import './variables/colors';
 @import './mixins/keyframes';
 @import './mixins/animation';
+@import 'variables/breakpoint';
 @import './interactive/layout';
 @import './interactive/ui';
 
@@ -501,6 +502,16 @@ body {
         }
     }
     &-info {
+        @media #{$medium-only} {
+            header {
+                text-align: center;
+            }
+            h1 {
+                display: block;
+                margin-left: 0;
+                text-transform: uppercase;
+            }
+        }
         &-background {
             background-image: linear-gradient(45deg, #ca8131 0%, #2be4b3 100%);
             //background-attachment: fixed;
@@ -519,12 +530,23 @@ body {
                     border-bottom: 1px solid rgba($color-gray, $opacity-50);
                     padding: $fourthSmallSpacing 0;
                 }
+                @media #{$medium-only} {
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                }
                 &-text {
+                    word-break: break-word;
                     &:before {
                         content: ' - ';
                         display: inline;
                     }
                 }
+            }
+        }
+        &__body {
+            @media #{$medium-only} {
+                padding-top: 0;
             }
         }
     }

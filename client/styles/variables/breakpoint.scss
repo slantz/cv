@@ -1,0 +1,44 @@
+$base-em-size: 16;
+
+$breakpoints: (
+    small: 0,
+    medium: #{640 / $base-em-size}em,
+    large: #{1024 / $base-em-size}em,
+    xlarge: #{1200 / $base-em-size}em,
+    xxlarge: #{1440 / $base-em-size}em,
+) !default;
+
+$small-up: null;
+$small-only: null;
+$medium-up: null;
+$medium-only: null;
+$large-up: null;
+$large-only: null;
+$xlarge-up: null;
+$xlarge-only: null;
+$xxlarge-up: null;
+$xxlarge-only: null;
+
+@if map-has-key($breakpoints, small) {
+    $small-up: screen;
+    $small-only: unquote('screen and (max-width: #{map-get($breakpoints, small)})');
+}
+
+@if map-has-key($breakpoints, medium) {
+    $medium-up: unquote('screen and (min-width: #{map-get($breakpoints, medium)})');
+    $medium-only: unquote('screen and (max-width: #{map-get($breakpoints, medium)})');
+}
+
+@if map-has-key($breakpoints, large) {
+    $large-up: unquote('screen and (min-width: #{map-get($breakpoints, large)})');
+    $large-only: unquote('screen and (max-width: #{map-get($breakpoints, large)})');
+}
+
+@if map-has-key($breakpoints, xlarge) {
+    $xlarge-up: unquote('screen and (min-width: #{map-get($breakpoints, xlarge)})');
+    $xlarge-only: unquote('screen and (max-width: #{map-get($breakpoints, xlarge)})');
+}
+
+@if map-has-key($breakpoints, xxlarge) {
+    $xxlarge-up: unquote('screen and (min-width: #{map-get($breakpoints, xxlarge)})');
+}
