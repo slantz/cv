@@ -20,7 +20,7 @@ class Landing extends Component {
         const { backInBlack, backInBlackButton } = this.props
 
         return (
-            <article id="cv-landing" className={'on-start-screen' + backInBlack}>
+            <article id="cv-landing" className={'cv-landing' + backInBlack}>
               <LogoShadowed amountOfLogos={CORE_CONSTANTS.NUMBER_LOGO_SHADOWED} />
               <Link className="cv-logo i-inline-block i-transit-all beforeload" to="/info">
                 <div className="i-edge"></div>
