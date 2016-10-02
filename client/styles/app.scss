@@ -492,7 +492,6 @@ body {
         box-shadow: 0px 0px 30px 5px #5762FC;
         text-align: center;
         cursor: pointer;
-        -webkit-transform-style: preserve-3d;
         transform-style: preserve-3d;
     }
     .cv-logo_shadowed {
@@ -523,10 +522,11 @@ body {
             font-weight: bold;
             font-family: Muli, sans-serif;
             text-transform: uppercase;
-            text-indent: 100vw;
+            padding-left: 0;
             -webkit-filter: blur(3px);
-            transition-property: text-indent;
+            transition-property: padding-left;
             transition-delay: 0.75s;
+            transition-duration: 2.25s; // it's 75% of main animation when screen slided back only 75% of time left to perform transition
         }
     }
 
@@ -567,7 +567,7 @@ body {
             position: relative;
             z-index: 1;
             box-shadow: 0 0 0 0 #fff;
-            transform: scale(1.25) translateX(135vw) translateY(0) rotateZ(360deg);
+            transform: scale(1.25) translateX(#{$moveAwayDestinationLogo}) translateY(0) rotateZ(360deg);
             @include animation('moveAway 3s ease-in-out infinite');
         }
 
@@ -575,7 +575,10 @@ body {
             opacity: 1;
             transform: translate(-50%, 0) scale(0.75);
             > span {
-                text-indent: 0;
+                padding-left: 200vw; // 100vw * 2 - because scale(0.5) of the parent to go behind the shadowed circle for portrait mode
+                @media #{$medium-up} {
+                    padding-left: 75vw;
+                }
             }
         }
     }
