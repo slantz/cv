@@ -516,7 +516,10 @@ body {
         flex-direction: column;
         white-space: nowrap;
         overflow: hidden;
-        > span {
+        .cv-info_fake {
+            @extend .cv-info;
+        }
+        .cv-info_fake {
             color: $color-white;
             font-size: 18px;
             font-weight: bold;
@@ -574,11 +577,11 @@ body {
         .cv-logo_shadowed {
             opacity: 1;
             transform: translate(-50%, 0) scale(0.75);
-            > span {
-                padding-left: 200vw; // 100vw * 2 - because scale(0.5) of the parent to go behind the shadowed circle for portrait mode
-                @media #{$medium-up} {
-                    padding-left: 75vw;
-                }
+            .cv-info_fake {
+                padding-left: 75vw; // padding-left: 200vw; left 75 for visual effect // 100vw * 2 - because scale(0.5) of the parent to go behind the shadowed circle for portrait mode
+                //@media #{$medium-up} {
+                //    padding-left: 75vw;
+                //}
             }
         }
     }
@@ -600,7 +603,7 @@ table {
     table-layout: fixed;
 }
 
-#cv-info {
+.cv-info {
     position: relative;
     z-index: 0;
     width: 100vw;

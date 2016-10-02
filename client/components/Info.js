@@ -3,6 +3,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as infoActions from '../actions/infoActions'
 import InfoSection from './InfoSection'
+import InfoHeader from './InfoHeader'
 import * as INFO_CONSTANTS from '../constants/Info'
 import * as CORE_CONSTANTS from '../constants/Core'
 
@@ -34,20 +35,7 @@ class Info extends Component {
     return (
       <article id="cv-info" className="cv-info">
         <div className="cv-info-background i-pad_block_horizontal">
-            <header className="i-pad_block_vertical_top i-relative">
-                <img className="cv-avatar i-inline-block_mid"
-                     src={INFO_CONSTANTS.AVATAR_LINK}
-                     width={INFO_CONSTANTS.AVATAR_WIDTH}
-                     height={INFO_CONSTANTS.AVATAR_HEIGHT}
-                     alt={INFO_CONSTANTS.AVATAR_ALT} />
-                <h1 className="i-inline-block_mid i-margin_block_horizontal_left">
-                    <span className="i-hide-medium">
-                        {'| ' + CORE_CONSTANTS.CV + ' | '}
-                    </span>
-                    {CORE_CONSTANTS.ALEX_KOBYLINSKI}
-                </h1>
-                <button className="cv-info-print ui-button white-t50 white-text" onClick={this.printInfo}>{INFO_CONSTANTS.PRINT_TEXT}</button>
-            </header>
+            <InfoHeader printInfo={this.printInfo} />
             <section id="cv-info__body" className="cv-info__body i-pad_block_vertical">
                 <InfoSection info={data} />
             </section>
