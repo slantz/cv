@@ -16,6 +16,10 @@ class Info extends Component {
     loadCvData()
   }
 
+  printInfo = () => {
+    window.print();
+  }
+
   componentWillMount() {
     this.getCVInfo()
   }
@@ -30,7 +34,7 @@ class Info extends Component {
     return (
       <article id="cv-info" className="cv-info">
         <div className="cv-info-background i-pad_block_horizontal">
-            <header className="i-pad_block_vertical_top">
+            <header className="i-pad_block_vertical_top i-relative">
                 <img className="cv-avatar i-inline-block_mid"
                      src={INFO_CONSTANTS.AVATAR_LINK}
                      width={INFO_CONSTANTS.AVATAR_WIDTH}
@@ -42,6 +46,7 @@ class Info extends Component {
                     </span>
                     {CORE_CONSTANTS.ALEX_KOBYLINSKI}
                 </h1>
+                <button className="cv-info-print ui-button white-t50 white-text" onClick={this.printInfo}>{INFO_CONSTANTS.PRINT_TEXT}</button>
             </header>
             <section id="cv-info__body" className="cv-info__body i-pad_block_vertical">
                 <InfoSection info={data} />

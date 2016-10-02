@@ -5,3 +5,4 @@ export const AVATAR_LINK  = 'https://firebasestorage.googleapis.com/v0/b/alexcv-
 export const AVATAR_WIDTH = '150px'
 export const AVATAR_HEIGHT = '150px'
 export const AVATAR_ALT = 'It\'s me'
+export const PRINT_TEXT = 'print'

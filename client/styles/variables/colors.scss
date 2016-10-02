@@ -1,12 +1,27 @@
 $color-black: #000;
+$color-black-hover: lighten($color-black, 15%);
+$color-black-active: darken($color-black, 10%);
+
 $color-white: #fff;
+$color-white-hover: lighten($color-white, 15%);
+$color-white-active: darken($color-white, 10%);
+
+$color-white-t50: rgba($color-white, $opacity-50);
+$color-white-t50-hover: darken($color-white-t50, 10%);
+$color-white-t50-active: darken($color-white-t50, 20%);
+
 $color-text-gray: #555;
+$color-text-gray-hover: lighten($color-text-gray, 15%);
+$color-text-gray-active: darken($color-text-gray, 10%);
+
 $color-purple: #7570FF;
+$color-purple-hover: lighten($color-purple, 15%);
+$color-purple-active: darken($color-purple, 10%);
+
 $color-gray: #e0e0e0;
+$color-gray-hover: lighten($color-gray, 15%);
+$color-gray-active: darken($color-gray, 10%);
 
 $color-aquamarine: #48F3FF;
-$color-aquamarine_hover: lighten($color-aquamarine, 15%);
-$color-aquamarine_active: darken($color-aquamarine, 10%);
-
-$opacity-15: .15;
-$opacity-50: .5;
+$color-aquamarine-hover: lighten($color-aquamarine, 15%);
+$color-aquamarine-active: darken($color-aquamarine, 10%);

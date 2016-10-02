@@ -1,8 +1,9 @@
+@import './variables/opacity';
 @import './variables/sizes';
 @import './variables/colors';
+@import 'variables/breakpoint';
 @import './mixins/keyframes';
 @import './mixins/animation';
-@import 'variables/breakpoint';
 @import './interactive/layout';
 @import './interactive/ui';
 
@@ -67,11 +68,11 @@ ol, ul {
     text-decoration: none;
     transition-property: text-decoration, color;
     &:hover {
-        color: $color-aquamarine_hover;
+        color: $color-aquamarine-hover;
         text-decoration: underline;
     }
     &:active {
-        color: $color-aquamarine_active;
+        color: $color-aquamarine-active;
     }
 }
 
@@ -392,6 +393,12 @@ body {
                 margin-left: 0;
                 text-transform: uppercase;
             }
+        }
+        &-print {
+            position: absolute;
+            right: 0;
+            top: calc(50% + #{$oneAndAHalfSmallSpacing});
+            transform: translate(0%, -50%);
         }
         &-background {
             background-image: linear-gradient(45deg, #ca8131 0%, #2be4b3 100%);
