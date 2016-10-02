@@ -508,8 +508,6 @@ body {
         z-index: -1;
         opacity: 0;
         box-shadow: 0 0 10px 1px rgba(0, 0, 0, 1) inset;
-        transition: all 0.75s ease-out;
-        transition-property: opacity, transform;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -577,6 +575,8 @@ body {
         .cv-logo_shadowed {
             opacity: 1;
             transform: translate(-50%, 0) scale(0.75);
+            transition: all 0.75s ease-out;
+            transition-property: opacity, transform;
             .cv-info_fake {
                 padding-left: 75vw; // padding-left: 200vw; left 75 for visual effect // 100vw * 2 - because scale(0.5) of the parent to go behind the shadowed circle for portrait mode
                 //@media #{$medium-up} {
@@ -585,7 +585,33 @@ body {
             }
         }
     }
-    &:not(.js-move-away) {
+    &.js-move-in {
+        transform: scale(0.95) translateY(-100vh);
+        @include animation('pageMoveIn 3s ease-in-out infinite');
+
+        &,
+        .cv-logo {
+            @include animation-iteration-count('1 !important');
+        }
+
+        .cv-logo {
+            position: relative;
+            z-index: 1;
+            transform: scale(1.25) translateY(-105vh);
+            box-shadow: 0px 0px 0px 0px #fff;
+            @include animation('moveIn 3s ease-in-out infinite');
+        }
+
+        .cv-logo_shadowed {
+            opacity: 1;
+            transform: translate(-50%, #{25% + 5%}) scale(0.9); // we do +5% deviation as per initial styling of shadowed logo
+            background-color: $color-white;
+            .cv-info_fake {
+                display: none;
+            }
+        }
+    }
+    &:not(.js-move-away):not(.js-move-in) {
         .cv-logo {
             transform: scale(1) rotateX(30deg);
             @include animation('pulse 3s ease-in-out infinite');
@@ -620,6 +646,19 @@ table {
         bottom: 0;
         left: 0;
         @include animation('mainMoveIn 3s ease-in-out infinite');
+        @include animation-iteration-count('1 !important');
+    }
+    &.js-move-away {
+        height: 100vh;
+        width: 100vw;
+        overflow-x: hidden;
+        transform: scale(1);
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        @include animation('mainMoveAway 3s ease-in-out infinite');
         @include animation-iteration-count('1 !important');
     }
 }
@@ -746,6 +785,23 @@ body {
     }
 }
 
+@include keyframes(moveIn) {
+    0%, 37.5% {
+        transform: scale(1.25) translateY(-105vh);
+        box-shadow: 0px 0px 30px 30px #fff;
+    }
+
+    75% {
+        transform: scale(1.25) translateY(0);
+        box-shadow: 0px 0px 30px 30px #fff;
+    }
+
+    100% {
+        transform: scale(0.9) translateY(0);
+        box-shadow: 0px 0px 0px 0px #fff;
+    }
+}
+
 @include keyframes(pageMoveAway) {
     0% {
         transform: scale(1) translateX(0);
@@ -760,6 +816,24 @@ body {
     }
 }
 
+@include keyframes(pageMoveIn) {
+    0% {
+        transform: scale(0.95) translateY(-105vh);
+    }
+
+    25% {
+        transform: scale(0.95) translateY(-105vh);
+    }
+
+    75% {
+        transform: scale(0.95) translateY(0);
+    }
+
+    100% {
+        transform: scale(1) translateY(0);
+    }
+}
+
 @include keyframes(mainMoveIn) {
     0% {
         transform: scale(0.9);
@@ -771,6 +845,28 @@ body {
 
     100% {
         transform: scale(1);
+    }
+}
+
+@include keyframes(mainMoveAway) {
+    0% {
+        transform: scale(1) translateY(0);
+    }
+
+    25% {
+        transform: scale(0.95) translateY(0);
+    }
+
+    75% {
+        transform: scale(0.95) translateY(105vh);
+    }
+
+    99% {
+        transform: scale(0.95) translateY(105vh);
+    }
+
+    100% {
+        transform: scale(1) translateY(105vh);
     }
 }
 
