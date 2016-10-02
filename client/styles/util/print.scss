@@ -1,0 +1,70 @@
+@media print {
+    .cv {
+        &-landing {
+            background-color: transparent;
+            .button-holder {
+                display: none;
+            }
+            .avatar > img {
+                width: 100px;
+                height: 100px;
+            }
+            .text, .name {
+                font-size: 16px;
+                line-height: 16px;
+                margin: 0;
+            }
+        }
+        &-info {
+            &-print {
+                display: none;
+            }
+            &-background {
+                background-image: none;
+            }
+            &-sections {
+                &-description {
+                    border-bottom: 1px solid rgba(224, 224, 224, 0.5);
+                    padding: 5px 0;
+                }
+                article {
+                    padding: 5px;
+                    color: black;
+                    font-size: .9rem;
+                    border-bottom: 1px solid black;
+                    > div {
+                        > div {
+                            &:first-child {
+                                font-weight: bold;
+                                color: #555;
+                                &:after {
+                                    content: ":";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            header {
+                padding-top: 0;
+                h1 {
+                    display: block;
+                    text-align: center;
+                    &:before {
+                        content: 'CV - ';
+                    }
+                    .i-hide-medium {
+                        display: none;
+                    }
+                }
+            }
+        }
+        &-avatar {
+            display: none;
+        }
+    }
+    .i-pad_block_vertical {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
