@@ -28,7 +28,8 @@ body {
     &-landing {
         position: relative;
         text-align: center;
-        perspective: 900px;
+        perspective: $cv-lading-perspective;
+        perspective-origin: $cv-lading-perspective-origin-small;
         z-index: 1;
         flex: 1 0 auto;
         font-family: Audiowide, sans-serif;
@@ -55,8 +56,8 @@ body {
         .cv-logo {
             margin: 0;
             font-size: 0;
-            width: 220px;
-            height: 220px;
+            width: $cv-landing-logo-width-large;
+            height: $cv-landing-logo-width-large;
             box-sizing: border-box;
             border-radius: 50%;
             background-color: $color-purple;
@@ -105,8 +106,8 @@ body {
             @media #{$medium-only} {
                 &,
                 &_shadowed {
-                    width: 9.375rem;
-                    height: 9.375rem;
+                    width: $cv-landing-logo-width-small;
+                    height: $cv-landing-logo-width-small;
                 }
                 border-width: .938rem;
             }
@@ -116,7 +117,6 @@ body {
             font-weight: bold;
             font-size: 80px;
             line-height: 80px;
-            padding-top: 8px;
             color: $color-white;
             margin: 0;
             transform: rotateZ(0deg);
@@ -209,7 +209,7 @@ body {
         }
         &:not(.js-move-away):not(.js-move-in) {
             .cv-logo {
-                transform: scale(1) rotateX(30deg);
+                transform: scale(1) rotateX(-30deg);
                 @include animation('pulse 3s ease-in-out infinite');
                 &:active {
                     box-shadow: 0 0 30px 30px $color-white;
@@ -233,11 +233,13 @@ body {
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            perspective-origin: $cv-lading-perspective-origin-medium;
         }
 
         @media #{$large-up} {
             display: block;
-            padding: 70px 15px 75px;
+            padding: $cv-landing-padding-top 15px 75px;
+            perspective-origin: $cv-lading-perspective-origin-large;
         }
     }
     &-info {

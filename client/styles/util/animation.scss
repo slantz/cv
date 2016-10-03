@@ -9,7 +9,7 @@
 }
 
 @include keyframes(pulse) {
-    0% {
+    0%, 100% {
         transform: scale(0.8) rotateX(-30deg) translateY(0);
         opacity: 0.5;
         -webkit-filter: blur(1px);
@@ -20,16 +20,10 @@
         opacity: 1;
         -webkit-filter: blur(0);
     }
-
-    100% {
-        transform: scale(0.8) rotateX(-30deg) translateY(0);
-        opacity: 0.5;
-        -webkit-filter: blur(1px);
-    }
 }
 
 @include keyframes(fade) {
-    0% {
+    0%, 100% {
         opacity: 0.5;
         -webkit-filter: blur(1px);
         transform: translateY(-1vh);
@@ -39,12 +33,6 @@
         opacity: 1;
         -webkit-filter: blur(0);
         transform: translateY(0);
-    }
-
-    100% {
-        opacity: 0.5;
-        -webkit-filter: blur(1px);
-        transform: translateY(-1vh);
     }
 }
 
@@ -97,11 +85,7 @@
 }
 
 @include keyframes(pageMoveIn) {
-    0% {
-        transform: scale(0.95) translateY(-105vh);
-    }
-
-    25% {
+    0%, 25% {
         transform: scale(0.95) translateY(-105vh);
     }
 
@@ -115,11 +99,7 @@
 }
 
 @include keyframes(mainMoveIn) {
-    0% {
-        transform: scale(0.9);
-    }
-
-    75% {
+    0%, 75% {
         transform: scale(0.9);
     }
 
@@ -137,11 +117,7 @@
         transform: scale(0.95) translateY(0);
     }
 
-    75% {
-        transform: scale(0.95) translateY(105vh);
-    }
-
-    99% {
+    75%, 99% {
         transform: scale(0.95) translateY(105vh);
     }
 
