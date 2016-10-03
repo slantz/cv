@@ -67,8 +67,8 @@ body {
             transform-style: preserve-3d;
 
             &_shadowed {
-                width: 220px;
-                height: 220px;
+                width: $cv-landing-logo-width-large;
+                height: $cv-landing-logo-width-large;
                 box-sizing: border-box;
                 border-radius: 50%;
                 background-color: $color-de-york;
@@ -100,6 +100,14 @@ body {
                     transition-property: padding-left;
                     transition-delay: 0.75s;
                     transition-duration: 2.25s; // it's 75% of main animation when screen slided back only 75% of time left to perform transition
+                }
+
+                @media #{$medium-up} {
+                    top: 50%;
+                }
+
+                @media #{$large-up} {
+                    top: 0;
                 }
             }
 
@@ -176,8 +184,31 @@ body {
 
             .cv-logo_shadowed {
                 transform: translate(-50%, 0) scale(0.75);
-                transition: all 0.75s ease-out;
-                transition-property: opacity, transform;
+                transition: opacity, transform 0.75s ease-out;
+                @media #{$medium-only} {
+                    transform: translate(-50%, 5%) scale(0.75);
+                    .cv-info_fake {
+                        .cv-info-print {
+                            display: none;
+                        }
+                    }
+                }
+                @media #{$medium-up} {
+                    transform: translate(-50%, -75%) scale(0.75);
+                    .cv-info_fake {
+                        header {
+                            display: none;
+                        }
+                    }
+                }
+                @media #{$large-up} {
+                    transform: translate(-50%, 20%) scale(0.75);
+                    .cv-info_fake {
+                        header {
+                            display: block;
+                        }
+                    }
+                }
                 .cv-info_fake {
                     padding-left: 75vw; // padding-left: 200vw; left 75 for visual effect // 100vw * 2 - because scale(0.5) of the parent to go behind the shadowed circle for portrait mode
                     //@media #{$medium-up} {
@@ -199,7 +230,10 @@ body {
             .cv-logo_shadowed {
                 transform: translate(-50%, 25%) scale(0.9);
                 @media #{$medium-up} {
-                    transform: translate(-50%, #{25% + 5%}) scale(0.9); // we do +5% deviation as per initial styling of shadowed logo
+                    transform: translate(-50%, -70%) scale(0.75);
+                }
+                @media #{$large-up} {
+                    transform: translate(-50%, 25%) scale(0.75);
                 }
                 background-color: $color-white;
                 .cv-info_fake {
