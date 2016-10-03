@@ -20,8 +20,6 @@ module.exports = {
     target : 'web',
 
     entry : [
-        'react-hot-loader/patch',
-        'webpack-hot-middleware/client',
         'babel-polyfill',
         './client/index'
     ],

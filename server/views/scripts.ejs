@@ -1,6 +1,6 @@
 <script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
 <% if (env.production) { %>
-  <script async src="<%= env.assets.main.js %>"></script>
+  <script src="<%= env.assets.main.js %>"></script>
 <% } else { %>
   <script src="http://localhost:3000/client/main.js"></script>
 <% } %>
