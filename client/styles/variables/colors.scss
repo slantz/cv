@@ -1,0 +1,42 @@
+$color-malibu: #52E8FA;
+
+$color-black: #000;
+$color-black-hover: lighten($color-black, 15%);
+$color-black-active: darken($color-black, 10%);
+
+$color-white: #fff;
+$color-white-hover: lighten($color-white, 15%);
+$color-white-active: darken($color-white, 10%);
+
+$color-white-t50: rgba($color-white, $opacity-50);
+$color-white-t50-hover: darken($color-white-t50, 10%);
+$color-white-t50-active: darken($color-white-t50, 20%);
+
+$color-text-gray: #555;
+$color-text-gray-hover: lighten($color-text-gray, 15%);
+$color-text-gray-active: darken($color-text-gray, 10%);
+
+$color-purple: #7570FF;
+$color-purple-hover: lighten($color-purple, 15%);
+$color-purple-active: darken($color-purple, 10%);
+
+$color-gray: #e0e0e0;
+$color-gray-hover: lighten($color-gray, 15%);
+$color-gray-active: darken($color-gray, 10%);
+
+$color-aquamarine: #48F3FF;
+$color-aquamarine-hover: lighten($color-aquamarine, 15%);
+$color-aquamarine-active: darken($color-aquamarine, 10%);
+
+$color-dodger-blue: #1687EF;
+$color-dodger-blue-hover: lighten($color-dodger-blue, 15%);
+$color-dodger-blue-active: darken($color-dodger-blue, 10%);
+$color-dodger-blue-box-shadow-hover: #5c57ff;
+
+$color-cornflower-blue: #635DFF;
+$color-cornflower-blue-hover: lighten($color-cornflower-blue, 15%);
+$color-cornflower-blue-active: darken($color-cornflower-blue, 10%);
+
+$color-de-york: #64C084;
+$color-de-york-hover: lighten($color-de-york, 15%);
+$color-de-york-active: darken($color-de-york, 10%);

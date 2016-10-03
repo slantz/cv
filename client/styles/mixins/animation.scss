@@ -1,0 +1,15 @@
+@mixin animation( $animation ) {
+    animation: #{$animation};
+}
+
+@mixin animation-iteration-count( $animationIterationCount ) {
+    animation-iteration-count: #{$animationIterationCount};
+}
+
+@mixin animation-play-state( $animationPlayState ) {
+    animation-play-state: #{$animationPlayState};
+}
+
+@mixin animation-delay( $animationDelay ) {
+    animation-delay: #{$animationDelay};
+}

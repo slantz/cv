@@ -1,0 +1,24 @@
+$smallSpacing: 16px;
+
+$mediumSpacing: $smallSpacing * 1.5;
+
+$twiceSmallSpacing: $smallSpacing / 2;
+$fourthSmallSpacing: $smallSpacing / 4;
+$oneAndAHalfSmallSpacing: $smallSpacing / 1.5;
+
+$moveAwayDestination: 100 * 1.05 * 1.05 * 1vw;
+// logo should mowe away on half screen from it's position and on 1 screen to compensate background
+$moveAwayDestinationLogo: 100 * 1.5 * 1vw;
+
+$cv-info-avatar-width: 150px;
+$cv-info-avatar-height: $cv-info-avatar-width;
+
+$cv-landing-padding-top: 70px;
+
+$cv-landing-logo-width-large: 220px;
+$cv-landing-logo-width-small: 9.375rem;
+
+$cv-lading-perspective: 2000px;
+$cv-lading-perspective-origin-small: 50% $cv-landing-logo-width-small / 2;
+$cv-lading-perspective-origin-medium: 50% 50%;
+$cv-lading-perspective-origin-large: 50% ($cv-landing-logo-width-large / 2) + $cv-landing-padding-top;

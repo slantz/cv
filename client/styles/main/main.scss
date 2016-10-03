@@ -1,0 +1,378 @@
+html, body {
+    width: 100%;
+    min-height: 100vh;
+}
+
+html {
+    z-index: 0;
+}
+
+body {
+    display: flex;
+    background: $color-white none scroll repeat 0 0;
+    font-family: "Muli", Arial, sans-serif;
+    color: $color-text-gray;
+    overflow-x: hidden;
+    main {
+        position: relative;
+        flex: 1 0 auto;
+        display: flex;
+    }
+}
+
+.cv {
+    &-avatar {
+        border-radius: 50%;
+        -webkit-filter: saturate(7) blur(2px);
+    }
+    &-landing {
+        position: relative;
+        text-align: center;
+        perspective: $cv-lading-perspective;
+        perspective-origin: $cv-lading-perspective-origin-small;
+        z-index: 1;
+        flex: 1 0 auto;
+        font-family: Audiowide, sans-serif;
+        transition-property: background-color;
+        background: $color-dodger-blue;
+        background: -moz-linear-gradient(45deg, $color-dodger-blue 0%, $color-cornflower-blue 100%);
+        background: -webkit-linear-gradient(45deg, $color-dodger-blue 0%, $color-cornflower-blue 100%);
+        background: linear-gradient(45deg, $color-dodger-blue 0%, $color-cornflower-blue 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$color-dodger-blue}', endColorstr='#{$color-cornflower-blue}', GradientType=1);
+        &.back-in-black {
+            background: $color-black;
+        }
+        &-back-in-black-button {
+            position: fixed;
+            left: 0;
+            top: 0;
+            opacity: 0.5;
+            //transform: translate(-50%,-50%) rotate(-45deg);
+            //width: 155px;
+            //height: 155px;
+            //padding-top: 100px;
+            //font-size: 0.5em;
+        }
+        .cv-logo {
+            margin: 0;
+            font-size: 0;
+            width: $cv-landing-logo-width-large;
+            height: $cv-landing-logo-width-large;
+            box-sizing: border-box;
+            border-radius: 50%;
+            background-color: $color-purple;
+            box-shadow: 0 0 30px 5px $color-cornflower-blue;
+            text-align: center;
+            cursor: pointer;
+            transform-style: preserve-3d;
+
+            &_shadowed {
+                width: $cv-landing-logo-width-large;
+                height: $cv-landing-logo-width-large;
+                box-sizing: border-box;
+                border-radius: 50%;
+                background-color: $color-de-york;
+                transform-style: preserve-3d;
+                position: absolute;
+                left: 50%;
+                top: 0;
+                transform: translate(-50%, -5%) scale(0.5);
+                z-index: -1;
+                opacity: 0;
+                box-shadow: 0 0 10px 1px rgba(0, 0, 0, 1) inset;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                white-space: nowrap;
+                overflow: hidden;
+                .cv-info_fake {
+                    @extend .cv-info;
+                }
+                .cv-info_fake {
+                    color: $color-white;
+                    font-size: 18px;
+                    font-weight: bold;
+                    font-family: Muli, sans-serif;
+                    text-transform: uppercase;
+                    padding-left: 0;
+                    -webkit-filter: blur(3px);
+                    transition-property: padding-left;
+                    transition-delay: 0.75s;
+                    transition-duration: 2.25s; // it's 75% of main animation when screen slided back only 75% of time left to perform transition
+                }
+
+                @media #{$medium-up} {
+                    top: 50%;
+                }
+
+                @media #{$large-up} {
+                    top: 0;
+                }
+            }
+
+            @media #{$medium-only} {
+                &,
+                &_shadowed {
+                    width: $cv-landing-logo-width-small;
+                    height: $cv-landing-logo-width-small;
+                }
+                border-width: .938rem;
+            }
+        }
+
+        .text {
+            font-weight: bold;
+            font-size: 80px;
+            line-height: 80px;
+            color: $color-white;
+            margin: 0;
+            transform: rotateZ(0deg);
+            user-select: none;
+
+            @media #{$medium-only} {
+                font-size: 3rem;
+                line-height: 3rem;
+                padding-top: .313rem;
+            }
+        }
+        .text, .name {
+            position: relative;
+        }
+        .name {
+            display: block;
+            margin-top: $smallSpacing;
+            font-size: $mediumSpacing;
+            line-height: $mediumSpacing;
+            color: $color-white;
+            padding-right: 0;
+            transition-property: opacity;
+            @include animation('fade 3s ease-in-out infinite');
+
+            @media #{$medium-only} {
+                font-size: 1.313rem;
+                line-height: 1.313rem;
+            }
+        }
+
+        &.js-move-away,
+        &.js-move-in {
+            &,
+            .cv-logo {
+                @include animation-iteration-count('1 !important');
+            }
+
+            .cv-logo {
+                position: relative;
+                z-index: 1;
+            }
+
+            .cv-logo_shadowed {
+                opacity: 1;
+            }
+        }
+
+        &.js-move-away {
+            transform: scale(0.95) translateX(-#{$moveAwayDestination});
+            @include animation('pageMoveAway 3s ease-in-out infinite');
+
+            .cv-logo {
+                box-shadow: 0 0 0 0 $color-white;
+                transform: scale(1.25) translateX(#{$moveAwayDestinationLogo}) translateY(0) rotateZ(360deg);
+                @include animation('moveAway 3s ease-in-out infinite');
+            }
+
+            .cv-logo_shadowed {
+                transform: translate(-50%, 0) scale(0.75);
+                transition: opacity, transform 0.75s ease-out;
+                @media #{$medium-only} {
+                    transform: translate(-50%, 5%) scale(0.75);
+                    .cv-info_fake {
+                        .cv-info-print {
+                            display: none;
+                        }
+                    }
+                }
+                @media #{$medium-up} {
+                    transform: translate(-50%, -75%) scale(0.75);
+                    .cv-info_fake {
+                        header {
+                            display: none;
+                        }
+                    }
+                }
+                @media #{$large-up} {
+                    transform: translate(-50%, 20%) scale(0.75);
+                    .cv-info_fake {
+                        header {
+                            display: block;
+                        }
+                    }
+                }
+                .cv-info_fake {
+                    padding-left: 75vw; // padding-left: 200vw; left 75 for visual effect // 100vw * 2 - because scale(0.5) of the parent to go behind the shadowed circle for portrait mode
+                    //@media #{$medium-up} {
+                    //    padding-left: 75vw;
+                    //}
+                }
+            }
+        }
+        &.js-move-in {
+            transform: scale(0.95) translateY(-100vh);
+            @include animation('pageMoveIn 3s ease-in-out infinite');
+
+            .cv-logo {
+                transform: scale(1.25) translateY(-105vh);
+                box-shadow: 0 0 30px 30px $color-white;
+                @include animation('moveIn 3s ease-in-out infinite');
+            }
+
+            .cv-logo_shadowed {
+                transform: translate(-50%, 25%) scale(0.9);
+                @media #{$medium-up} {
+                    transform: translate(-50%, -70%) scale(0.75);
+                }
+                @media #{$large-up} {
+                    transform: translate(-50%, 25%) scale(0.75);
+                }
+                background-color: $color-white;
+                .cv-info_fake {
+                    display: none;
+                }
+            }
+        }
+        &:not(.js-move-away):not(.js-move-in) {
+            .cv-logo {
+                transform: scale(1) rotateX(-30deg);
+                @include animation('pulse 3s ease-in-out infinite');
+                &:active {
+                    box-shadow: 0 0 30px 30px $color-white;
+                }
+                &:hover {
+                    box-shadow: 0 0 30px 30px $color-dodger-blue-box-shadow-hover;
+                    &,
+                    + .name {
+                        @include animation-play-state('paused');
+                    }
+                }
+            }
+        }
+
+        @media #{$medium-only} {
+            padding: .938rem * 2.25 .938rem .938rem;
+        }
+
+        @media #{$medium-up} {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            perspective-origin: $cv-lading-perspective-origin-medium;
+        }
+
+        @media #{$large-up} {
+            display: block;
+            padding: $cv-landing-padding-top 15px 75px;
+            perspective-origin: $cv-lading-perspective-origin-large;
+        }
+    }
+    &-info {
+        position: relative;
+        z-index: 0;
+        width: 100vw;
+        color: $color-white;
+        box-sizing: border-box;
+        &.js-move-in {
+            height: 100vh;
+            width: 100vw;
+            overflow-x: hidden;
+            transform: scale(1);
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            @include animation('mainMoveIn 3s ease-in-out infinite');
+            @include animation-iteration-count('1 !important');
+        }
+        &.js-move-away {
+            height: 100vh;
+            width: 100vw;
+            overflow-x: hidden;
+            transform: scale(1);
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            @include animation('mainMoveAway 3s ease-in-out infinite');
+            @include animation-iteration-count('1 !important');
+        }
+        @media #{$medium-only} {
+            header {
+                text-align: center;
+            }
+            h1 {
+                display: block;
+                margin-left: 0;
+                text-transform: uppercase;
+            }
+        }
+        &-print {
+            position: fixed;
+            right: 0;
+            top: 0;
+            z-index: 1;
+            @media #{$medium-up} {
+                position: absolute;
+                right: 0;
+                top: calc(50% + #{$oneAndAHalfSmallSpacing});
+                transform: translate(0%, -50%);
+            }
+        }
+        &-background {
+            background-image: linear-gradient(45deg, #ca8131 0%, #2be4b3 100%);
+            //background-attachment: fixed;
+        }
+        &-sections {
+            position: relative;
+            min-height: calc(100vh - #{$cv-info-avatar-height + $mediumSpacing * 3});
+            article {
+                padding: $smallSpacing $twiceSmallSpacing;
+                &:nth-child(even) {
+                    background: rgba($color-gray, $opacity-15);
+                }
+            }
+            &-description {
+                &:not(:only-child) {
+                    border-bottom: 1px solid rgba($color-gray, $opacity-50);
+                    padding: $fourthSmallSpacing 0;
+                }
+                @media #{$medium-only} {
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                }
+                &-text {
+                    word-break: break-word;
+                    &:before {
+                        content: ' - ';
+                        display: inline;
+                    }
+                }
+            }
+        }
+        &__body {
+            @media #{$medium-only} {
+                padding-top: 0;
+            }
+        }
+    }
+}
+
+#cv-transition-group {
+    position: relative;
+    z-index: 0;
+    display: flex;
+    flex: 1 0 auto;
+}

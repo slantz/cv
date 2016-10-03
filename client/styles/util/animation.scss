@@ -1,0 +1,127 @@
+@include keyframes(bounce) {
+    0%, 100% {
+        transform: scale(0);
+    }
+
+    50% {
+        transform: scale(1);
+    }
+}
+
+@include keyframes(pulse) {
+    0%, 100% {
+        transform: scale(0.8) rotateX(-30deg) translateY(0);
+        opacity: 0.5;
+        -webkit-filter: blur(1px);
+    }
+
+    50% {
+        transform: scale(1) rotateX(30deg) translateY(-3vh);
+        opacity: 1;
+        -webkit-filter: blur(0);
+    }
+}
+
+@include keyframes(fade) {
+    0%, 100% {
+        opacity: 0.5;
+        -webkit-filter: blur(1px);
+        transform: translateY(-1vh);
+    }
+
+    50% {
+        opacity: 1;
+        -webkit-filter: blur(0);
+        transform: translateY(0);
+    }
+}
+
+@include keyframes(moveAway) {
+    0% {
+        transform: scale(0.9) translateX(0) translateY(-1.5vh) rotateZ(0deg);
+        box-shadow: 0 0 30px 30px $color-white;
+    }
+
+    25% {
+        transform: scale(1.25) translateX(0) translateY(-1.5vh) rotateZ(0deg);
+        box-shadow: 0 0 30px 30px $color-white;
+    }
+
+    100% {
+        transform: scale(1.25) translateX(#{$moveAwayDestinationLogo}) translateY(0) rotateZ(360deg);
+        box-shadow: 0 0 0 0 $color-white;
+    }
+}
+
+@include keyframes(moveIn) {
+    0%, 37.5% {
+        transform: scale(1.25) translateY(-105vh);
+        box-shadow: 0 0 30px 30px $color-white;
+    }
+
+    75% {
+        transform: scale(1.25) translateY(0);
+        box-shadow: 0 0 30px 30px $color-white;
+    }
+
+    100% {
+        transform: scale(0.9) translateY(0);
+        box-shadow: 0 0 0 0 $color-white;
+    }
+}
+
+@include keyframes(pageMoveAway) {
+    0% {
+        transform: scale(1) translateX(0);
+    }
+
+    25% {
+        transform: scale(0.95) translateX(0);
+    }
+
+    100% {
+        transform: scale(0.95) translateX(-#{$moveAwayDestination});
+    }
+}
+
+@include keyframes(pageMoveIn) {
+    0%, 25% {
+        transform: scale(0.95) translateY(-105vh);
+    }
+
+    75% {
+        transform: scale(0.95) translateY(0);
+    }
+
+    100% {
+        transform: scale(1) translateY(0);
+    }
+}
+
+@include keyframes(mainMoveIn) {
+    0%, 75% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@include keyframes(mainMoveAway) {
+    0% {
+        transform: scale(1) translateY(0);
+    }
+
+    25% {
+        transform: scale(0.95) translateY(0);
+    }
+
+    75%, 99% {
+        transform: scale(0.95) translateY(105vh);
+    }
+
+    100% {
+        transform: scale(1) translateY(105vh);
+    }
+}

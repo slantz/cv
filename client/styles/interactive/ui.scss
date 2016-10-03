@@ -1,0 +1,50 @@
+.ui-button {
+    border: none;
+    background: none;
+    padding: $twiceSmallSpacing $oneAndAHalfSmallSpacing;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: Audiowide, sans-serif  ;
+    appearance: none;
+    &.black {
+        background: $color-black;
+        color: $color-white;
+        &:hover {
+            background: $color-black-hover;
+        }
+        &:active {
+            background: $color-black-active;
+        }
+    }
+    &.purple {
+        background-color: $color-purple;
+        color: $color-white;
+        &:hover {
+            background: $color-purple-hover;
+        }
+        &:active {
+            background: $color-purple-active;
+        }
+    }
+    &.white {
+        background-color: $color-white;
+        &:hover {
+            background: $color-white-hover;
+        }
+        &:active {
+            background: $color-white-active;
+        }
+        &-t50 {
+            background-color: rgba($color-white, $opacity-50);
+            &:hover {
+                background: $color-white-t50-hover;
+            }
+            &:active {
+                background: $color-white-t50-active;
+            }
+        }
+        &-text {
+            color: $color-white;
+        }
+    }
+}
