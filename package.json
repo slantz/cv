@@ -1,6 +1,6 @@
 {
   "name": "cv-alex-kobylinski",
-  "version": "2.0.0",
+  "version": "5.0.0",
   "description": "Simple production ready boilerplate for React, Webpack (SASS and React hot reloading), tests and coverage.",
   "main": "index.js",
   "scripts": {
