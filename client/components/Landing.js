@@ -22,7 +22,7 @@ class Landing extends Component {
         return (
             <article id="cv-landing" className={'cv-landing' + backInBlack}>
               <LogoShadowed amountOfLogos={CORE_CONSTANTS.NUMBER_LOGO_SHADOWED} />
-              <Link className="cv-logo i-inline-block i-transit-all beforeload" to="/info">
+              <Link className="cv-logo i-inline-block i-transit-all" to="/info" title="Go to info page">
                 <div className="i-edge"></div>
                 <h1 className="text i-inline-block">{CORE_CONSTANTS.CV}</h1>
               </Link>

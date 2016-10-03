@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import * as CORE_CONSTANTS from '../constants/Core'
 import * as INFO_CONSTANTS from '../constants/Info'
+import {Link} from 'react-router'
 
 export default class InfoHeader extends Component {
 
@@ -9,11 +10,13 @@ export default class InfoHeader extends Component {
 
         return (
             <header className="i-pad_block_vertical_top i-relative">
-                <img className="cv-avatar i-inline-block_mid"
-                     src={INFO_CONSTANTS.AVATAR_LINK}
-                     width={INFO_CONSTANTS.AVATAR_WIDTH}
-                     height={INFO_CONSTANTS.AVATAR_HEIGHT}
-                     alt={INFO_CONSTANTS.AVATAR_ALT} />
+                <Link className="i-inline-block_mid" to="/" title="Go to landing page">
+                    <img className="cv-avatar i-inline-block_mid"
+                         src={INFO_CONSTANTS.AVATAR_LINK}
+                         width={INFO_CONSTANTS.AVATAR_WIDTH}
+                         height={INFO_CONSTANTS.AVATAR_HEIGHT}
+                         alt={INFO_CONSTANTS.AVATAR_ALT} />
+                </Link>
                 <h1 className="i-inline-block_mid i-margin_block_horizontal_left">
                     <span className="i-hide-medium">
                         {'| ' + CORE_CONSTANTS.CV + ' | '}
