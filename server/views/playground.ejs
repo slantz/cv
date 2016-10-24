@@ -1,3 +1,48 @@
 <main id="playground">
-    <input type="file">
+    <input id="file" type="file" accept=".csv">
+    <div id="fileDisplayArea"></div>
+    <script>
+        window.onload = function() {
+            var fileInput = document.getElementById('file');
+            var fileDisplayArea = document.getElementById('fileDisplayArea');
+
+            fileInput.addEventListener('change', function(e) {
+                var file = fileInput.files[0];
+                var textType = /text.*/;
+
+                if (file.type.match(textType)) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        fileDisplayArea.innerHTML = "";
+
+                        var span = document.createElement('span');
+                        span.innerHTML = reader.result;
+
+                        processData(reader.result)
+
+                        function processData(csv) {
+                            var allTextLines = csv.split(/\r\n|\n/);
+                            var lines = [];
+                            for (var i=0; i<allTextLines.length; i++) {
+                                var data = allTextLines[i].split(';');
+                                var tarr = [];
+                                for (var j=0; j<data.length; j++) {
+                                    tarr.push(data[j]);
+                                }
+                                lines.push(tarr);
+                            }
+                            console.log(lines);
+                        }
+
+                        fileDisplayArea.appendChild(span);
+                    }
+
+                    reader.readAsText(file);
+                } else {
+                    fileDisplayArea.innerHTML = "File not supported!";
+                }
+            });
+        }
+    </script>
 </main>
