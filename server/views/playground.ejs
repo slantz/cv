@@ -17,15 +17,15 @@
                         fileDisplayArea.innerHTML = "";
 
                         var span = document.createElement('span');
-                        span.innerHTML = reader.result;
-
-                        processData(reader.result)
+                        span.innerHTML = processData(reader.result);
 
                         function processData(csv) {
                             var allTextLines = csv.split(/\r\n|\n/);
+
                             var lines = [];
                             for (var i=0; i<allTextLines.length; i++) {
-                                var data = allTextLines[i].split(';');
+                                var data = allTextLines[i].split('",');
+                                console.log(data);
                                 var tarr = [];
                                 for (var j=0; j<data.length; j++) {
                                     tarr.push(data[j]);
