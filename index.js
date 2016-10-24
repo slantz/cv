@@ -30,7 +30,13 @@ if (env.production) {
   });
 }
 
-app.get('/*', function(req, res) {
+app.get('/playground', function(req, res) {
+    res.render('playground', {
+        env: env
+    });
+});
+
+app.get(/^\/.*(?!playground).*$/, function(req, res) {
   res.render('index', {
     env: env
   });
