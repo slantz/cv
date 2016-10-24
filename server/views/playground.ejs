@@ -1,5 +1,29 @@
+<style>
+    body {
+        overflow: auto;
+    }
+    section {
+        display: flex;
+        flex-direction: row;
+    }
+    article {
+        flex: 1 1 auto;
+    }
+    article:first-child > div,
+    article > div:first-child {
+        background-color: rgb(207, 226, 243);
+        font-size: 19px;
+        font-weight:bold;
+        color: #0b5394;
+    }
+    article > div {
+        font-size: 15px;
+        color: #000;
+        background-color: rgb(255, 138, 128);
+    }
+</style>
 <main id="playground">
-    <input id="file" type="file" accept=".csv">
+    <input id="file" type="file" accept=".csv,.tsv">
     <div id="fileDisplayArea"></div>
     <script>
         window.onload = function() {
@@ -8,34 +32,65 @@
 
             fileInput.addEventListener('change', function(e) {
                 var file = fileInput.files[0];
-                var textType = /text.*/;
+                var tsvType = /text.*(?=tab).*/;
+                var csvType = /text.*(?=csv).*/;
 
-                if (file.type.match(textType)) {
+                if (file.type.match(tsvType) || file.type.match(csvType)) {
                     var reader = new FileReader();
 
                     reader.onload = function(e) {
                         fileDisplayArea.innerHTML = "";
 
-                        var span = document.createElement('span');
-                        span.innerHTML = processData(reader.result);
+                        var section = document.createElement('section');
+                        var filledColumns = processData(reader.result);
+
+                        var sectionData = '';
+
+                        filledColumns.forEach(function(column, columnIndex){
+                            sectionData += '<article>';
+                            column.forEach(function(cell, cellIndex){
+                                sectionData += '<div>' + cell + '</div>';
+                            });
+                            sectionData += '</article>';
+                        });
+
+                        section.innerHTML = sectionData;
 
                         function processData(csv) {
                             var allTextLines = csv.split(/\r\n|\n/);
 
                             var lines = [];
                             for (var i=0; i<allTextLines.length; i++) {
-                                var data = allTextLines[i].split('",');
-                                console.log(data);
+                                var data = allTextLines[i].split(/\t/);
                                 var tarr = [];
                                 for (var j=0; j<data.length; j++) {
                                     tarr.push(data[j]);
                                 }
                                 lines.push(tarr);
                             }
-                            console.log(lines);
+
+                            return transpose(lines);
                         }
 
-                        fileDisplayArea.appendChild(span);
+
+
+                        function transpose(a) {
+                            for (var columns = []; columns.length < a[0].length; columns.push([]));
+
+                            columns.forEach(function(column){
+                                for (column = []; column.length < a.length; column.push([]));
+                            });
+
+                            a.forEach(function(line, lineIndex){
+                                line.forEach(function(cell, cellIndex){
+                                    columns[cellIndex][lineIndex] = cell;
+                                });
+                            });
+
+                            return columns;
+                        }
+
+                        fileDisplayArea.appendChild(section);
                     }
 
                     reader.readAsText(file);
