@@ -34,6 +34,27 @@
                 var file = fileInput.files[0];
                 var tsvType = /text.*(?=tab).*/;
                 var csvType = /text.*(?=csv).*/;
+                var priceMatcher = /^([^-]+)(?=\s-\s)(.*)$/g;
+                var valuePriceMatcher = /[\d\.\,]+/g;
+                var multiCurrencyMatcher = /(.+)(?=(\(|\s))/g;
+                var dollarSign = '$';
+                var euroSign = '\u20AC';
+                var plusSign = '+';
+
+
+
+                // SUM
+                // "37 +55+42+33+19".split('+').reduce(function(sum, current){ return sum += +current.trim();}, 0)
+
+
+                //MATCH price
+                // /^([^\s-]+)(?=\s-\s)(.*)$/g.exec('$250.37 - dsfg')[1]
+
+
+                // Match currency indexOf(euroSign)
+
+                //Match multicurrency
+                // /(.+)(?=(\(|\s))/g.exec(/^([^-]+)(?=\s-\s)(.*)$/g.exec('€1197.39432 (1309.20) - курс привата 0.9146, Нике билеты на 19-29 одесса-сан-франциско')[1])[1].trim()
 
                 if (file.type.match(tsvType) || file.type.match(csvType)) {
                     var reader = new FileReader();
@@ -45,6 +66,8 @@
                         var filledColumns = processData(reader.result);
 
                         var sectionData = '';
+
+                        console.log(window.fc = filledColumns);
 
                         filledColumns.forEach(function(column, columnIndex){
                             sectionData += '<article>';
