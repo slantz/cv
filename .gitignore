@@ -41,3 +41,6 @@ assets.json
 
 # build files for development
 client/dist
+
+# environment variables
+.env

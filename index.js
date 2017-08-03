@@ -1,5 +1,7 @@
 'use strict';
 
+require('dotenv').config();
+
 var fs = require('fs');
 var path = require('path');
 
@@ -21,7 +23,8 @@ app.use('/client', express.static(path.join(process.cwd(), '/client')));
 app.disable('x-powered-by');
 
 var env = {
-  production: process.env.NODE_ENV === 'production'
+  production: process.env.NODE_ENV === 'production',
+  env:
 };
 
 if (env.production) {
@@ -32,6 +35,12 @@ if (env.production) {
 
 app.get('/playground', function(req, res) {
     res.render('playground', {
+        env: env
+    });
+});
+
+app.get('/timesheet', function(req, res) {
+    res.render('timesheet', {
         env: env
     });
 });
