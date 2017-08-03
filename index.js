@@ -33,8 +33,6 @@ if (env.production) {
   });
 }
 
-console.log(env)
-
 app.get('/playground', function(req, res) {
     res.render('playground', {
         env: env

@@ -25,6 +25,9 @@
         font-size: 20px;
         font-weight: bold;
     }
+    #timesheet-canvas.initialized:before {
+        display: none;
+    }
     main {
         padding: 30px 40px;
     }
@@ -61,41 +64,104 @@
 </script>
 
 <script type="text/javascript">
-    google.charts.load("current", {packages:["timeline"]});
+    let timesheetPicker = document.querySelector("#heal_timesheet_picker"),
+        selectDBCallback,
+        promiseCallbacks,
+        promises,
+        data;
 
-    console.info("You will be signed in now.");
-    firebase.auth().signInAnonymously().then(function(success) {
-        console.info("You've been successfully signed in.")
-    }, function(error){
-        console.error("[%d]: happened cuz of: [%s]", error.code, error.message);
-    });
-    console.info("Will try to fetch data now.");
-    firebase.database().ref('/data').once('value', function(snapshot) {
-        console.info("Data sucessfully fetched.");
-        console.log(snapshot.val());
-    });
+    promiseCallbacks = {
+        firebase: {
+            resolve: function(){},
+            reject: function(){}
+        },
+        google: {
+            resolve: function(){},
+            reject: function(){}
+        },
+        data: {
+            resolve: function(){},
+            reject: function(){}
+        }
+    };
 
-    google.charts.setOnLoadCallback(drawChart);
-    function drawChart() {
+    promises = {
+        firebase: new Promise(function(resolve, reject){
+            promiseCallbacks.firebase.resolve = resolve;
+            promiseCallbacks.firebase.reject = reject;
+        }),
+        google: new Promise(function(resolve, reject){
+            promiseCallbacks.google.resolve = resolve;
+            promiseCallbacks.google.reject = reject;
+        }),
+        data: new Promise(function(resolve, reject){
+            promiseCallbacks.data.resolve = resolve;
+            promiseCallbacks.data.reject = reject;
+        })
+    };
+
+    selectDBCallback = () => {
+        var timesheet = document.querySelector('#timesheet-canvas');
         var container = document.getElementById('timesheet-canvas');
         var chart = new google.visualization.Timeline(container);
         var dataTable = new google.visualization.DataTable();
+
+        if (!timesheet.classList.contains('initialized')) {
+            timesheet.classList.add('initialized');
+        }
 
         dataTable.addColumn({ type: 'string', id: 'Term' });
         dataTable.addColumn({ type: 'string', id: 'Name' });
         dataTable.addColumn({ type: 'date', id: 'Start' });
         dataTable.addColumn({ type: 'date', id: 'End' });
 
-        dataTable.addRows([
-            [ 'Лактоф', 'сначала азаза', new Date(2017, 8, 4), new Date(2017, 8, 30) ],
-            [ '2', 'John Adams',        new Date(2017, 8, 10),  new Date(2017, 8, 20) ],
-            [ '3', 'Thomas Jefferson',  new Date(2017, 8, 22),  new Date(2017, 8, 30) ]]);
+        reducedData = data[timesheetPicker.options[timesheetPicker.selectedIndex].value]
+            .reduce(function(reduced, value){
+                reduced.push([
+                    value.med,
+                    value.label,
+                    new Date(value.startDate),
+                    new Date(value.endDate)
+                ])
+                return reduced;
+            }, []);
 
+        dataTable.addRows(reducedData);
         chart.draw(dataTable);
-    }
+    };
 
-    document.querySelector("#heal_timesheet_picker").addEventListener("change", () => {
-        console.log(document.querySelector("#heal_timesheet_picker").options[document.querySelector("#heal_timesheet_picker").selectedIndex].value);
+    data = {};
+
+    timesheetPicker.setAttribute("disabled", "true");
+
+    Promise.all([promises.firebase, promises.google, promises.data]).then(function(){
+        timesheetPicker.removeAttribute("disabled");
+    });
+
+    google.charts.load("current", {packages:["timeline"]});
+
+    firebase.auth().signInAnonymously().then(function(success) {
+        promiseCallbacks.firebase.resolve();
+    }, function(error){
+        promiseCallbacks.firebase.reject();
+    });
+
+    google.charts.setOnLoadCallback(function(){
+        promiseCallbacks.google.resolve();
+    });
+
+    timesheetPicker.addEventListener("change", selectDBCallback);
+
+    Object.keys(timesheetPicker.options).forEach(function(optionIndex, index){
+        let option = timesheetPicker.options[optionIndex];
+        if (option.value !== '') {
+            firebase.database().ref(`/${option.value}`).once('value', function(snapshot){
+                data[option.value] = snapshot.val();
+                if (index === timesheetPicker.options.length - 1) {
+                    promiseCallbacks.data.resolve();
+                }
+            });
+        }
     });
 </script>
 
