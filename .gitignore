@@ -43,4 +43,4 @@ assets.json
 client/dist
 
 # environment variables
-.env
+/.env

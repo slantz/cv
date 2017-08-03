@@ -1,10 +1,37 @@
+<style>
+    body {
+        display: flex;
+        background: #fff none scroll repeat 0 0;
+        font-family: "Muli", Arial, sans-serif;
+        color: #555;
+        overflow-x: hidden;
+        height: 100vh;
+        min-height: 500px;
+        margin: 0;
+        padding: 0;
+    }
+    main,
+    #timesheet-canvas {
+        position: relative;
+        flex: 1 0 auto;
+        display: flex;
+    }
+    main {
+        padding: 30px 40px;
+    }
+</style>
+
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<main id="timesheet">
+    <div id="timesheet-canvas"></div>
+</main>
 
 <script type="text/javascript">
     google.charts.load("current", {packages:["timeline"]});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-        var container = document.getElementById('example2.1');
+        var container = document.getElementById('timesheet-canvas');
         var chart = new google.visualization.Timeline(container);
         var dataTable = new google.visualization.DataTable();
 
@@ -14,28 +41,12 @@
         dataTable.addColumn({ type: 'date', id: 'End' });
 
         dataTable.addRows([
-            [ '1', 'George Washington', new Date(1789, 3, 30), new Date(1797, 2, 4) ],
-            [ '2', 'John Adams',        new Date(1797, 2, 4),  new Date(1801, 2, 4) ],
-            [ '3', 'Thomas Jefferson',  new Date(1801, 2, 4),  new Date(1809, 2, 4) ]]);
+            [ 'Лактоф', 'сначала азаза', new Date(2017, 8, 4), new Date(2017, 8, 30) ],
+            [ '2', 'John Adams',        new Date(2017, 2, 4),  new Date(2017, 2, 20) ],
+            [ '3', 'Thomas Jefferson',  new Date(2017, 2, 4),  new Date(2017, 2, 30) ]]);
 
         chart.draw(dataTable);
     }
-</script>
-
-<div id="example2.1" style="height: 200px;"></div>
-
-<main id="timesheet">
-    <div id="timesheet-canvas"></div>
-</main>
-
-<script type="text/javascript">
-    new Timesheet('timesheet-canvas', 2017, 2017, [
-        ['2017', '09/2017', 'A freaking awesome time', 'lorem'],
-        ['06/2017', '09/2017', 'Some great memories', 'ipsum'],
-        ['2017', 'Had very bad luck'],
-        ['10/2017', '11/2017', 'At least had fun', 'dolor'],
-        ['02/2017', '05/2017', 'Enjoyed those times as well', 'ipsum']
-    ]);
 </script>
 
 
