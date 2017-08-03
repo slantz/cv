@@ -15,20 +15,66 @@
         position: relative;
         flex: 1 0 auto;
         display: flex;
+        flex-direction: column;
+    }
+    #timesheet-canvas:before {
+        content: 'Выбери базу данных сначала!';
+        position: absolute;
+        top: 30px;
+        left: calc(50% - 100px);
+        font-size: 20px;
+        font-weight: bold;
     }
     main {
         padding: 30px 40px;
     }
+    #timesheet-picker {
+        margin-bottom: 30px;
+        flex: 0 auto;
+    }
 </style>
 
+<script type="text/javascript" src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <main id="timesheet">
+    <div id="timesheet-picker">
+        <% if (env) { %>
+        <select name="heal_timesheet_picker" id="heal_timesheet_picker">
+            <option value="">Базы данных:</option>
+            <% for(var i = 0; i < env.TIMESHEET_ADMINS.length; i++) {%>
+                <option value="<%= env.TIMESHEET_ADMINS[i] %>"><%= env.TIMESHEET_ADMINS[i].toString().toUpperCase().replace(/_/gi, ' ') %></option>
+            <% } %>
+        </select>
+        <% } %>
+    </div>
     <div id="timesheet-canvas"></div>
 </main>
 
 <script type="text/javascript">
+    firebase.initializeApp({
+        apiKey: "AIzaSyA_1gjVXHACTjokYtOOXynRqUet11mAj0Y",
+        authDomain: "alexcv.firebaseapp.com",
+        databaseURL: "https://alexcv-1e348.firebaseio.com/",
+        storageBucket: "alexcv-1e348.appspot.com"
+    });
+</script>
+
+<script type="text/javascript">
     google.charts.load("current", {packages:["timeline"]});
+
+    console.info("You will be signed in now.");
+    firebase.auth().signInAnonymously().then(function(success) {
+        console.info("You've been successfully signed in.")
+    }, function(error){
+        console.error("[%d]: happened cuz of: [%s]", error.code, error.message);
+    });
+    console.info("Will try to fetch data now.");
+    firebase.database().ref('/data').once('value', function(snapshot) {
+        console.info("Data sucessfully fetched.");
+        console.log(snapshot.val());
+    });
+
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
         var container = document.getElementById('timesheet-canvas');
@@ -42,11 +88,15 @@
 
         dataTable.addRows([
             [ 'Лактоф', 'сначала азаза', new Date(2017, 8, 4), new Date(2017, 8, 30) ],
-            [ '2', 'John Adams',        new Date(2017, 2, 4),  new Date(2017, 2, 20) ],
-            [ '3', 'Thomas Jefferson',  new Date(2017, 2, 4),  new Date(2017, 2, 30) ]]);
+            [ '2', 'John Adams',        new Date(2017, 8, 10),  new Date(2017, 8, 20) ],
+            [ '3', 'Thomas Jefferson',  new Date(2017, 8, 22),  new Date(2017, 8, 30) ]]);
 
         chart.draw(dataTable);
     }
+
+    document.querySelector("#heal_timesheet_picker").addEventListener("change", () => {
+        console.log(document.querySelector("#heal_timesheet_picker").options[document.querySelector("#heal_timesheet_picker").selectedIndex].value);
+    });
 </script>
 
 

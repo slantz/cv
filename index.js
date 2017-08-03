@@ -23,7 +23,8 @@ app.use('/client', express.static(path.join(process.cwd(), '/client')));
 app.disable('x-powered-by');
 
 var env = {
-  production: process.env.NODE_ENV === 'production'
+  production: process.env.NODE_ENV === 'production',
+    TIMESHEET_ADMINS: process.env.TIMESHEET_ADMINS.split(',')
 };
 
 if (env.production) {
@@ -31,6 +32,8 @@ if (env.production) {
     assets: JSON.parse(fs.readFileSync(path.join(process.cwd(), 'assets.json')))
   });
 }
+
+console.log(env)
 
 app.get('/playground', function(req, res) {
     res.render('playground', {
