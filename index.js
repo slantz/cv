@@ -1,5 +1,7 @@
 'use strict';
 
+require('dotenv').config();
+
 var fs = require('fs');
 var path = require('path');
 
@@ -21,7 +23,8 @@ app.use('/client', express.static(path.join(process.cwd(), '/client')));
 app.disable('x-powered-by');
 
 var env = {
-  production: process.env.NODE_ENV === 'production'
+  production: process.env.NODE_ENV === 'production',
+    TIMESHEET_ADMINS: process.env.TIMESHEET_ADMINS.split(',')
 };
 
 if (env.production) {
@@ -36,7 +39,13 @@ app.get('/playground', function(req, res) {
     });
 });
 
-app.get(/^\/.*(?!playground).*$/, function(req, res) {
+app.get('/timesheet', function(req, res) {
+    res.render('timesheet', {
+        env: env
+    });
+});
+
+app.get(/^\/.*(?!(playground|timesheet)).*$/, function(req, res) {
   res.render('index', {
     env: env
   });
