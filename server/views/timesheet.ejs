@@ -1,0 +1,41 @@
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+    google.charts.load("current", {packages:["timeline"]});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+        var container = document.getElementById('example2.1');
+        var chart = new google.visualization.Timeline(container);
+        var dataTable = new google.visualization.DataTable();
+
+        dataTable.addColumn({ type: 'string', id: 'Term' });
+        dataTable.addColumn({ type: 'string', id: 'Name' });
+        dataTable.addColumn({ type: 'date', id: 'Start' });
+        dataTable.addColumn({ type: 'date', id: 'End' });
+
+        dataTable.addRows([
+            [ '1', 'George Washington', new Date(1789, 3, 30), new Date(1797, 2, 4) ],
+            [ '2', 'John Adams',        new Date(1797, 2, 4),  new Date(1801, 2, 4) ],
+            [ '3', 'Thomas Jefferson',  new Date(1801, 2, 4),  new Date(1809, 2, 4) ]]);
+
+        chart.draw(dataTable);
+    }
+</script>
+
+<div id="example2.1" style="height: 200px;"></div>
+
+<main id="timesheet">
+    <div id="timesheet-canvas"></div>
+</main>
+
+<script type="text/javascript">
+    new Timesheet('timesheet-canvas', 2017, 2017, [
+        ['2017', '09/2017', 'A freaking awesome time', 'lorem'],
+        ['06/2017', '09/2017', 'Some great memories', 'ipsum'],
+        ['2017', 'Had very bad luck'],
+        ['10/2017', '11/2017', 'At least had fun', 'dolor'],
+        ['02/2017', '05/2017', 'Enjoyed those times as well', 'ipsum']
+    ]);
+</script>
+
+

@@ -23,8 +23,7 @@ app.use('/client', express.static(path.join(process.cwd(), '/client')));
 app.disable('x-powered-by');
 
 var env = {
-  production: process.env.NODE_ENV === 'production',
-  env:
+  production: process.env.NODE_ENV === 'production'
 };
 
 if (env.production) {
@@ -45,7 +44,7 @@ app.get('/timesheet', function(req, res) {
     });
 });
 
-app.get(/^\/.*(?!playground).*$/, function(req, res) {
+app.get(/^\/.*(?!(playground|timesheet)).*$/, function(req, res) {
   res.render('index', {
     env: env
   });
