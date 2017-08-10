@@ -28,6 +28,10 @@
     #timesheet-canvas.initialized:before {
         display: none;
     }
+    #timesheet-canvas svg g:nth-child(5) > rect:first-of-type {
+        height: 510px;
+        fill: #ff0200;
+    }
     main {
         padding: 30px 40px;
     }
@@ -68,7 +72,8 @@
         selectDBCallback,
         promiseCallbacks,
         promises,
-        data;
+        data,
+        monthNameFormatter;
 
     promiseCallbacks = {
         firebase: {
@@ -100,6 +105,51 @@
         })
     };
 
+    monthNameFormatter = () => {
+        let formattedName = '';
+
+        switch ((new Date()).getMonth() + 1) {
+            case 1:
+                formattedName = 'Января';
+                break;
+            case 2:
+                formattedName = 'Февраля';
+                break;
+            case 3:
+                formattedName = 'Марта';
+                break;
+            case 4:
+                formattedName = 'Апреля';
+                break;
+            case 5:
+                formattedName = 'Мая';
+                break;
+            case 6:
+                formattedName = 'Июня';
+                break;
+            case 7:
+                formattedName = 'Июля';
+                break;
+            case 8:
+                formattedName = 'Августа';
+                break;
+            case 9:
+                formattedName = 'Сентября';
+                break;
+            case 10:
+                formattedName = 'Октября';
+                break;
+            case 11:
+                formattedName = 'Ноября';
+                break;
+            case 12:
+                formattedName = 'Декабря';
+                break;
+        }
+
+        return formattedName;
+    }
+
     selectDBCallback = () => {
         var timesheet = document.querySelector('#timesheet-canvas');
         var container = document.getElementById('timesheet-canvas');
@@ -110,8 +160,8 @@
             timesheet.classList.add('initialized');
         }
 
-        dataTable.addColumn({ type: 'string', id: 'Term' });
-        dataTable.addColumn({ type: 'string', id: 'Name' });
+        dataTable.addColumn({ type: 'string', id: 'Лекарство' });
+        dataTable.addColumn({ type: 'string', id: 'Описание' });
         dataTable.addColumn({ type: 'date', id: 'Start' });
         dataTable.addColumn({ type: 'date', id: 'End' });
 
@@ -126,6 +176,7 @@
                 return reduced;
             }, []);
 
+        dataTable.addRows([['Сегодня', `${(new Date()).getDate()} ${monthNameFormatter()}`, new Date(), new Date() ]]);
         dataTable.addRows(reducedData);
         chart.draw(dataTable);
     };
