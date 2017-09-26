@@ -361,6 +361,12 @@ body {
                     }
                 }
             }
+            &__subinfo {
+                @media #{$medium-only} {
+                    padding-left: 30px;
+                    margin: 20px 0;
+                }
+            }
         }
         &__body {
             @media #{$medium-only} {

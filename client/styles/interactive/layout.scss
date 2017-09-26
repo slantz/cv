@@ -17,6 +17,11 @@
     &-uppercase {
         text-transform: uppercase;
     }
+    &-decoration {
+        &_underline {
+            text-decoration: underline;
+        }
+    }
 }
 
 .i-pad {

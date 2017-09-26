@@ -63,16 +63,24 @@ export default class InfoSection extends Component {
                                     xs={12}
                                     sm={12}>
                                     <Row middle="xs">
-                                        <Col xs={12} sm={2} className="i-text-uppercase">
+                                        <Col xs={12} sm={2} className="i-text-uppercase i-text-decoration_underline">
                                             {row.descr.head}
                                         </Col>
-                                        <Col
-                                            xs={12}
-                                            sm={10}
-                                            dangerouslySetInnerHTML={{__html: row.descr.descr}}
-                                            className={item.description.length > 1
-                                                ? 'cv-info-sections-description-text'
-                                                : CORE_CONSTANTS.STRING_EMPTY} />
+                                        <Col xs={12} sm={10} className="cv-info-sections__subinfo">
+                                            <Row middle="xs">
+                                                {row.descr.descr.map(function(singleDescription, singleDescriptionIndex){
+                                                    return <Col
+                                                        key={singleDescriptionIndex}
+                                                        xs={12}
+                                                        sm={10}
+                                                        dangerouslySetInnerHTML={{__html: singleDescription}}
+                                                        className={item.description.length > 1
+                                                            ? 'cv-info-sections-description-text'
+                                                            : CORE_CONSTANTS.STRING_EMPTY} />
+                                                })
+                                                }
+                                            </Row>
+                                        </Col>
                                     </Row>
                                 </Col>
                             }
@@ -85,24 +93,23 @@ export default class InfoSection extends Component {
                                         ? 'cv-info-sections-description-text'
                                         : CORE_CONSTANTS.STRING_EMPTY} />
                             }
-                                {typeof row.descr === "string" && row.time &&
-                                    <Col
+                            {typeof row.descr === "string" && row.time &&
+                                <Col
+                                xs={12}
+                                sm={4}
+                                className="i-text-right">
+                                    {row.time}
+                                </Col>
+                            }
+                            {typeof row.descr === "string" && row.link &&
+                                <Col
                                     xs={12}
-                                    sm={4}
-                                    className="i-text-right">
-                                        {row.time}
-                                    </Col>
-                                }
-                                {typeof row.descr === "string" && row.link &&
-                                    <Col
-                                        xs={12}
-                                        sm={8}>
-                                            <a
-                                                className="i-link"
-                                                href={row.link.url}
-                                                title={row.link.title}>{row.link.value}</a>
-                                    </Col>
-                                }
+                                    sm={8}>
+                                        <a
+                                            className="i-link"
+                                            href={row.link.url}
+                                            title={row.link.title}>{row.link.value}</a>
+                                </Col>
                             }
                         </Row>
                     })}
