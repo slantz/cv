@@ -4,30 +4,33 @@ var webpack = require('webpack');
 var config = require('./webpack.config.base.js');
 
 var SaveAssetsJson = require('assets-webpack-plugin');
+var ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 
 config.bail = true;
-config.debug = false;
 config.profile = false;
 config.devtool = '#source-map';
 
 config.output = {
-  path: './client/dist',
-  pathInfo: true,
+  path: __dirname + '/client/dist',
+  pathinfo: true,
   publicPath: '/client/dist/',
   filename: 'bundle.[hash].min.js'
 };
 
 config.plugins = config.plugins.concat([
-  new webpack.optimize.OccurenceOrderPlugin(true),
-  new webpack.optimize.DedupePlugin(),
-  new webpack.optimize.UglifyJsPlugin({
-    output: {
-      comments: false
-    },
-    compress: {
-      warnings: false,
-      screw_ie8: true
-    }
+  new webpack.optimize.OccurrenceOrderPlugin(true),
+  new ParallelUglifyPlugin({
+      cacheDir: '.cache/',
+      uglifyJS: {
+          output: {
+              comments: false
+          },
+          compress: {
+              warnings: false,
+              screw_ie8: false
+          },
+          sourcemap: false
+      }
   }),
   new SaveAssetsJson({
     path: process.cwd(),
@@ -40,8 +43,8 @@ config.plugins = config.plugins.concat([
   })
 ]);
 
-config.module.loaders = config.module.loaders.concat([
-  {test: /\.jsx?$/, loaders: ['babel'], exclude: /node_modules/}
+config.module.rules = config.module.rules.concat([
+  {test: /\.jsx?$/, loaders: ['babel-loader'], exclude: /node_modules/}
 ]);
 
 module.exports = config;

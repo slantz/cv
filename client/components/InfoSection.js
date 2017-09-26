@@ -58,30 +58,51 @@ export default class InfoSection extends Component {
                 <Col xs={12} sm={10}>
                     {item.description.map(function(row, rowIndex){
                         return <Row key={rowIndex} middle="xs" className="cv-info-sections-description">
-                            <Col
-                                xs={12}
-                                sm={setRowWidth(row)}
-                                dangerouslySetInnerHTML={{__html: row.descr}}
-                                className={item.description.length > 1
-                                    ? 'cv-info-sections-description-text'
-                                    : CORE_CONSTANTS.STRING_EMPTY} />
-                            {row.time &&
+                            {typeof row.descr === "object" &&
                                 <Col
+                                    xs={12}
+                                    sm={12}>
+                                    <Row middle="xs">
+                                        <Col xs={12} sm={2} className="i-text-uppercase">
+                                            {row.descr.head}
+                                        </Col>
+                                        <Col
+                                            xs={12}
+                                            sm={10}
+                                            dangerouslySetInnerHTML={{__html: row.descr.descr}}
+                                            className={item.description.length > 1
+                                                ? 'cv-info-sections-description-text'
+                                                : CORE_CONSTANTS.STRING_EMPTY} />
+                                    </Row>
+                                </Col>
+                            }
+                            {typeof row.descr === "string" &&
+                                <Col
+                                    xs={12}
+                                    sm={setRowWidth(row)}
+                                    dangerouslySetInnerHTML={{__html: row.descr}}
+                                    className={item.description.length > 1
+                                        ? 'cv-info-sections-description-text'
+                                        : CORE_CONSTANTS.STRING_EMPTY} />
+                            }
+                                {typeof row.descr === "string" && row.time &&
+                                    <Col
                                     xs={12}
                                     sm={4}
                                     className="i-text-right">
-                                    {row.time}
-                                </Col>
-                            }
-                            {row.link &&
-                                <Col
-                                    xs={12}
-                                    sm={8}>
-                                    <a
-                                        className="i-link"
-                                        href={row.link.url}
-                                        title={row.link.title}>{row.link.value}</a>
-                                </Col>
+                                        {row.time}
+                                    </Col>
+                                }
+                                {typeof row.descr === "string" && row.link &&
+                                    <Col
+                                        xs={12}
+                                        sm={8}>
+                                            <a
+                                                className="i-link"
+                                                href={row.link.url}
+                                                title={row.link.title}>{row.link.value}</a>
+                                    </Col>
+                                }
                             }
                         </Row>
                     })}

@@ -26,19 +26,18 @@ module.exports = {
 
     output : {
         path : path.join(process.cwd(), '/client'),
-        pathInfo : true,
+        pathinfo: true,
         publicPath : 'http://localhost:3000/client/',
         filename : 'main.js'
     },
 
     resolve : {
-        root : path.join(__dirname, ''),
-        modulesDirectories : [
+        modules : [
             'web_modules',
             'node_modules',
-            'client'
+            path.resolve(__dirname, "client")
         ],
-        extensions : ['', '.webpack.js', '.web.js', '.js', '.jsx']
+        extensions : ['.webpack.js', '.web.js', '.js', '.jsx']
     },
 
     plugins : [
@@ -47,25 +46,30 @@ module.exports = {
             __STAGING__ : env.staging,
             __PRODUCTION__ : env.production,
             __CURRENT_ENV__ : '\'' + (NODE_ENV) + '\''
+        }),
+        new webpack.LoaderOptionsPlugin({
+            options: {
+                context: __dirname,
+                postcss : function() {
+                    return [autoprefixer, precss];
+                }
+            }
         })
     ],
 
     module : {
-        loaders : [
+        rules : [
             {
                 test: /\.css$/,
-                loader: 'style!css?modules',
+                loader: 'style-loader!css-loader?modules',
                 include: /flexboxgrid/,
             },
             {
                 test : /(\.scss)$/,
-                loader : 'style!css!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded',
+                loader : 'style-loader!css-loader!autoprefixer-loader?browsers=last 2 version!sass-loader?outputStyle=expanded',
             }
         ],
 
         noParse : /\.min\.js/
-    },
-    postcss : function() {
-        return [autoprefixer, precss];
     }
 };

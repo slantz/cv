@@ -23,7 +23,7 @@ body {
 .cv {
     &-avatar {
         border-radius: 50%;
-        -webkit-filter: saturate(7) blur(2px);
+        filter: contrast(3) saturate(5) blur(2px);
     }
     &-landing {
         position: relative;
