@@ -44,3 +44,5 @@ client/dist
 
 # environment variables
 /.env
+
+.cache/

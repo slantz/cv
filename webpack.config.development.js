@@ -17,7 +17,7 @@ config.plugins = config.plugins.concat([
   new webpack.HotModuleReplacementPlugin()
 ]);
 
-config.module.loaders = config.module.loaders.concat([
+config.module.rules = config.module.rules.concat([
   {test: /\.jsx?$/, loaders: [ 'babel-loader'], exclude: /node_modules/}
 ]);
 

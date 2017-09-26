@@ -1,6 +1,7 @@
 import React from 'react'
 import {render} from 'react-dom'
 import {syncHistoryWithStore} from 'react-router-redux'
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import {IntlProvider} from 'react-intl'
 import {configureStore, browserHistory} from './store/configureStore'
 import Root from './root'
@@ -12,12 +13,16 @@ import Redbox from 'redbox-react' // workaround https://github.com/gaearon/react
 
 import {AppContainer} from 'react-hot-loader';
 
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
+
 const initialState = ( window && window.__INITIAL_STATE__ ) ? window.__INITIAL_STATE__ : {};
-const store = configureStore(initialState)
+const store = configureStore(initialState);
 if (window && window.__INITIAL_STATE__) delete window.__INITIAL_STATE__;
 
 const rootEl = window.document.getElementById(CONSTANTS.ID_ROOT);
-const history = syncHistoryWithStore(browserHistory, store)
+const history = syncHistoryWithStore(browserHistory, store);
 
 import './styles/app.scss'
 
