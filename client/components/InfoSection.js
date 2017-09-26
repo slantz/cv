@@ -63,7 +63,7 @@ export default class InfoSection extends Component {
                                     xs={12}
                                     sm={12}>
                                     <Row middle="xs">
-                                        <Col xs={12} sm={2} className="i-text-uppercase i-text-decoration_underline">
+                                        <Col xs={12} sm={2} className="i-text-uppercase">
                                             {row.descr.head}
                                         </Col>
                                         <Col xs={12} sm={10} className="cv-info-sections__subinfo">
@@ -72,7 +72,6 @@ export default class InfoSection extends Component {
                                                     return <Col
                                                         key={singleDescriptionIndex}
                                                         xs={12}
-                                                        sm={10}
                                                         dangerouslySetInnerHTML={{__html: singleDescription}}
                                                         className={item.description.length > 1
                                                             ? 'cv-info-sections-description-text'
