@@ -1,0 +1,84 @@
+<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+
+<style>
+    #pump {
+        flex-direction: column
+    }
+</style>
+
+<main id="pump"></main>
+
+<script>
+    // Initialize Firebase
+    let config = {
+        apiKey: "<%= env.FIREBASE_PUMP_APIKEY %>",
+        authDomain: "<%= env.FIREBASE_PUMP_AUTHDOMAIN %>",
+        databaseURL: "<%= env.FIREBASE_PUMP_DATABASEURL %>",
+        projectId: "<%= env.FIREBASE_PUMP_PROJECTID %>",
+        storageBucket: "<%= env.FIREBASE_PUMP_STORAGEBUCKET %>",
+        messagingSenderId: "<%= env.FIREBASE_PUMP_MESSAGINGSENDERID %>"
+    };
+    firebase.initializeApp(config);
+</script>
+
+<script type="text/javascript">
+    let promiseCallbacks,
+        promises,
+        render;
+
+    promiseCallbacks = {
+        firebase: {
+            resolve: function(){},
+            reject: function(){}
+        },
+        data: {
+            resolve: function(){},
+            reject: function(){}
+        }
+    };
+
+    promises = {
+        firebase: new Promise(function(resolve, reject){
+            promiseCallbacks.firebase.resolve = resolve;
+            promiseCallbacks.firebase.reject = reject;
+        }),
+        data: new Promise(function(resolve, reject){
+            promiseCallbacks.data.resolve = resolve;
+            promiseCallbacks.data.reject = reject;
+        })
+    };
+
+    render = (success) => {
+        let exercises = success[1].exercises,
+            schedules = success[1].schedules;
+
+        let pump = document.querySelector("#pump");
+
+        schedules.forEach((schedule, index) => {
+            let newChild = document.createElement("h3");
+
+            newChild.setAttribute("id", `${schedule.type}-${schedule.id}-${index}`);
+            newChild.textContent = `Это ${schedule.id} итерация тренировок`;
+
+            if (schedule.trained) {
+                newChild.style.color = "#2ebd2e";
+            }
+
+            pump.appendChild(newChild);
+        });
+    }
+
+    Promise.all([promises.firebase, promises.data]).then(render);
+
+    firebase.auth().signInAnonymously().then(function(success) {
+        promiseCallbacks.firebase.resolve(success);
+    }, function(error){
+        promiseCallbacks.firebase.reject(error);
+    });
+
+    firebase.database().ref("/pump").once('value', function(snapshot){
+        console.log(snapshot.val());
+        promiseCallbacks.data.resolve(snapshot.val());
+    });
+
+</script>
