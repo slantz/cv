@@ -4,6 +4,188 @@
     #pump {
         flex-direction: column
     }
+
+    .iteration {
+        width: 100%;
+    }
+
+    .iteration__header {
+        padding: 1em 0;
+        margin: 0;
+        border-bottom: 1px solid #b5a0a0;
+    }
+
+    .iteration__table {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .header__column,
+    .week {
+        flex: 1;
+    }
+
+    .header__column,
+    .week:not(:last-child) {
+        border-right: 1px solid #b5a0a0;
+    }
+
+    .week {
+        text-align: center;
+    }
+
+    .week > h4:not(.week__holder__empty) {
+        border-bottom: 1px solid #b5a0a0;
+    }
+
+    .week__holder__empty {
+        text-transform: capitalize;
+        opacity: 0;
+    }
+
+    .week__content {
+        padding: 0 20px;
+        box-sizing: border-box;
+        border-style: solid;
+        border-color: #b5a0a0;
+        border-width: 1px 0;
+    }
+
+    .week__content:last-child {
+        border-bottom-width: 0;
+    }
+
+    .week__content > div {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .week h4,
+    .header__group-holder h4 {
+        height: 40px;
+        max-height: 40px;
+        line-height: 40px;
+        margin: 0;
+    }
+
+    .header__group-holder h4:not(.header__group-holder__empty) {
+        text-transform: capitalize;
+        font-size: 1.5rem;
+        line-height: 1.5;
+        border-style: solid;
+        border-color: #b5a0a0;
+        border-width: 1px 0;
+        box-sizing: border-box;
+    }
+
+    .header__group-holder > div,
+    .week__content > div {
+        padding: 5px 0;
+        box-sizing: border-box;
+    }
+
+    .week__content_standard .week__content__exercise-name,
+    .week__content_standard button {
+        display: none;
+    }
+
+    [data-tooltip] {
+        position: relative;
+        z-index: 2;
+        cursor: pointer;
+    }
+
+    /* Hide the tooltip content by default */
+    [data-tooltip]:before,
+    [data-tooltip]:after {
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    /* Position tooltip above the element */
+    [data-tooltip]:before {
+        position: absolute;
+        bottom: 150%;
+        left: 50%;
+        margin-bottom: 5px;
+        margin-left: -80px;
+        padding: 7px;
+        width: 160px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        background-color: #000;
+        background-color: hsla(0, 0%, 20%, 0.9);
+        color: #fff;
+        content: attr(data-tooltip);
+        text-align: center;
+        font-size: 14px;
+        line-height: 1.2;
+    }
+
+    /* Triangle hack to make tooltip look like a speech bubble */
+    [data-tooltip]:after {
+        position: absolute;
+        bottom: 150%;
+        left: 50%;
+        margin-left: -5px;
+        width: 0;
+        border-top: 5px solid #000;
+        border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+        border-right: 5px solid transparent;
+        border-left: 5px solid transparent;
+        content: " ";
+        font-size: 0;
+        line-height: 0;
+    }
+
+    /* Show tooltip content on hover */
+    [data-tooltip]:hover:before,
+    [data-tooltip]:hover:after {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    @media screen and (max-width: 50em) {
+        .header__column {
+            display: none;
+        }
+        .iteration__table {
+            flex-direction: column;
+        }
+        button {
+            background-color: aliceblue;
+        }
+        .iteration__header,
+        .week,
+        .week > h4,
+        .week > h4:not(.week__holder__empty),
+        .header__column,
+        .week:not(:last-child),
+        .week__content {
+            border: none;
+        }
+
+        .iteration__header {
+            text-align: center;
+        }
+
+        .week__holder__empty {
+            opacity: 1;
+        }
+
+        .week h4,
+        .header__group-holder h4 {
+            background-color: aliceblue;
+        }
+
+        .week__content_standard .week__content__exercise-name,
+        .week__content_standard button {
+            display: inline;
+        }
+    }
 </style>
 
 <main id="pump"></main>
@@ -54,17 +236,112 @@
 
         let pump = document.querySelector("#pump");
 
-        schedules.forEach((schedule, index) => {
-            let newChild = document.createElement("h3");
+        schedules.forEach((schedule, scheduleIndex) => {
+            let iteration = document.createElement("section");
+            let iterationHeader = document.createElement("h3");
+            let separator = document.createElement("hr");
 
-            newChild.setAttribute("id", `${schedule.type}-${schedule.id}-${index}`);
-            newChild.textContent = `Это ${schedule.id} итерация тренировок`;
+            iteration.classList.add("iteration");
+            iterationHeader.classList.add("iteration__header");
+
+            iterationHeader.setAttribute("id", `${schedule.type}-${schedule.id}-${scheduleIndex}`);
+            iterationHeader.textContent = `Это ${schedule.id} итерация тренировок`;
 
             if (schedule.trained) {
-                newChild.style.color = "#2ebd2e";
+                iterationHeader.style.color = "#2ebd2e";
             }
 
-            pump.appendChild(newChild);
+            iteration.appendChild(iterationHeader);
+
+            let iterationTable = document.createElement("div");
+
+            iterationTable.classList.add("iteration__table")
+
+            let headerColumn = document.createElement("div");
+
+            headerColumn.classList.add("header__column");
+
+            schedule.weeks[0].groups.forEach((group, groupIndex) => {
+                let headerGroupHolder = document.createElement("div");
+                let headerGroupHolderHeader = document.createElement("h4");
+                let stubHeaderGroupHolderHeader = document.createElement("h4");
+
+                headerGroupHolder.classList.add("header__group-holder");
+                stubHeaderGroupHolderHeader.classList.add("header__group-holder__empty");
+
+                headerGroupHolderHeader.textContent = `${group.groupId}`;
+
+                if (groupIndex === 0) {
+                    headerGroupHolder.appendChild(stubHeaderGroupHolderHeader);
+                }
+                headerGroupHolder.appendChild(headerGroupHolderHeader);
+
+                group.exercises.forEach((exercise, exerciseIndex) => {
+                    let headerExerciseHolder = document.createElement("div");
+                    let currentExercise = exercises.filter(exer => exer.id === exercise.exerciseId)[0];
+                    headerExerciseHolder.innerHTML = `<span>${currentExercise.title}</span>${currentExercise.hint !== "" ? "<button data-tooltip=\"" + currentExercise.hint + "\">?</button>" : ""}`;
+
+                    headerGroupHolder.appendChild(headerExerciseHolder);
+                });
+
+                headerColumn.appendChild(headerGroupHolder);
+            });
+
+            iterationTable.appendChild(headerColumn);
+
+            schedule.weeks.forEach((week, weekIndex) => {
+                let weekHolder = document.createElement("div");
+                let weekHeader = document.createElement("h4");
+                weekHeader.textContent = `Week ${week.id}`;
+
+                weekHolder.appendChild(weekHeader);
+                weekHolder.classList.add("week");
+
+                if (week.groups.every(group => group.trained)) {
+                    weekHolder.style.color = "#2ebd2e";
+                }
+
+                week.groups.forEach((group, groupIndex) => {
+                    let beforeGroupHolderEmptyElementForHeading = document.createElement("h4");
+                    let groupHolder = document.createElement("div");
+
+                    beforeGroupHolderEmptyElementForHeading.classList.add("week__holder__empty");
+                    beforeGroupHolderEmptyElementForHeading.textContent = group.groupId;
+                    groupHolder.classList.add("week__content");
+
+                    if (group.trained) {
+                        groupHolder.style.color = "#2ebd2e";
+                    }
+
+                    group.exercises.forEach((exercise, exerciseIndex) => {
+                        let currentExercise = exercises.filter(exer => exer.id === exercise.exerciseId)[0];
+                        let exerciseHolder = document.createElement("div");
+                        let exerciseData = `<span>${exercise.repetitions} x ${exercise.times} (${exercise.weight === undefined ? "раз" : exercise.weight + currentExercise.unit})</span>`;
+
+                        exerciseHolder.innerHTML = `<span class="week__content__exercise-name">${currentExercise.title}</span>${currentExercise.hint !== "" ? "<button data-tooltip=\"" + currentExercise.hint + "\">?</button>" : ""}${exerciseData}`;
+
+                        if (!exercise.standard) {
+                            exerciseHolder.classList.add("week__content_non-standard");
+                        }
+                        else {
+                            exerciseHolder.classList.add("week__content_standard");
+                        }
+
+                        groupHolder.appendChild(exerciseHolder);
+                    });
+
+                    weekHolder.appendChild(beforeGroupHolderEmptyElementForHeading);
+                    weekHolder.appendChild(groupHolder);
+                });
+
+                iterationTable.appendChild(weekHolder);
+            });
+
+            iteration.appendChild(iterationTable);
+            pump.appendChild(iteration);
+            if (schedules.length !== scheduleIndex + 1) {
+                pump.appendChild(separator);
+            }
         });
     }
 
