@@ -24,7 +24,17 @@ app.disable('x-powered-by');
 
 var env = {
   production: process.env.NODE_ENV === 'production',
-    TIMESHEET_ADMINS: process.env.TIMESHEET_ADMINS.split(',')
+    TIMESHEET_ADMINS: process.env.TIMESHEET_ADMINS.split(','),
+    FIREBASE_TIMESHEET_APIKEY: process.env.FIREBASE_TIMESHEET_APIKEY,
+    FIREBASE_TIMESHEET_AUTHDOMAIN: process.env.FIREBASE_TIMESHEET_AUTHDOMAIN,
+    FIREBASE_TIMESHEET_DATABASEURL: process.env.FIREBASE_TIMESHEET_DATABASEURL,
+    FIREBASE_TIMESHEET_STORAGEBUCKET: process.env.FIREBASE_TIMESHEET_STORAGEBUCKET,
+    FIREBASE_PUMP_APIKEY: process.env.FIREBASE_PUMP_APIKEY,
+    FIREBASE_PUMP_AUTHDOMAIN: process.env.FIREBASE_PUMP_AUTHDOMAIN,
+    FIREBASE_PUMP_DATABASEURL: process.env.FIREBASE_PUMP_DATABASEURL,
+    FIREBASE_PUMP_PROJECTID: process.env.FIREBASE_PUMP_PROJECTID,
+    FIREBASE_PUMP_STORAGEBUCKET: process.env.FIREBASE_PUMP_STORAGEBUCKET,
+    FIREBASE_PUMP_MESSAGINGSENDERID: process.env.FIREBASE_PUMP_MESSAGINGSENDERID
 };
 
 if (env.production) {
@@ -41,6 +51,12 @@ app.get('/playground', function(req, res) {
 
 app.get('/timesheet', function(req, res) {
     res.render('timesheet', {
+        env: env
+    });
+});
+
+app.get('/pump', function(req, res) {
+    res.render('pump', {
         env: env
     });
 });
