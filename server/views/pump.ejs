@@ -1,8 +1,22 @@
-<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
-
 <style>
+    @keyframes bounce {
+        0%, 100% {
+            transform: scale(0);
+        }
+
+        50% {
+            transform: scale(1);
+        }
+    }
+
     #pump {
-        flex-direction: column
+        flex-direction: column;
+        --main-color-blue: #F0F8FF;
+        --compound-color-purple: #535399;
+        --compound-color-light-purple: #ACACCC;
+        --compound-color-beige: #FFD6B0;
+        --compound-color-clam-shell: #CCB6AC;
+        --shades-color-wet-asphalt: #3C3E40;
     }
 
     .iteration {
@@ -12,7 +26,7 @@
     .iteration__header {
         padding: 1em 0;
         margin: 0;
-        border-bottom: 1px solid #b5a0a0;
+        border-bottom: 1px solid var(--compound-color-clam-shell);
     }
 
     .iteration__table {
@@ -23,11 +37,12 @@
     .header__column,
     .week {
         flex: 1;
+        color: var(--shades-color-wet-asphalt);
     }
 
     .header__column,
     .week:not(:last-child) {
-        border-right: 1px solid #b5a0a0;
+        border-right: 1px solid var(--compound-color-clam-shell);
     }
 
     .week {
@@ -35,7 +50,8 @@
     }
 
     .week > h4:not(.week__holder__empty) {
-        border-bottom: 1px solid #b5a0a0;
+        font-size: 1.2rem;
+        border-bottom: 1px solid var(--compound-color-clam-shell);
     }
 
     .week__holder__empty {
@@ -47,7 +63,7 @@
         padding: 0 20px;
         box-sizing: border-box;
         border-style: solid;
-        border-color: #b5a0a0;
+        border-color: var(--compound-color-clam-shell);
         border-width: 1px 0;
     }
 
@@ -74,7 +90,7 @@
         font-size: 1.5rem;
         line-height: 1.5;
         border-style: solid;
-        border-color: #b5a0a0;
+        border-color: var(--compound-color-clam-shell);
         border-width: 1px 0;
         box-sizing: border-box;
     }
@@ -116,8 +132,7 @@
         -webkit-border-radius: 3px;
         -moz-border-radius: 3px;
         border-radius: 3px;
-        background-color: #000;
-        background-color: hsla(0, 0%, 20%, 0.9);
+        background-color: var(--compound-color-purple);
         color: #fff;
         content: attr(data-tooltip);
         text-align: center;
@@ -132,8 +147,7 @@
         left: 50%;
         margin-left: -5px;
         width: 0;
-        border-top: 5px solid #000;
-        border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+        border-top: 5px solid var(--compound-color-purple);
         border-right: 5px solid transparent;
         border-left: 5px solid transparent;
         content: " ";
@@ -148,6 +162,29 @@
         opacity: 1;
     }
 
+    .loader:after,
+    .loader:before {
+        content: "";
+        display: block;
+        position: absolute;
+        z-index: 100;
+        top: 50%;
+        left: 50%;
+        right: 0;
+        bottom: 0;
+        margin: -30px 0 0 -30px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        opacity: 0.6;
+        background-color: rgba(83, 83, 153, 0.7);
+        animation: bounce 2s ease-in-out infinite;
+    }
+
+    .loader:after {
+        animation-delay: -1s;
+    }
+
     @media screen and (max-width: 50em) {
         .header__column {
             display: none;
@@ -156,7 +193,7 @@
             flex-direction: column;
         }
         button {
-            background-color: aliceblue;
+            background-color: var(--main-color-blue);
         }
         .iteration__header,
         .week,
@@ -166,6 +203,21 @@
         .week:not(:last-child),
         .week__content {
             border: none;
+            max-height: none;
+        }
+
+        .week.js-collapsed > h4 {
+            display: block;
+        }
+
+        .week.js-collapsed .week__content,
+        .week.js-collapsed .week__holder__empty {
+            display: none;
+        }
+
+        .week > h4:not(.week__holder__empty) {
+            padding: 10px 0;
+            margin-bottom: 10px;
         }
 
         .iteration__header {
@@ -178,7 +230,7 @@
 
         .week h4,
         .header__group-holder h4 {
-            background-color: aliceblue;
+            background-color: var(--main-color-blue);
         }
 
         .week__content_standard .week__content__exercise-name,
@@ -206,7 +258,12 @@
 <script type="text/javascript">
     let promiseCallbacks,
         promises,
-        render;
+        pump,
+        removeAllChildren,
+        renderLoader,
+        render,
+        renderError,
+        isMobileDevice;
 
     promiseCallbacks = {
         firebase: {
@@ -230,11 +287,36 @@
         })
     };
 
+    isMobileDevice = (function(){
+        let windowWidth = window.innerWidth
+            || document.documentElement.clientWidth
+            || document.body.clientWidth;
+
+        return windowWidth <= 768;
+    })();
+
+    pump = document.querySelector("#pump");
+
+    removeAllChildren = () => {
+        while (pump.firstChild) {
+            pump.removeChild(pump.firstChild);
+        }
+    };
+
+    renderLoader = () => {
+        let loader = document.createElement("section");
+
+        removeAllChildren();
+        loader.classList.add("loader");
+
+        pump.appendChild(loader);
+    };
+
     render = (success) => {
         let exercises = success[1].exercises,
             schedules = success[1].schedules;
 
-        let pump = document.querySelector("#pump");
+        removeAllChildren();
 
         schedules.forEach((schedule, scheduleIndex) => {
             let iteration = document.createElement("section");
@@ -248,7 +330,7 @@
             iterationHeader.textContent = `Это ${schedule.id} итерация тренировок`;
 
             if (schedule.trained) {
-                iterationHeader.style.color = "#2ebd2e";
+                iterationHeader.style.color = "#ACACCC";
             }
 
             iteration.appendChild(iterationHeader);
@@ -294,11 +376,15 @@
                 let weekHeader = document.createElement("h4");
                 weekHeader.textContent = `Week ${week.id}`;
 
+                if (isMobileDevice) {
+                    weekHolder.classList.add("js-collapsed");
+                }
+
                 weekHolder.appendChild(weekHeader);
                 weekHolder.classList.add("week");
 
                 if (week.groups.every(group => group.trained)) {
-                    weekHolder.style.color = "#2ebd2e";
+                    weekHolder.style.color = "#ACACCC";
                 }
 
                 week.groups.forEach((group, groupIndex) => {
@@ -310,7 +396,7 @@
                     groupHolder.classList.add("week__content");
 
                     if (group.trained) {
-                        groupHolder.style.color = "#2ebd2e";
+                        groupHolder.style.color = "#ACACCC";
                     }
 
                     group.exercises.forEach((exercise, exerciseIndex) => {
@@ -334,28 +420,36 @@
                     weekHolder.appendChild(groupHolder);
                 });
 
+                weekHeader.addEventListener("click", function(e) {
+                    weekHolder.classList.toggle("js-collapsed");
+                })
+
                 iterationTable.appendChild(weekHolder);
             });
 
             iteration.appendChild(iterationTable);
+
             pump.appendChild(iteration);
+
             if (schedules.length !== scheduleIndex + 1) {
                 pump.appendChild(separator);
             }
         });
-    }
+    };
 
-    Promise.all([promises.firebase, promises.data]).then(render);
+    renderError = (error) => {};
+
+    renderLoader();
+
+    Promise.all([promises.firebase, promises.data]).then(render).catch(renderError);
 
     firebase.auth().signInAnonymously().then(function(success) {
         promiseCallbacks.firebase.resolve(success);
+
+        firebase.database().ref("/pump").once('value', function(snapshot){
+            promiseCallbacks.data.resolve(snapshot.val());
+        });
     }, function(error){
         promiseCallbacks.firebase.reject(error);
     });
-
-    firebase.database().ref("/pump").once('value', function(snapshot){
-        console.log(snapshot.val());
-        promiseCallbacks.data.resolve(snapshot.val());
-    });
-
 </script>
