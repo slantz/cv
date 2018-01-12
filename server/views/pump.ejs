@@ -49,6 +49,20 @@
         text-align: center;
     }
 
+    .week.week_trained > h4 {
+        color: var(--compound-color-light-purple);
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .week.week_trained >h4 :last-child {
+        display: none;
+        padding: 0 5px 3px;
+        border-radius: 4px;
+        color: var(--main-color-blue);
+        background-color: var(--compound-color-light-purple);
+    }
+
     .week > h4:not(.week__holder__empty) {
         font-size: 1.2rem;
         border-bottom: 1px solid var(--compound-color-clam-shell);
@@ -206,13 +220,21 @@
             max-height: none;
         }
 
-        .week.js-collapsed > h4 {
+        .week.js-collapsed:not(.week_trained) > h4:not(.week__holder__empty) {
             display: block;
+        }
+
+        .week.week_trained.js-collapsed > h4:not(.week__holder__empty) {
+            display: flex;
         }
 
         .week.js-collapsed .week__content,
         .week.js-collapsed .week__holder__empty {
             display: none;
+        }
+
+        .week.week_trained >h4 :last-child {
+            display: inline;
         }
 
         .week > h4:not(.week__holder__empty) {
@@ -384,7 +406,17 @@
                 weekHolder.classList.add("week");
 
                 if (week.groups.every(group => group.trained)) {
-                    weekHolder.style.color = "#ACACCC";
+                    weekHolder.classList.add("week_trained");
+                    weekHeader.textContent = "";
+
+                    let weekHeaderTitle = document.createElement("span");
+                    weekHeaderTitle.textContent = `Week ${week.id}`;
+
+                    let weekHeaderTrainedLabel = document.createElement("span");
+                    weekHeaderTrainedLabel.textContent = "trained";
+
+                    weekHeader.appendChild(weekHeaderTitle);
+                    weekHeader.appendChild(weekHeaderTrainedLabel);
                 }
 
                 week.groups.forEach((group, groupIndex) => {
