@@ -17,6 +17,7 @@
         --compound-color-beige: #FFD6B0;
         --compound-color-clam-shell: #CCB6AC;
         --shades-color-wet-asphalt: #3C3E40;
+        --triad-monochromic-color-vivid-tangerine: #FF8F89;
     }
 
     .iteration {
@@ -50,9 +51,16 @@
     }
 
     .week.week_trained > h4 {
-        color: var(--compound-color-light-purple);
         display: flex;
         justify-content: space-around;
+    }
+
+    .week.week_trained:not(.week_fucked) > h4 {
+        color: var(--compound-color-light-purple);
+    }
+
+    .week.week_trained.week_fucked > h4 {
+        color: var(--triad-monochromic-color-vivid-tangerine);
     }
 
     .week.week_trained >h4 :last-child {
@@ -60,7 +68,14 @@
         padding: 0 5px 3px;
         border-radius: 4px;
         color: var(--main-color-blue);
+    }
+
+    .week.week_trained:not(.week_fucked) >h4 :last-child {
         background-color: var(--compound-color-light-purple);
+    }
+
+    .week.week_trained.week_fucked >h4 :last-child {
+        background-color: var(--triad-monochromic-color-vivid-tangerine);
     }
 
     .week > h4:not(.week__holder__empty) {
@@ -419,6 +434,34 @@
                     weekHeader.appendChild(weekHeaderTitle);
                     weekHeader.appendChild(weekHeaderTrainedLabel);
                 }
+                else if (week.groups.every(group => group.fucked)) {
+                    weekHolder.classList.add("week_trained");
+                    weekHolder.classList.add("week_fucked");
+                    weekHeader.textContent = "";
+
+                    let weekHeaderTitle = document.createElement("span");
+                    weekHeaderTitle.textContent = `Week ${week.id}`;
+
+                    let weekHeaderTrainedLabel = document.createElement("span");
+                    weekHeaderTrainedLabel.textContent = "fucked";
+
+                    weekHeader.appendChild(weekHeaderTitle);
+                    weekHeader.appendChild(weekHeaderTrainedLabel);
+                }
+                else if (week.groups.every(group => group.trained || group.fucked)) {
+                    weekHolder.classList.add("week_trained");
+                    weekHolder.classList.add("week_fucked");
+                    weekHeader.textContent = "";
+
+                    let weekHeaderTitle = document.createElement("span");
+                    weekHeaderTitle.textContent = `Week ${week.id}`;
+
+                    let weekHeaderTrainedLabel = document.createElement("span");
+                    weekHeaderTrainedLabel.textContent = "trained / fucked";
+
+                    weekHeader.appendChild(weekHeaderTitle);
+                    weekHeader.appendChild(weekHeaderTrainedLabel);
+                }
 
                 week.groups.forEach((group, groupIndex) => {
                     let beforeGroupHolderEmptyElementForHeading = document.createElement("h4");
@@ -430,6 +473,10 @@
 
                     if (group.trained) {
                         groupHolder.style.color = "#ACACCC";
+                    }
+
+                    if (group.fucked) {
+                        groupHolder.style.color = "#FF8F89";
                     }
 
                     group.exercises.forEach((exercise, exerciseIndex) => {
