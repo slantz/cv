@@ -41,3 +41,17 @@ server {
 }
 ```
 - Restart nginx `sudo service nginx restart`.
+
+## Docker
+### Build image
+- go to the project root directory
+- build docker image with `docker build -t kblnsk/cv .`. :exclamation: Be sure that `.env` file is present within the build environment.
+- push to docker hub `docker-compose push`
+### Run container
+- `docker run -d kblnsk/cv` 
+
+## Deploy to AWS
+- Login `$(aws ecr get-login --no-include-email --region eu-central-1)`
+- Build docker image for AWS `docker build -t cv:latest .`
+- Tag AWS docker image `docker tag cv:latest 422803361886.dkr.ecr.eu-central-1.amazonaws.com/cv:latest`
+- Docker push image to AWS `docker push 422803361886.dkr.ecr.eu-central-1.amazonaws.com/cv:latest`

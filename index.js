@@ -69,7 +69,7 @@ app.get(/^\/.*(?!(playground|timesheet)).*$/, function(req, res) {
 
 var port = Number(process.env.PORT || 3001);
 app.listen(port, function () {
-  console.log('server running at localhost:3001, go refresh and see magic');
+  console.log(`server running at localhost:${port}, go refresh and see magic`);
 });
 
 if (env.production === false) {
