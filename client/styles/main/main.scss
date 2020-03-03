@@ -40,7 +40,7 @@ body {
         background: linear-gradient(45deg, $color-dodger-blue 0%, $color-cornflower-blue 100%);
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$color-dodger-blue}', endColorstr='#{$color-cornflower-blue}', GradientType=1);
         &.back-in-black {
-            background: $color-black;
+            background: $color-port-gore;
         }
         &-back-in-black-button {
             position: fixed;

@@ -6,10 +6,10 @@ let spacedBackInBlack = CORE_CONSTANTS.STRING_SPACE + DOM_CONSTANTS.CLASS_BACK_I
 let spacedBlackOrPurple = CORE_CONSTANTS.STRING_SPACE + DOM_CONSTANTS.CLASS_BUTTON_BLACK
 
 export default function landing(state = {
-    backInBlack: CORE_CONSTANTS.STRING_EMPTY,
+    backInBlack: spacedBackInBlack,
     backInBlackButton: {
-        text: DOM_CONSTANTS.INNER_TEXT_BACK_IN_BLACK_DEFAULT,
-        className: spacedBlackOrPurple
+        text: DOM_CONSTANTS.INNER_TEXT_BACK_IN_BLACK_PURPLE,
+        className: CORE_CONSTANTS.STRING_SPACE + DOM_CONSTANTS.CLASS_BUTTON_PURPLE
     },
 }, { type }) {
     switch(type) {
