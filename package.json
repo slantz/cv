@@ -40,7 +40,7 @@
     "compression": "1.7.0",
     "cross-env": "5.0.2",
     "dotenv": "4.0.0",
-    "ejs": "2.5.7",
+    "ejs": "3.1.10",
     "express": "^4.15.3",
     "express-ejs-layouts": "2.3.1",
     "flexboxgrid": "^6.3.1",
