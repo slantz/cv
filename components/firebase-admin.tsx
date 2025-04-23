@@ -4,21 +4,18 @@ import type React from "react"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { collection, addDoc, doc, setDoc } from "firebase/firestore"
-import { db } from "@/lib/firebase"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Portal } from "@/components/ui/portal"
-import { X, Plus, Save, Trash } from "lucide-react"
+import { X, Plus, Save, Trash, AlertTriangle } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
-// This is a simple admin component for adding data to Firebase
-// In a real application, you would want to secure this with authentication
+// This is a client component that interacts with the admin API
 export function FirebaseAdmin() {
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null)
+  const [message, setMessage] = useState<{ type: "success" | "error" | "warning"; text: string } | null>(null)
   const router = useRouter()
 
   // Form data for a new section
@@ -62,28 +59,38 @@ export function FirebaseAdmin() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
     setIsLoading(true)
     setMessage(null)
 
     try {
-      // Add the section document
-      const sectionRef = await addDoc(collection(db, "cv-sections"), {
-        title: sectionData.title,
-        description: sectionData.description,
-        order: Number(sectionData.order),
+      // Prepare the data
+      const formattedDetails = details.map((detail) => ({
+        title: detail.title,
+        description: detail.description,
+        tags: detail.tags
+          .split(",")
+          .map((tag) => tag.trim())
+          .filter(Boolean),
+        order: Number(detail.order),
+      }))
+
+      // Send the data to the API
+      const response = await fetch("/api/admin/cv-sections", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: sectionData.title,
+          description: sectionData.description,
+          order: Number(sectionData.order),
+          details: formattedDetails,
+        }),
       })
 
-      // Add each detail as a subdocument
-      for (const [index, detail] of details.entries()) {
-        await setDoc(doc(db, `cv-sections/${sectionRef.id}/details`, `detail-${index}`), {
-          title: detail.title,
-          description: detail.description,
-          tags: detail.tags
-            .split(",")
-            .map((tag) => tag.trim())
-            .filter(Boolean),
-          order: index,
-        })
+      if (!response.ok) {
+        throw new Error(`Failed to add section: ${response.statusText}`)
       }
 
       // Reset form
@@ -151,10 +158,15 @@ export function FirebaseAdmin() {
                 <form onSubmit={handleSubmit} className="p-6 space-y-6">
                   {message && (
                     <div
-                      className={`p-4 rounded-lg ${
-                        message.type === "success" ? "bg-green-900/20 text-green-400" : "bg-red-900/20 text-red-400"
+                      className={`p-4 rounded-lg flex items-start gap-3 ${
+                        message.type === "success"
+                          ? "bg-green-900/20 text-green-400"
+                          : message.type === "warning"
+                            ? "bg-yellow-900/20 text-yellow-400"
+                            : "bg-red-900/20 text-red-400"
                       }`}
                     >
+                      {message.type === "warning" && <AlertTriangle className="h-5 w-5 flex-shrink-0" />}
                       {message.text}
                     </div>
                   )}

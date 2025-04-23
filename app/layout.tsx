@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import GoogleAnalytics from "@/components/google-analytics"
 import AnalyticsConsent from "@/components/analytics-consent"
 import { Suspense } from "react"
+import { AuthProvider } from "@/components/auth-context"
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -19,9 +20,7 @@ const robotoMono = Roboto_Mono({
 
 export const metadata: Metadata = {
   title: "John Doe | Web3 Developer & Blockchain Enthusiast",
-  description:
-    "Professional portfolio of John Doe, a Web3 developer specializing in blockchain technologies, smart contracts, and decentralized applications.",
-    generator: 'v0.dev'
+  description: "Professional portfolio of John Doe, a Web3 developer specializing in blockchain technologies, smart contracts, and decentralized applications."
 }
 
 export default function RootLayout({
@@ -34,15 +33,19 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <head />
+    <head>
+      <title>John Doe | Web3 Developer & Blockchain Enthusiast</title>
+    </head>
       <body className={`${spaceGrotesk.variable} ${robotoMono.variable} font-sans antialiased bg-pool-richBlack`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={true} disableTransitionOnChange>
-          <Suspense>
-            {children}
-            <AnalyticsConsent />
-            <GoogleAnalytics GA_MEASUREMENT_ID={GA_MEASUREMENT_ID} />
-          </Suspense>
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={true} disableTransitionOnChange>
+            <Suspense>
+              {children}
+              <AnalyticsConsent />
+              <GoogleAnalytics GA_MEASUREMENT_ID={GA_MEASUREMENT_ID} />
+            </Suspense>
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   )

@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import {Github, Linkedin, ChevronDown, ChevronUp, AlertCircle, Send, MessageCircle} from "lucide-react"
+import {Github, Linkedin, ChevronDown, ChevronUp, AlertCircle, Send, MessageCircle, Info} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { useCVData } from "@/hooks/use-cv-data"
@@ -16,10 +16,13 @@ import { KeyboardShortcuts } from "@/components/keyboard-shortcuts"
 import {Logo} from "@/components/logo";
 import {ContactDetails} from "@/components/contact-details";
 import {Avatar} from "@/components/avatar";
+import { ContactForm } from "@/components/contact-form"
+import { AuthButton } from "@/components/auth-button"
 
 export default function CVWebsite() {
-  const { cvData, isLoading, error } = useCVData()
+  const { cvData, isLoading, error, usingMockData } = useCVData()
   const [expandedId, setExpandedId] = useState<string | null>(null)
+  const [isContactFormOpen, setIsContactFormOpen] = useState(false)
 
   // Initialize analytics
   const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || ""
@@ -56,6 +59,7 @@ export default function CVWebsite() {
       <header className="container mx-auto py-6 px-4 flex justify-between items-center relative z-10">
         <Logo />
         <div className="flex items-center gap-4">
+          <AuthButton />
           <ThemeToggle />
           <div className="flex gap-2">
             <Button
@@ -103,7 +107,10 @@ export default function CVWebsite() {
                   <CVDownload />
                 </div>
                 <div data-shortcut="contact">
-                  <GlowButton variant="secondary" onClick={() => trackButtonClick("contact_me")}>
+                  <GlowButton variant="secondary" onClick={() => {
+                    trackButtonClick("contact_me")
+                    setIsContactFormOpen(true)
+                  }}>
                     <span className="flex items-center justify-center">
                       <span>Contact Me</span>
                     </span>
@@ -114,65 +121,56 @@ export default function CVWebsite() {
           </div>
         </section>
 
+        {usingMockData && (
+          <div className="max-w-5xl mx-auto mb-6">
+            <div className="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-3 flex items-center gap-3">
+              <Info className="h-5 w-5 text-yellow-400 flex-shrink-0" />
+              <p className="text-sm text-yellow-200">
+                Firebase connection unavailable. Displaying mock data instead. Please check your Firebase configuration.
+              </p>
+            </div>
+          </div>
+        )}
+
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="max-w-4xl mx-auto mb-16 text-center"
+          className="max-w-5xl mx-auto mb-16"
         >
-          <div className="inline-block px-6 py-2 rounded-full bg-gray-800/80 backdrop-blur-sm border border-gray-700 mb-12">
-            <h3 className="text-xl font-medium text-gray-300">
-              <span className="text-purple-400 font-semibold">{new Date().getFullYear() - new Date('2013').getFullYear()}+</span> Years Experience in{" "}
-              <span className="text-cyan-400 font-semibold">Software Development</span>
-            </h3>
-          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start mb-12">
+            <div className="md:col-span-2">
+              <div className="text-center md:text-left">
+                <div className="inline-block px-6 py-2 rounded-full bg-gray-800/80 backdrop-blur-sm border border-gray-700 mb-8">
+                  <h3 className="text-xl font-medium text-gray-300">
+                    <span className="text-purple-400 font-semibold">{new Date().getFullYear() - new Date('2013').getFullYear()}+</span> Years Experience in{" "}
+                    <span className="text-cyan-400 font-semibold">Software Development</span>
+                  </h3>
+                </div>
 
-          <div className="flex flex-wrap justify-center gap-2 mb-16">
-            <SkillBadge name="Solidity" level={5} />
-            <SkillBadge name="Smart Contracts" level={5} />
-            <SkillBadge name="React" level={5} />
-            <SkillBadge name="TypeScript" level={4} />
-            <SkillBadge name="Ethers.js" level={4} />
-            <SkillBadge name="DeFi" level={4} />
-            <SkillBadge name="NFTs" level={4} />
-            <SkillBadge name="The Graph" level={3} />
-            <SkillBadge name="Hardhat" level={4} />
-            <SkillBadge name="Tokenomics" level={3} />
-            <SkillBadge name="Layer 2" level={3} />
+                <div className="flex flex-wrap justify-center md:justify-start gap-2">
+                  <SkillBadge name="Solidity" level={5} />
+                  <SkillBadge name="Smart Contracts" level={5} />
+                  <SkillBadge name="React" level={5} />
+                  <SkillBadge name="TypeScript" level={4} />
+                  <SkillBadge name="Ethers.js" level={4} />
+                  <SkillBadge name="DeFi" level={4} />
+                  <SkillBadge name="NFTs" level={4} />
+                  <SkillBadge name="The Graph" level={3} />
+                  <SkillBadge name="Hardhat" level={4} />
+                  <SkillBadge name="Tokenomics" level={3} />
+                  <SkillBadge name="Layer 2" level={3} />
+                </div>
+              </div>
+            </div>
+
+            <div className="md:col-span-1">
+              <ContactDetails />
+            </div>
           </div>
         </motion.div>
 
-        {/* Contact Details Section */}
-        <section className="max-w-4xl mx-auto mb-16">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="md:col-span-2">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="rounded-xl border border-gray-700 bg-gray-800/50 backdrop-blur-sm p-6 h-full"
-              >
-                <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500 mb-4">
-                  About Me
-                </h3>
-                <p className="text-gray-300 mb-4">
-                  I'm a passionate Web3 developer with expertise in blockchain technologies and decentralized
-                  applications. My journey in the crypto space began in 2017, and I've been building innovative
-                  solutions ever since.
-                </p>
-                <p className="text-gray-300">
-                  With a background in both frontend and smart contract development, I bridge the gap between user
-                  experience and blockchain functionality. I'm particularly interested in DeFi protocols, NFT platforms,
-                  and DAO governance systems.
-                </p>
-              </motion.div>
-            </div>
-
-            <ContactDetails />
-          </div>
-        </section>
-
-        <section className="max-w-4xl mx-auto grid gap-6">
+        <section className="max-w-5xl mx-auto grid gap-6">
           {isLoading ? (
             <div className="flex justify-center py-20">
               <div className="animate-pulse flex space-x-4">
@@ -181,7 +179,7 @@ export default function CVWebsite() {
                 <div className="h-3 w-3 bg-cyan-400 rounded-full"></div>
               </div>
             </div>
-          ) : error ? (
+          ) : error && !usingMockData ? (
             <div className="rounded-xl overflow-hidden border border-red-500/50 bg-red-950/10 p-6 text-center">
               <AlertCircle className="h-8 w-8 text-red-400 mx-auto mb-2" />
               <h3 className="text-lg font-semibold text-red-400 mb-1">Error Loading Data</h3>
@@ -326,6 +324,7 @@ export default function CVWebsite() {
           </div>
         </div>
       </footer>
+      <ContactForm isOpen={isContactFormOpen} onClose={() => setIsContactFormOpen(false)} />
     </div>
   )
 }

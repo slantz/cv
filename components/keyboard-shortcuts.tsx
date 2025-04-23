@@ -24,14 +24,11 @@ export function KeyboardShortcuts() {
           window.scrollTo({ top: 0, behavior: "smooth" })
           break
         case "c":
-          // Scroll to contact section
+          // Open contact form
           const contactButton = document.querySelector('[data-shortcut="contact"]')
           if (contactButton) {
-            contactButton.scrollIntoView({ behavior: "smooth" })
-            // Simulate click after scrolling
-            setTimeout(() => {
-              ;(contactButton as HTMLElement).click()
-            }, 500)
+            // Simulate click to open contact form
+            ;(contactButton as HTMLElement).click()
           }
           break
         case "d":

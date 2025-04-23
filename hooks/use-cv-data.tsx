@@ -17,64 +17,192 @@ export interface CVSection {
   }[]
 }
 
-export function useCVData() {
-  const [cvData, setCVData] = useState<CVSection[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+// Mock data to use as fallback when Firebase is not available
+const mockCVData: CVSection[] = [
+  {
+    id: "smart-contracts",
+    title: "Smart Contracts",
+    description: "Developing secure and efficient blockchain solutions",
+    order: 0,
+    details: [
+      {
+        title: "DeFi Lending Protocol",
+        description:
+          "Developed a decentralized lending protocol with automated interest rate adjustments based on market conditions.",
+        tags: ["Solidity", "OpenZeppelin", "Hardhat", "Ethers.js"],
+      },
+      {
+        title: "NFT Marketplace",
+        description:
+          "Built a gas-optimized NFT marketplace with royalty distribution and on-chain metadata verification.",
+        tags: ["ERC-721", "ERC-1155", "IPFS", "Solidity"],
+      },
+      {
+        title: "DAO Governance",
+        description:
+          "Implemented a decentralized autonomous organization with proposal voting and treasury management.",
+        tags: ["Compound Governor", "Snapshot", "Solidity"],
+      },
+    ],
+  },
+  {
+    id: "frontend-magic",
+    title: "Frontend Magic",
+    description: "Creating intuitive and responsive user interfaces",
+    order: 1,
+    details: [
+      {
+        title: "Web3 Wallet Integration",
+        description:
+          "Seamless integration with multiple wallet providers including MetaMask, WalletConnect, and Coinbase Wallet.",
+        tags: ["ethers.js", "web3-react", "React", "TypeScript"],
+      },
+      {
+        title: "DApp Dashboard",
+        description: "Built an analytics dashboard for tracking on-chain metrics and user interactions with DApps.",
+        tags: ["React", "TailwindCSS", "The Graph", "D3.js"],
+      },
+      {
+        title: "Cross-chain Bridge UI",
+        description: "Designed and implemented a user interface for a cross-chain bridge supporting multiple networks.",
+        tags: ["Next.js", "framer-motion", "Chakra UI"],
+      },
+    ],
+  },
+  {
+    id: "tokenomics",
+    title: "Tokenomics",
+    description: "Designing sustainable token economies",
+    order: 2,
+    details: [
+      {
+        title: "Token Distribution Model",
+        description: "Created a fair launch token distribution model with vesting schedules for team and investors.",
+        tags: ["Economic Modeling", "Game Theory"],
+      },
+      {
+        title: "Staking Mechanism",
+        description: "Designed a staking mechanism with dynamic rewards based on network participation.",
+        tags: ["Tokenomics", "DeFi", "Yield Farming"],
+      },
+      {
+        title: "Governance Token",
+        description: "Implemented a governance token with quadratic voting to prevent whale dominance.",
+        tags: ["DAO", "Governance", "Voting Systems"],
+      },
+    ],
+  },
+  {
+    id: "blockchain-infrastructure",
+    title: "Blockchain Infrastructure",
+    description: "Building the backbone of decentralized applications",
+    order: 3,
+    details: [
+      {
+        title: "Layer 2 Integration",
+        description: "Integrated Optimistic Rollups and ZK-Rollups for scalable and cost-effective transactions.",
+        tags: ["Optimism", "zkSync", "Arbitrum", "Polygon"],
+      },
+      {
+        title: "Node Operation",
+        description: "Set up and maintained validator nodes for multiple proof-of-stake networks.",
+        tags: ["Ethereum", "Solana", "Avalanche", "Docker"],
+      },
+      {
+        title: "Cross-chain Messaging",
+        description: "Implemented secure cross-chain messaging protocols for interoperability between blockchains.",
+        tags: ["LayerZero", "Axelar", "Wormhole"],
+      },
+    ],
+  },
+]
+
+export function useCVData(initialData: CVSection[] | null = null) {
+  const [cvData, setCVData] = useState<CVSection[]>(initialData || [])
+  const [isLoading, setIsLoading] = useState(!initialData)
   const [error, setError] = useState<string | null>(null)
+  const [usingMockData, setUsingMockData] = useState(false)
 
   useEffect(() => {
+    // If we already have data from the server, don't fetch again
+    if (initialData) {
+      setCVData(initialData)
+      setIsLoading(false)
+      return
+    }
+
     const fetchData = async () => {
       setIsLoading(true)
       setError(null)
+      setUsingMockData(false)
 
       try {
-        // Query the cv-sections collection, ordered by the 'order' field
-        const sectionsQuery = query(collection(db, "cv-sections"), orderBy("order", "asc"))
-
-        const sectionsSnapshot = await getDocs(sectionsQuery)
-
-        if (sectionsSnapshot.empty) {
-          setError("No CV data found. Please add some data to your Firebase collection.")
+        // Check if Firebase and Firestore are available
+        if (typeof window === "undefined" || !db) {
+          console.log("Firestore not available, using mock data")
+          setUsingMockData(true)
+          setCVData(mockCVData)
           setIsLoading(false)
           return
         }
 
-        const sections: CVSection[] = []
+        // Try to fetch data from Firestore
+        try {
+          // Query the cv-sections collection, ordered by the 'order' field
+          const sectionsQuery = query(collection(db, "cv-sections"), orderBy("order", "asc"))
+          const sectionsSnapshot = await getDocs(sectionsQuery)
 
-        // Process each section document
-        for (const sectionDoc of sectionsSnapshot.docs) {
-          const sectionData = sectionDoc.data() as Omit<CVSection, "id" | "details">
+          if (sectionsSnapshot.empty) {
+            console.log("No CV data found in Firestore, using mock data")
+            setUsingMockData(true)
+            setCVData(mockCVData)
+            return
+          }
 
-          // Query the details subcollection for this section
-          const detailsQuery = query(collection(db, `cv-sections/${sectionDoc.id}/details`), orderBy("order", "asc"))
+          const sections: CVSection[] = []
 
-          const detailsSnapshot = await getDocs(detailsQuery)
+          // Process each section document
+          for (const sectionDoc of sectionsSnapshot.docs) {
+            const sectionData = sectionDoc.data() as Omit<CVSection, "id" | "details">
 
-          const details = detailsSnapshot.docs.map((detailDoc) => {
-            return detailDoc.data() as CVSection["details"][0]
-          })
+            // Query the details subcollection for this section
+            const detailsQuery = query(collection(db, `cv-sections/${sectionDoc.id}/details`), orderBy("order", "asc"))
 
-          // Add the section with its details to our array
-          sections.push({
-            id: sectionDoc.id,
-            title: sectionData.title,
-            description: sectionData.description,
-            order: sectionData.order,
-            details: details,
-          })
+            const detailsSnapshot = await getDocs(detailsQuery)
+
+            const details = detailsSnapshot.docs.map((detailDoc) => {
+              return detailDoc.data() as CVSection["details"][0]
+            })
+
+            // Add the section with its details to our array
+            sections.push({
+              id: sectionDoc.id,
+              title: sectionData.title,
+              description: sectionData.description,
+              order: sectionData.order,
+              details: details,
+            })
+          }
+
+          setCVData(sections)
+        } catch (firestoreError) {
+          console.error("Error fetching from Firestore:", firestoreError)
+          console.log("Falling back to mock data")
+          setUsingMockData(true)
+          setCVData(mockCVData)
         }
-
-        setCVData(sections)
       } catch (err) {
-        console.error("Error fetching CV data:", err)
-        setError("Failed to load CV data. Please try again later.")
+        console.error("Error in data fetching:", err)
+        setError("Failed to load CV data. Using mock data instead.")
+        setUsingMockData(true)
+        setCVData(mockCVData)
       } finally {
         setIsLoading(false)
       }
     }
 
     fetchData()
-  }, [])
+  }, [initialData])
 
-  return { cvData, isLoading, error }
+  return { cvData, isLoading, error, usingMockData }
 }
