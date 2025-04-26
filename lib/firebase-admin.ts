@@ -1,4 +1,7 @@
-// Full Firebase Admin SDK for admin pages and authentication
+// This file is for server-side Firebase Admin SDK usage only
+// It should ONLY be imported in API routes or server components
+// that handle admin functionality
+
 import { initializeApp, cert, getApps } from "firebase-admin/app"
 import { getFirestore } from "firebase-admin/firestore"
 import { getAuth } from "firebase-admin/auth"

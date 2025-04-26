@@ -1,13 +1,12 @@
-// Create a new API route for contact messages that uses firebase-admin
 import { type NextRequest, NextResponse } from "next/server"
-import { adminDb } from "@/lib/firebase-admin"
-import { verifySessionCookie, isAuthorizedAdmin } from "@/lib/firebase-admin"
+import { cookies } from "next/headers"
+import { adminDb, verifySessionCookie, isAuthorizedAdmin } from "@/lib/firebase-admin"
 
 // GET handler to fetch all contact messages
 export async function GET(request: NextRequest) {
   try {
     // Verify authentication
-    const sessionCookie = request.cookies.get("__session")?.value
+    const sessionCookie = (await cookies()).get("__session")?.value
     if (!sessionCookie) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
@@ -46,7 +45,7 @@ export async function GET(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   try {
     // Verify authentication
-    const sessionCookie = request.cookies.get("__session")?.value
+    const sessionCookie = (await cookies()).get("__session")?.value
     if (!sessionCookie) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
@@ -94,7 +93,7 @@ export async function PATCH(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   try {
     // Verify authentication
-    const sessionCookie = request.cookies.get("__session")?.value
+    const sessionCookie = (await cookies()).get("__session")?.value
     if (!sessionCookie) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }

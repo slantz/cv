@@ -4,8 +4,7 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import {Github, Linkedin, ChevronDown, ChevronUp, AlertCircle, Send, MessageCircle, Info} from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { useCVData } from "@/hooks/use-cv-data"
+import { useCVData, type CVSection } from "@/hooks/use-cv-data"
 import { AnimatedBackground } from "@/components/animated-background"
 import { GlowButton } from "@/components/glow-button"
 import { SkillBadge } from "@/components/skill-badge"
@@ -13,16 +12,19 @@ import { useAnalytics } from "@/hooks/use-analytics"
 import { event } from "@/lib/analytics"
 import { CVDownload } from "@/components/cv-download"
 import { KeyboardShortcuts } from "@/components/keyboard-shortcuts"
-import {Logo} from "@/components/logo";
 import {ContactDetails} from "@/components/contact-details";
-import {Avatar} from "@/components/avatar";
 import { ContactForm } from "@/components/contact-form"
 import { AuthButton } from "@/components/auth-button"
+import { LoginModal } from "@/components/login-modal"
+import { useAdminHotkey } from "@/hooks/use-admin-hotkey"
+import {Logo} from "@/components/logo";
+import {Avatar} from "@/components/avatar";
 
-export default function CVWebsite() {
+export default function CVWebsitePage() {
   const { cvData, isLoading, error, usingMockData } = useCVData()
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [isContactFormOpen, setIsContactFormOpen] = useState(false)
+  const { isLoginModalOpen, setIsLoginModalOpen } = useAdminHotkey()
 
   // Initialize analytics
   const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || ""
@@ -56,11 +58,10 @@ export default function CVWebsite() {
       {/* Background grid effect */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
 
-      <header className="container mx-auto py-6 px-4 flex justify-between items-center relative z-10">
+      <header className="container mx-auto py-0 md:py-6 px-4 flex justify-between items-center relative z-10">
         <Logo />
         <div className="flex items-center gap-4">
           <AuthButton />
-          <ThemeToggle />
           <div className="flex gap-2">
             <Button
               variant="outline"
@@ -96,21 +97,26 @@ export default function CVWebsite() {
           <div className="w-full md:w-1/2 text-center md:text-left">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
               <h2 className="text-4xl md:text-6xl font-display font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500 leading-tight">
-                JS/TS/Java Dev/EM/Architect
+                Software Developer
               </h2>
               <p className="font-mono text-md md:text-lg text-gray-300 mb-8 leading-relaxed">
-                Building the decentralized future with cutting-edge technologies and innovative solutions. Specializing
-                in smart contracts, DeFi protocols, and Web3 frontends.
+                Engineering Lead & Full-Stack Developer with {new Date().getFullYear() - new Date('2013').getFullYear()}+ years in JS/TS/Java
+                and {new Date().getFullYear() - new Date('2019').getFullYear()}+ years leading teams. Delivered complex products (Cardano Spot,
+                USDA, Opower, aboutyou.de / aboutyou-outlet.de), drove architecture,
+                and mentored engineers. Active SPO in Apex Fusion Chain.
               </p>
               <div className="flex flex-wrap justify-center md:justify-start gap-4">
                 <div data-shortcut="download">
                   <CVDownload />
                 </div>
                 <div data-shortcut="contact">
-                  <GlowButton variant="secondary" onClick={() => {
-                    trackButtonClick("contact_me")
-                    setIsContactFormOpen(true)
-                  }}>
+                  <GlowButton
+                    variant="secondary"
+                    onClick={() => {
+                      trackButtonClick("contact_me")
+                      setIsContactFormOpen(true)
+                    }}
+                  >
                     <span className="flex items-center justify-center">
                       <span>Contact Me</span>
                     </span>
@@ -267,7 +273,7 @@ export default function CVWebsite() {
         </section>
       </main>
 
-      <footer className="container mx-auto py-12 px-4 mt-32 relative z-10">
+      <footer className="container mx-auto pt-12 pb-8 md:py-12 px-4 mt-32 relative z-10">
         <div className="max-w-5xl mx-auto border-t border-gray-800 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm">
@@ -325,6 +331,7 @@ export default function CVWebsite() {
         </div>
       </footer>
       <ContactForm isOpen={isContactFormOpen} onClose={() => setIsContactFormOpen(false)} />
+      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
     </div>
   )
 }

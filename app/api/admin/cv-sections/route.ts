@@ -1,13 +1,12 @@
-// Create a new API route for CV sections that uses firebase-admin
 import { type NextRequest, NextResponse } from "next/server"
-import { adminDb } from "@/lib/firebase-admin"
-import { verifySessionCookie, isAuthorizedAdmin } from "@/lib/firebase-admin"
+import { cookies } from "next/headers"
+import { adminDb, verifySessionCookie, isAuthorizedAdmin } from "@/lib/firebase-admin"
 
 // GET handler to fetch all CV sections
 export async function GET(request: NextRequest) {
   try {
     // Verify authentication
-    const sessionCookie = request.cookies.get("__session")?.value
+    const sessionCookie = (await cookies()).get("__session")?.value
     if (!sessionCookie) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
@@ -43,7 +42,10 @@ export async function GET(request: NextRequest) {
         .get()
 
       const details = detailsSnapshot.docs.map((detailDoc) => {
-        return detailDoc.data()
+        return {
+          id: detailDoc.id,
+          ...detailDoc.data(),
+        }
       })
 
       // Add the section with its details to our array
@@ -67,7 +69,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     // Verify authentication
-    const sessionCookie = request.cookies.get("__session")?.value
+    const sessionCookie = (await cookies()).get("__session")?.value
     if (!sessionCookie) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }

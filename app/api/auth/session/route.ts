@@ -1,6 +1,6 @@
 import { cookies } from "next/headers"
 import { type NextRequest, NextResponse } from "next/server"
-import { createSessionCookie, verifyIdToken } from "@/lib/firebase-admin"
+import { adminAuth } from "@/lib/firebase-admin"
 
 // Create a session cookie from an ID token
 export async function POST(request: NextRequest) {
@@ -12,14 +12,19 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify the ID token
-    const decodedToken = await verifyIdToken(idToken)
+    if (!adminAuth) {
+      return NextResponse.json({ error: "Firebase Admin Auth is not initialized" }, { status: 500 })
+    }
+
+    const decodedToken = await adminAuth.verifyIdToken(idToken)
 
     // Create a session cookie
     const expiresIn = 60 * 60 * 24 * 5 * 1000 // 5 days
-    const sessionCookie = await createSessionCookie(idToken, expiresIn)
+    const sessionCookie = await adminAuth.createSessionCookie(idToken, { expiresIn })
+    const responseCookies = await cookies();
 
     // Set the session cookie
-    cookies().set("__session", sessionCookie, {
+    responseCookies.set("__session", sessionCookie, {
       maxAge: expiresIn / 1000, // Convert to seconds
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -36,6 +41,6 @@ export async function POST(request: NextRequest) {
 
 // Delete the session cookie
 export async function DELETE() {
-  cookies().delete("__session")
+  (await cookies()).delete("__session")
   return NextResponse.json({ success: true })
 }

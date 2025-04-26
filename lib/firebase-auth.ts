@@ -1,19 +1,12 @@
 "use client"
 
-import { GithubAuthProvider, signInWithPopup, signOut as firebaseSignOut, getAuth } from "firebase/auth"
-import { app } from "@/lib/firebase"
-
-// Initialize Firebase Auth
-const auth = getAuth(app)
-
-// List of GitHub IDs that are allowed to access admin pages
-// In a real app, you might want to store this in Firestore
-const ALLOWED_GITHUB_IDS = [
-  process.env.NEXT_PUBLIC_ALLOWED_GITHUB_ID || "", // Add your GitHub ID here
-]
+import { GithubAuthProvider, signInWithPopup, signOut as firebaseSignOut } from "firebase/auth"
+import { auth } from "@/lib/firebase"
 
 // Sign in with GitHub
 export const signInWithGitHub = async () => {
+  if (!auth) throw new Error("Firebase Auth is not initialized")
+
   const provider = new GithubAuthProvider()
   provider.addScope("read:user")
 
@@ -23,6 +16,18 @@ export const signInWithGitHub = async () => {
     // Get GitHub user info from the credential
     const credential = GithubAuthProvider.credentialFromResult(result)
     const token = credential?.accessToken
+
+    // Get the ID token
+    const idToken = await result.user.getIdToken()
+
+    // Send the ID token to the server to create a session cookie
+    await fetch("/api/auth/session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ idToken }),
+    })
 
     // Get additional GitHub user data if needed
     if (token) {
@@ -48,43 +53,18 @@ export const signInWithGitHub = async () => {
 
 // Sign out
 export const signOut = async () => {
+  if (!auth) throw new Error("Firebase Auth is not initialized")
+
   try {
     await firebaseSignOut(auth)
+
+    // Clear the session cookie
+    await fetch("/api/auth/session", {
+      method: "DELETE",
+    })
   } catch (error) {
     console.error("Error signing out:", error)
     throw error
-  }
-}
-
-// Check if a user is authorized to access admin pages
-export const isAuthorizedAdmin = async (user: any) => {
-  if (!user) return false
-
-  // In development mode, allow all authenticated users
-  if (process.env.NODE_ENV === "development") {
-    console.log("Development mode: Allowing all authenticated users")
-    return true
-  }
-
-  try {
-    // Get the GitHub provider data
-    const githubProvider = user.providerData.find((provider: any) => provider.providerId === "github.com")
-
-    if (!githubProvider) return false
-
-    // Check if the user's GitHub ID is in the allowed list
-    // Note: Firebase Auth doesn't directly provide the GitHub ID,
-    // so we're using the UID from the GitHub provider data
-    if (ALLOWED_GITHUB_IDS.includes(githubProvider.uid)) {
-      return true
-    }
-
-    // If needed, you could also check a Firestore collection for authorized users
-
-    return false
-  } catch (error) {
-    console.error("Error checking admin authorization:", error)
-    return false
   }
 }
 

@@ -1,12 +1,10 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { collection, query, orderBy, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore"
-import { db } from "@/lib/firebase"
 import { Button } from "@/components/ui/button"
 import { Trash, Mail, MailOpen, ArrowLeft, AlertTriangle, Loader } from "lucide-react"
 import Link from "next/link"
-import { useAuth } from "@/components/auth-context"
+import { useRouter } from "next/navigation"
 
 interface ContactMessage {
   id: string
@@ -19,49 +17,59 @@ interface ContactMessage {
 }
 
 export default function ContactMessagesPage() {
-  const { user } = useAuth()
+  const router = useRouter()
   const [messages, setMessages] = useState<ContactMessage[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [selectedMessage, setSelectedMessage] = useState<ContactMessage | null>(null)
-  const [firebaseAvailable, setFirebaseAvailable] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
-    // Check if Firebase is available
-    if (typeof window !== "undefined" && db) {
-      setFirebaseAvailable(true)
-      fetchMessages()
-    } else {
-      setFirebaseAvailable(false)
-      setLoading(false)
-      setError("Firebase is not available. Cannot load contact messages.")
+    // Check if user is authenticated and admin
+    const checkAuth = async () => {
+      try {
+        // First check if user is logged in
+        const authResponse = await fetch("/api/auth/me")
+        if (!authResponse.ok) {
+          router.push("/auth/login?from=/admin/contact-messages")
+          return
+        }
+
+        const userData = await authResponse.json()
+        setUser(userData.user)
+
+        if (!userData.isAdmin) {
+          router.push("/auth/unauthorized")
+          return
+        }
+
+        setIsAdmin(true)
+
+        // Now fetch messages
+        fetchMessages()
+      } catch (err) {
+        console.error("Auth check error:", err)
+        router.push("/auth/login?from=/admin/contact-messages")
+      }
     }
-  }, [])
+
+    checkAuth()
+  }, [router])
 
   const fetchMessages = async () => {
     setLoading(true)
     setError(null)
 
     try {
-      const q = query(collection(db, "contact-messages"), orderBy("timestamp", "desc"))
+      const response = await fetch("/api/admin/contact-messages")
 
-      const querySnapshot = await getDocs(q)
+      if (!response.ok) {
+        throw new Error(`Failed to fetch messages: ${response.statusText}`)
+      }
 
-      const fetchedMessages: ContactMessage[] = []
-      querySnapshot.forEach((doc) => {
-        const data = doc.data()
-        fetchedMessages.push({
-          id: doc.id,
-          name: data.name || "",
-          email: data.email || "",
-          subject: data.subject || "",
-          message: data.message || "",
-          timestamp: data.timestamp,
-          read: data.read || false,
-        })
-      })
-
-      setMessages(fetchedMessages)
+      const data = await response.json()
+      setMessages(data)
     } catch (err) {
       console.error("Error fetching messages:", err)
       setError("Failed to load messages. Please try again.")
@@ -71,13 +79,21 @@ export default function ContactMessagesPage() {
   }
 
   const markAsRead = async (id: string) => {
-    if (!firebaseAvailable) return
-
     try {
-      const messageRef = doc(db, "contact-messages", id)
-      await updateDoc(messageRef, {
-        read: true,
+      const response = await fetch("/api/admin/contact-messages", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id,
+          read: true,
+        }),
       })
+
+      if (!response.ok) {
+        throw new Error("Failed to update message")
+      }
 
       // Update local state
       setMessages(messages.map((msg) => (msg.id === id ? { ...msg, read: true } : msg)))
@@ -91,13 +107,16 @@ export default function ContactMessagesPage() {
   }
 
   const deleteMessage = async (id: string) => {
-    if (!firebaseAvailable) return
-
     if (!confirm("Are you sure you want to delete this message?")) return
 
     try {
-      const messageRef = doc(db, "contact-messages", id)
-      await deleteDoc(messageRef)
+      const response = await fetch(`/api/admin/contact-messages?id=${id}`, {
+        method: "DELETE",
+      })
+
+      if (!response.ok) {
+        throw new Error("Failed to delete message")
+      }
 
       // Update local state
       setMessages(messages.filter((msg) => msg.id !== id))
@@ -114,14 +133,32 @@ export default function ContactMessagesPage() {
     if (!timestamp) return "Unknown date"
 
     try {
-      const date = timestamp.toDate()
-      return new Intl.DateTimeFormat("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      }).format(date)
+      // Handle Firestore timestamp objects
+      if (timestamp.toDate && typeof timestamp.toDate === "function") {
+        const date = timestamp.toDate()
+        return new Intl.DateTimeFormat("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        }).format(date)
+      }
+
+      // Handle serialized timestamps from API
+      if (timestamp.seconds) {
+        const date = new Date(timestamp.seconds * 1000)
+        return new Intl.DateTimeFormat("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        }).format(date)
+      }
+
+      // Handle string dates
+      return new Date(timestamp).toLocaleString()
     } catch (err) {
       return "Invalid date"
     }
@@ -132,6 +169,18 @@ export default function ContactMessagesPage() {
     if (!message.read) {
       markAsRead(message.id)
     }
+  }
+
+  // If not yet verified as admin, show loading
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+        <div className="flex flex-col items-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-current border-t-transparent mb-4" />
+          <p>Verifying admin access...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -146,18 +195,7 @@ export default function ContactMessagesPage() {
           <p className="text-gray-300">Manage messages from your contact form</p>
         </div>
 
-        {!firebaseAvailable ? (
-          <div className="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-6 text-center">
-            <AlertTriangle className="h-12 w-12 text-yellow-400 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-yellow-400 mb-2">Firebase Unavailable</h2>
-            <p className="text-gray-300 mb-4">
-              Firebase connection is not available. Contact messages cannot be loaded.
-            </p>
-            <p className="text-gray-400 text-sm">
-              Please check your Firebase configuration and ensure your environment variables are set correctly.
-            </p>
-          </div>
-        ) : loading ? (
+        {loading ? (
           <div className="flex justify-center py-20">
             <div className="flex flex-col items-center">
               <Loader className="h-8 w-8 text-cyan-400 animate-spin mb-4" />
