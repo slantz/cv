@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import {useRef, useState, useEffect} from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import {Github, Linkedin, ChevronDown, ChevronUp, AlertCircle, Send, MessageCircle, Info} from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -17,6 +17,8 @@ import { ContactForm } from "@/components/contact-form"
 import { AuthButton } from "@/components/auth-button"
 import { LoginModal } from "@/components/login-modal"
 import { useAdminHotkey } from "@/hooks/use-admin-hotkey"
+import { LanguageCard } from "@/components/language-card"
+import { AchievementsSection } from "@/components/achievements-section"
 import {Logo} from "@/components/logo";
 import {Avatar} from "@/components/avatar";
 
@@ -25,10 +27,118 @@ export default function CVWebsitePage() {
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [isContactFormOpen, setIsContactFormOpen] = useState(false)
   const { isLoginModalOpen, setIsLoginModalOpen } = useAdminHotkey()
+  const skillsContainerRef = useRef<HTMLDivElement>(null)
+  const [skillsData, setSkillsData] = useState({
+    JavaScript: [
+      ["TypeScript", "CoffeeScript"],
+      [
+        "React",
+        "Next.js",
+        "Vue.js",
+        "Nuxt",
+        "AngularJS",
+        "Angular",
+        "RxJS",
+        "Backbone.js",
+        "Marionette JS",
+        "Ember.js",
+        "Redux",
+        "MobX",
+        "Cordova",
+        "React Native",
+      ],
+      ["jQuery", "Lodash", "REQUIRE.JS"],
+      ["Grunt", "Gulp", "Webpack", "Vite"],
+      ["npm", "bower", "yarn", "pnpm"],
+    ],
+    Solidity: [
+      ["ERC Standards", "ERC-20", "ERC-721", "ERC-1155"],
+      ["OpenZeppelin", "Hardhat", "Truffle", "Foundry"],
+      ["Ethers.js", "Web3.js", "Ganache"],
+      ["Gas Optimization", "Security Patterns"],
+    ],
+    "Smart Contracts": [
+      ["DeFi Protocols", "AMMs", "Lending", "Staking"],
+      ["NFT Marketplaces", "Royalties", "Metadata"],
+      ["DAO Governance", "Voting Systems"],
+      ["Multi-sig", "Proxy Patterns", "Diamond Standard"],
+    ],
+    React: [
+      ["Hooks", "Context API", "Custom Hooks"],
+      ["Redux", "MobX", "Zustand", "Jotai", "Recoil"],
+      ["Styled Components", "Emotion", "Tailwind CSS"],
+      ["React Query", "SWR", "Apollo Client"],
+      ["Testing Library", "Jest", "Cypress"],
+    ],
+    TypeScript: [
+      ["Advanced Types", "Generics", "Utility Types"],
+      ["Type Guards", "Discriminated Unions"],
+      ["Decorators", "Metadata Reflection"],
+      ["TSX", "Module Augmentation"],
+    ],
+    "Ethers.js": [
+      ["Providers", "Signers", "Contract Interaction"],
+      ["Transaction Management", "Gas Estimation"],
+      ["ENS Integration", "Event Listening"],
+      ["Multicall", "Batching"],
+    ],
+    DeFi: [
+      ["Lending Protocols", "Aave", "Compound"],
+      ["DEXs", "Uniswap", "Curve", "Balancer"],
+      ["Yield Farming", "Liquidity Mining"],
+      ["Stablecoins", "Synthetics", "Derivatives"],
+    ],
+    NFTs: [
+      ["ERC-721", "ERC-1155", "Metadata Standards"],
+      ["IPFS", "Arweave", "Filecoin"],
+      ["Marketplaces", "Royalties", "Fractionalization"],
+      ["Dynamic NFTs", "On-chain SVG"],
+    ],
+    "The Graph": [
+      ["Subgraph Development", "GraphQL Schema"],
+      ["Entity Relationships", "Event Handling"],
+      ["Mappings", "AssemblyScript"],
+      ["Query Optimization", "Pagination"],
+    ],
+    Hardhat: [
+      ["Tasks", "Scripts", "Plugins"],
+      ["Testing", "Fixtures", "Mocks"],
+      ["Deployment", "Verification"],
+      ["Gas Reporting", "Coverage"],
+    ],
+    Tokenomics: [
+      ["Token Distribution", "Vesting", "Lockups"],
+      ["Incentive Mechanisms", "Game Theory"],
+      ["Governance", "Voting Power"],
+      ["Inflation", "Burning Mechanisms"],
+    ],
+    "Layer 2": [
+      ["Optimistic Rollups", "Optimism", "Arbitrum"],
+      ["ZK Rollups", "zkSync", "StarkNet"],
+      ["Sidechains", "Polygon", "Gnosis Chain"],
+      ["Cross-chain Bridges", "LayerZero", "Axelar"],
+    ],
+  })
 
   // Initialize analytics
   const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || ""
   useAnalytics(GA_MEASUREMENT_ID)
+
+  // Close expanded skill badges when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (skillsContainerRef.current && !skillsContainerRef.current.contains(event.target as Node)) {
+        // This will trigger a re-render which will collapse all badges
+        // We're using a new object reference to ensure the re-render
+        setSkillsData({ ...skillsData })
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
 
   const toggleExpand = (id: string) => {
     setExpandedId(expandedId === id ? null : id)
@@ -144,7 +254,7 @@ export default function CVWebsitePage() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="max-w-5xl mx-auto mb-16"
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-start mb-12">
             <div className="md:col-span-2">
               <div className="text-center md:text-left">
                 <div className="inline-block px-6 py-2 rounded-full bg-gray-800/80 backdrop-blur-sm border border-gray-700 mb-8">
@@ -154,20 +264,34 @@ export default function CVWebsitePage() {
                   </h3>
                 </div>
 
-                <div className="flex flex-wrap justify-center md:justify-start gap-2">
-                  <SkillBadge name="Solidity" level={5} />
-                  <SkillBadge name="Smart Contracts" level={5} />
-                  <SkillBadge name="React" level={5} />
-                  <SkillBadge name="TypeScript" level={4} />
-                  <SkillBadge name="Ethers.js" level={4} />
-                  <SkillBadge name="DeFi" level={4} />
-                  <SkillBadge name="NFTs" level={4} />
-                  <SkillBadge name="The Graph" level={3} />
-                  <SkillBadge name="Hardhat" level={4} />
-                  <SkillBadge name="Tokenomics" level={3} />
-                  <SkillBadge name="Layer 2" level={3} />
+                <div ref={skillsContainerRef} className="flex flex-wrap justify-center md:justify-start gap-2 relative">
+                  {Object.keys(skillsData).map((skill) => (
+                    <SkillBadge
+                      key={skill}
+                      name={skill}
+                      level={
+                        skill === "Solidity" ||
+                        skill === "Smart Contracts" ||
+                        skill === "React" ||
+                        skill === "JavaScript"
+                          ? 5
+                          : skill === "TypeScript" ||
+                          skill === "Ethers.js" ||
+                          skill === "DeFi" ||
+                          skill === "NFTs" ||
+                          skill === "Hardhat"
+                            ? 4
+                            : 3
+                      }
+                      details={skillsData[skill as keyof typeof skillsData]}
+                    />
+                  ))}
                 </div>
               </div>
+            </div>
+
+            <div className="md:col-span-1">
+              <LanguageCard />
             </div>
 
             <div className="md:col-span-1">
@@ -175,6 +299,9 @@ export default function CVWebsitePage() {
             </div>
           </div>
         </motion.div>
+
+        {/* Achievements Section */}
+        <AchievementsSection />
 
         <section className="max-w-5xl mx-auto grid gap-6">
           {isLoading ? (
