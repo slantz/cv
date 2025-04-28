@@ -2,7 +2,7 @@
 
 import {useRef, useState, useEffect} from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import {Github, Linkedin, ChevronDown, ChevronUp, AlertCircle, Send, MessageCircle, Info} from "lucide-react"
+import {Github, Linkedin, ChartBarStacked, ChevronDown, ChevronUp, AlertCircle, Send, MessageCircle, Info} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useCVData, type CVSection } from "@/hooks/use-cv-data"
 import { AnimatedBackground } from "@/components/animated-background"
@@ -197,6 +197,18 @@ export default function CVWebsitePage() {
                 <span className="sr-only">GitHub</span>
               </a>
             </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="rounded-full border-sky-500 hover:border-sky-400 hover:bg-sky-950/20"
+              onClick={() => trackButtonClick("github")}
+              asChild
+            >
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+                <ChartBarStacked className="h-5 w-5 text-sky-400" />
+                <span className="sr-only">GitHub</span>
+              </a>
+            </Button>
           </div>
         </div>
       </header>
@@ -256,8 +268,8 @@ export default function CVWebsitePage() {
         >
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-start mb-12">
             <div className="md:col-span-2">
-              <div className="text-center md:text-left">
-                <div className="inline-block px-6 py-2 rounded-full bg-gray-800/80 backdrop-blur-sm border border-gray-700 mb-8">
+              <div className="flex flex-col items-stretch justify-stretch">
+                <div className="inline-block text-center px-6 py-2 rounded-full bg-gray-800/80 backdrop-blur-sm border border-gray-700 mb-8">
                   <h3 className="text-xl font-medium text-gray-300">
                     <span className="text-purple-400 font-semibold">{new Date().getFullYear() - new Date('2013').getFullYear()}+</span> Years Experience in{" "}
                     <span className="text-cyan-400 font-semibold">Software Development</span>
@@ -332,16 +344,11 @@ export default function CVWebsitePage() {
             </div>
           ) : (
             cvData.map((section, index) => (
-              <motion.div
+              <div
                 key={section.id}
-                layout
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="rounded-xl overflow-hidden border border-gray-700 bg-gray-800/50 backdrop-blur-sm hover:shadow-[0_0_25px_rgba(168,85,247,0.2)] transition-all duration-300 hover:-translate-y-1"
+                className="rounded-xl overflow-hidden border border-gray-700 bg-gray-800/50 backdrop-blur-sm hover:shadow-[0_0_25px_rgba(168,85,247,0.2)] transition-all duration-300"
               >
-                <motion.button
-                  layout
+                <button
                   onClick={() => toggleExpand(section.id)}
                   className="w-full p-6 flex justify-between items-center text-left"
                 >
@@ -356,7 +363,7 @@ export default function CVWebsitePage() {
                   ) : (
                     <ChevronDown className="h-5 w-5 text-purple-400" />
                   )}
-                </motion.button>
+                </button>
 
                 <AnimatePresence>
                   {expandedId === section.id && (
@@ -394,7 +401,7 @@ export default function CVWebsitePage() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </motion.div>
+              </div>
             ))
           )}
         </section>

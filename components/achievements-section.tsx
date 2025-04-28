@@ -15,7 +15,7 @@ const Achievement = ({ icon, text }: AchievementProps) => (
     transition={{ duration: 0.3 }}
     className="flex items-start gap-3 group"
   >
-    <div className="w-8 h-8 rounded-full bg-gray-800/80 flex items-center justify-center border border-gray-700 group-hover:border-purple-500/50 transition-all mt-0.5 flex-shrink-0">
+    <div className="w-8 h-8 rounded-full bg-gray-800/80 flex items-center justify-center border border-gray-700 group-hover:border-slate-500/50 transition-all mt-0.5 flex-shrink-0">
       {icon}
     </div>
     <p className="text-sm text-gray-300 group-hover:text-white transition-colors">{text}</p>
@@ -61,10 +61,10 @@ export function AchievementsSection() {
   return (
     <div className="max-w-4xl mx-auto mb-20">
       <div className="text-center mb-10">
-        <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600 inline-block mb-2">
+        <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500 inline-block mb-2">
           Achievements
         </h2>
-        <div className="h-1 w-20 bg-gradient-to-r from-purple-400 to-pink-600 mx-auto rounded-full"></div>
+        <div className="h-1 w-20 bg-gradient-to-r from-purple-400 to-pink-500 mx-auto rounded-full"></div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

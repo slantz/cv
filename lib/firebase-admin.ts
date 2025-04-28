@@ -2,6 +2,8 @@
 // It should ONLY be imported in API routes or server components
 // that handle admin functionality
 
+import "server-only";
+
 import { initializeApp, cert, getApps } from "firebase-admin/app"
 import { getFirestore } from "firebase-admin/firestore"
 import { getAuth } from "firebase-admin/auth"

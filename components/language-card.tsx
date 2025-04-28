@@ -29,7 +29,7 @@ export function LanguageCard({ className }: LanguageCardProps) {
       transition={{ duration: 0.5, delay: 0.3 }}
       className={`rounded-xl border border-gray-700 bg-gray-800/50 backdrop-blur-sm p-5 ${className}`}
     >
-      <h3 className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-emerald-500 mb-3">
+      <h3 className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500 mb-3">
         Languages
       </h3>
 
@@ -38,8 +38,8 @@ export function LanguageCard({ className }: LanguageCardProps) {
           <div key={index} className="group">
             <div className="flex justify-between items-center mb-1">
               <div className="flex items-center gap-2">
-                <div className="w-6 h-6 rounded-full bg-green-900/40 flex items-center justify-center border border-green-500/30 group-hover:border-green-500/60 transition-all">
-                  <Globe className="h-3 w-3 text-green-400" />
+                <div className="w-6 h-6 rounded-full bg-cyan-900/40 flex items-center justify-center border border-cyan-500/30 group-hover:border-cyan-500/60 transition-all">
+                  <Globe className="h-3 w-3 text-cyan-400" />
                 </div>
                 <span className="text-sm font-medium text-white">{language.name}</span>
               </div>
@@ -47,7 +47,7 @@ export function LanguageCard({ className }: LanguageCardProps) {
             </div>
             <div className="h-1.5 bg-gray-700 rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-green-500 to-emerald-400 rounded-full"
+                className="h-full bg-gradient-to-r from-cyan-500 to-sky-400 rounded-full"
                 style={{ width: `${(language.level / 5) * 100}%` }}
               ></div>
             </div>

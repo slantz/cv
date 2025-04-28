@@ -229,7 +229,7 @@ export function ContactForm({ isOpen, onClose }: ContactFormProps) {
                             <span>Sending...</span>
                           </span>
                         ) : (
-                          <span className="flex items-center justify-center">
+                          <span className="flex items-center justify-center text-white">
                             <Send className="mr-2 h-4 w-4" />
                             <span>Send Message</span>
                           </span>

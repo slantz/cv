@@ -137,7 +137,7 @@ export function PasswordModal({ isOpen, onClose, onSuccess, password }: Password
 
                     <Button
                       type="submit"
-                      className={`w-full ${
+                      className={`w-full text-white ${
                         isSuccess
                           ? "bg-green-600 hover:bg-green-700"
                           : "bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700"
