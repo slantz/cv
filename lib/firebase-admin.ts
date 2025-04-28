@@ -113,7 +113,7 @@ export async function isAuthorizedAdmin(uid: string) {
 
   try {
     // First check if the user's UID matches the allowed GitHub ID
-    if (process.env.NEXT_PUBLIC_ALLOWED_GITHUB_ID === uid) {
+    if (process.env.ALLOWED_GITHUB_ID === uid) {
       return true
     }
 

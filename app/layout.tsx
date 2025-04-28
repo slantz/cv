@@ -18,11 +18,6 @@ const robotoMono = Roboto_Mono({
   variable: '--font-roboto-mono',
 })
 
-export const metadata: Metadata = {
-  title: "John Doe | Web3 Developer & Blockchain Enthusiast",
-  description: "Professional portfolio of John Doe, a Web3 developer specializing in blockchain technologies, smart contracts, and decentralized applications."
-}
-
 export default function RootLayout({
   children,
 }: {
@@ -33,9 +28,6 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-    <head>
-      <title>John Doe | Web3 Developer & Blockchain Enthusiast</title>
-    </head>
       <body className={`${spaceGrotesk.variable} ${robotoMono.variable} font-sans antialiased bg-pool-richBlack`}>
         <AuthProvider>
           <ThemeProvider
