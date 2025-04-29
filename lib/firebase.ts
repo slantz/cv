@@ -1,11 +1,11 @@
 // This file is for client-side Firebase usage only
-// It should be used for public data fetching and authentication
+// It should be used for authentication
 
 "use client"
 
 import { initializeApp, getApps, getApp } from "firebase/app"
 import { getFirestore } from "firebase/firestore"
-import { getAnalytics, isSupported } from "firebase/analytics"
+// import { getAnalytics, isSupported } from "firebase/analytics"
 import { getAuth } from "firebase/auth"
 
 // Your web app's Firebase configuration
@@ -37,18 +37,18 @@ if (typeof window !== "undefined") {
     auth = getAuth(app)
 
     // Initialize Analytics
-    const initAnalytics = async () => {
-      try {
-        const analyticsSupported = await isSupported()
-        if (analyticsSupported) {
-          analytics = getAnalytics(app)
-        }
-      } catch (error) {
-        console.error("Firebase Analytics error:", error)
-      }
-    }
-
-    initAnalytics()
+    // const initAnalytics = async () => {
+    //   try {
+    //     const analyticsSupported = await isSupported()
+    //     if (analyticsSupported) {
+    //       analytics = getAnalytics(app)
+    //     }
+    //   } catch (error) {
+    //     console.error("Firebase Analytics error:", error)
+    //   }
+    // }
+    //
+    // initAnalytics()
   } catch (error) {
     console.error("Firebase initialization error:", error)
   }

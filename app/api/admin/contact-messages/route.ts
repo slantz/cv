@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { cookies } from "next/headers"
-import { adminDb, verifySessionCookie, isAuthorizedAdmin } from "@/lib/firebase-admin"
+import { getAdminDB, verifySessionCookie, isAuthorizedAdmin } from "@/lib/firebase-admin"
 
 // GET handler to fetch all contact messages
 export async function GET(request: NextRequest) {
@@ -22,12 +22,14 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
+    const adminDB = getAdminDB();
+
     // Fetch contact messages
-    if (!adminDb) {
+    if (!adminDB) {
       return NextResponse.json({ error: "Database not available" }, { status: 500 })
     }
 
-    const messagesSnapshot = await adminDb.collection("contact-messages").orderBy("timestamp", "desc").get()
+    const messagesSnapshot = await adminDB.collection("contact-messages").orderBy("timestamp", "desc").get()
 
     const messages = messagesSnapshot.docs.map((doc) => ({
       id: doc.id,
@@ -61,8 +63,10 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
+    const adminDB = getAdminDB();
+
     // Update contact message
-    if (!adminDb) {
+    if (!adminDB) {
       return NextResponse.json({ error: "Database not available" }, { status: 500 })
     }
 
@@ -74,7 +78,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     // Update the message
-    await adminDb
+    await adminDB
       .collection("contact-messages")
       .doc(data.id)
       .update({
@@ -109,8 +113,10 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
+    const adminDB = getAdminDB();
+
     // Delete contact message
-    if (!adminDb) {
+    if (!adminDB) {
       return NextResponse.json({ error: "Database not available" }, { status: 500 })
     }
 
@@ -122,7 +128,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Delete the message
-    await adminDb.collection("contact-messages").doc(id).delete()
+    await adminDB.collection("contact-messages").doc(id).delete()
 
     return NextResponse.json({ success: true })
   } catch (error) {

@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { cookies } from "next/headers"
-import { adminDb, verifySessionCookie, isAuthorizedAdmin } from "@/lib/firebase-admin"
+import { getAdminDB, verifySessionCookie, isAuthorizedAdmin } from "@/lib/firebase-admin"
 
 // GET handler to fetch all CV sections
 export async function GET(request: NextRequest) {
@@ -22,12 +22,14 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
+    const adminDB = getAdminDB();
+
     // Fetch CV sections
-    if (!adminDb) {
+    if (!adminDB) {
       return NextResponse.json({ error: "Database not available" }, { status: 500 })
     }
 
-    const sectionsSnapshot = await adminDb.collection("cv-sections").orderBy("order", "asc").get()
+    const sectionsSnapshot = await adminDB.collection("cv-sections").orderBy("order", "asc").get()
 
     const sections = []
 
@@ -36,7 +38,7 @@ export async function GET(request: NextRequest) {
       const sectionData = sectionDoc.data()
 
       // Query the details subcollection for this section
-      const detailsSnapshot = await adminDb
+      const detailsSnapshot = await adminDB
         .collection(`cv-sections/${sectionDoc.id}/details`)
         .orderBy("order", "asc")
         .get()
@@ -85,8 +87,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
+    const adminDB = getAdminDB();
+
     // Add new CV section
-    if (!adminDb) {
+    if (!adminDB) {
       return NextResponse.json({ error: "Database not available" }, { status: 500 })
     }
 
@@ -98,7 +102,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Add the section document
-    const sectionRef = await adminDb.collection("cv-sections").add({
+    const sectionRef = await adminDB.collection("cv-sections").add({
       title: data.title,
       description: data.description,
       order: Number(data.order),
@@ -107,7 +111,7 @@ export async function POST(request: NextRequest) {
     // Add each detail as a subdocument
     if (data.details && Array.isArray(data.details)) {
       for (const [index, detail] of data.details.entries()) {
-        await adminDb
+        await adminDB
           .collection(`cv-sections/${sectionRef.id}/details`)
           .doc(`detail-${index}`)
           .set({

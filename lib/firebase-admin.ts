@@ -1,15 +1,10 @@
-// This file is for server-side Firebase Admin SDK usage only
-// It should ONLY be imported in API routes or server components
-// that handle admin functionality
-
 import "server-only";
 
-import { initializeApp, cert, getApps } from "firebase-admin/app"
-import { getFirestore } from "firebase-admin/firestore"
-import { getAuth } from "firebase-admin/auth"
+import {cert, getApps, initializeApp} from "firebase-admin/app"
+import {getFirestore} from "firebase-admin/firestore"
+import {getAuth} from "firebase-admin/auth"
 
-// Initialize Firebase Admin SDK for admin functionality
-function getFirebaseAdminApp() {
+export function getFirebaseAdminApp() {
   const apps = getApps()
 
   if (!apps.length) {
@@ -30,7 +25,7 @@ function getFirebaseAdminApp() {
           projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
           storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
         },
-        "adminApp",
+        "cvAdminApp",
       )
 
       console.log("Firebase Admin SDK initialized successfully")
@@ -42,57 +37,48 @@ function getFirebaseAdminApp() {
   }
 
   // Return the existing admin app
-  const app = apps.find((app) => app.name === "adminApp") || apps[0]
+  const app = apps.find((app) => app.name === "cvAdminApp") || apps[0]
   console.log("Using existing Firebase Admin app:", app.name)
   return app
 }
 
-// Get the Firebase Admin app
-const adminApp = getFirebaseAdminApp()
-
 // Export Firestore and Auth if admin app is initialized
-export const adminDb = adminApp ? getFirestore(adminApp) : null
-export const adminAuth = adminApp ? getAuth(adminApp) : null
+export const getAdminDB = () => {
+  const adminApp = getFirebaseAdminApp();
+  return adminApp ? getFirestore(adminApp) : null;
+}
+
+export const getAdminAuth = () => {
+  const adminApp = getFirebaseAdminApp();
+  return adminApp ? getAuth(adminApp) : null
+}
 
 // Verify a Firebase ID token and return the decoded token
 export async function verifyIdToken(token: string) {
+  const adminAuth = getAdminAuth();
+
   if (!adminAuth) {
     throw new Error("Firebase Admin Auth is not initialized")
   }
 
   try {
-    const decodedToken = await adminAuth.verifyIdToken(token)
-    return decodedToken
+    return await adminAuth.verifyIdToken(token)
   } catch (error) {
     console.error("Error verifying ID token:", error)
     throw error
   }
 }
 
-// Create a session cookie from an ID token
-export async function createSessionCookie(idToken: string, expiresIn = 60 * 60 * 24 * 5 * 1000) {
-  if (!adminAuth) {
-    throw new Error("Firebase Admin Auth is not initialized")
-  }
-
-  try {
-    const sessionCookie = await adminAuth.createSessionCookie(idToken, { expiresIn })
-    return sessionCookie
-  } catch (error) {
-    console.error("Error creating session cookie:", error)
-    throw error
-  }
-}
-
 // Verify a session cookie
 export async function verifySessionCookie(sessionCookie: string) {
+  const adminAuth = getAdminAuth();
+
   if (!adminAuth) {
     throw new Error("Firebase Admin Auth is not initialized")
   }
 
   try {
-    const decodedClaims = await adminAuth.verifySessionCookie(sessionCookie, true)
-    return decodedClaims
+    return await adminAuth.verifySessionCookie(sessionCookie, true)
   } catch (error) {
     console.error("Error verifying session cookie:", error)
     return null
@@ -101,7 +87,9 @@ export async function verifySessionCookie(sessionCookie: string) {
 
 // Check if a user is authorized to access admin pages
 export async function isAuthorizedAdmin(uid: string) {
-  if (!adminDb) {
+  const adminDB = getAdminDB();
+
+  if (!adminDB) {
     throw new Error("Firebase Admin Firestore is not initialized")
   }
 
@@ -118,7 +106,7 @@ export async function isAuthorizedAdmin(uid: string) {
     }
 
     // Then check the admins collection in Firestore
-    const adminDoc = await adminDb.collection("admins").doc(uid).get()
+    const adminDoc = await adminDB.collection("admins").doc(uid).get()
     return adminDoc.exists
   } catch (error) {
     console.error("Error checking admin authorization:", error)

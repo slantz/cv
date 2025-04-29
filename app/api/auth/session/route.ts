@@ -1,6 +1,6 @@
 import { cookies } from "next/headers"
 import { type NextRequest, NextResponse } from "next/server"
-import { adminAuth } from "@/lib/firebase-admin"
+import { getAdminAuth } from "@/lib/firebase-admin"
 
 // Create a session cookie from an ID token
 export async function POST(request: NextRequest) {
@@ -10,6 +10,8 @@ export async function POST(request: NextRequest) {
     if (!idToken) {
       return NextResponse.json({ error: "ID token is required" }, { status: 400 })
     }
+
+    const adminAuth = getAdminAuth();
 
     // Verify the ID token
     if (!adminAuth) {

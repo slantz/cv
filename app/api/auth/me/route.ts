@@ -1,6 +1,6 @@
 import { cookies } from "next/headers"
 import { type NextRequest, NextResponse } from "next/server"
-import { adminAuth, verifySessionCookie, isAuthorizedAdmin } from "@/lib/firebase-admin"
+import { getAdminAuth, verifySessionCookie, isAuthorizedAdmin } from "@/lib/firebase-admin"
 
 export async function GET(request: NextRequest) {
   try {
@@ -17,6 +17,8 @@ export async function GET(request: NextRequest) {
     if (!decodedClaims) {
       return NextResponse.json({ error: "Invalid session" }, { status: 401 })
     }
+
+    const adminAuth = getAdminAuth();
 
     // Get the user data
     if (!adminAuth) {
