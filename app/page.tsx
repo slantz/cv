@@ -1,4 +1,3 @@
-import {Metadata} from "next";
 import { AnimatedBackground } from "@/components/animated-background"
 import { KeyboardShortcuts } from "@/components/keyboard-shortcuts"
 import { AchievementsSection } from "@/components/achievements-section"
@@ -10,59 +9,7 @@ import {AdminLoginModalTrigger} from "@/components/admin-login-modal-trigger";
 import {SkillsLangContactSection} from "@/components/skills-lang-contact-section";
 import {PageView} from "@/components/page-view";
 
-export const metadata: Metadata = {
-  title: "Alex | Senior Software Engineer & Engineering Leader",
-  description:
-    "Senior Software Engineer and Engineering Leader with 12+ years in full-stack development (JS/TS/Java) and 6+ years in technical leadership. Specialized in Web3, blockchain, scalable systems, and launching products and teams from scratch.",
-  keywords: [
-    "Senior Software Engineer",
-    "Engineering Leader",
-    "Full-Stack Developer",
-    "Web3 Developer",
-    "Blockchain Architect",
-    "Cardano Developer",
-    "Technical Manager",
-    "JavaScript",
-    "TypeScript",
-    "Java",
-    "AWS",
-    "Docker",
-    "React",
-    "Vue.js",
-    "Cardano Spot",
-    "APEX Fusion SPO",
-    "USDA Stablecoin",
-    "AboutYou Outlet",
-  ],
-  authors: [{ name: "Alex", url: "https://kblnsk.me/" }],
-  alternates: {
-    canonical: "https://kblnsk.me/",
-  },
-  openGraph: {
-    title: "Alex | Senior Software Engineer & Engineering Leader",
-    description:
-      "12+ years in full-stack development and 6+ years leading engineering teams. Expert in Web3, blockchain solutions, and scalable systems architecture.",
-    type: "website",
-    url: "https://kblnsk.me/",
-    images: [
-      {
-        url: "https://kblnsk.me/open_graph_1200x630.png",
-        width: 1200,
-        height: 630,
-        alt: "Alex Portfolio Logo",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Alex | Senior Software Engineer & Engineering Leader",
-    description:
-      "Experienced Software Engineer and Team Leader specializing in Web3, blockchain, and scalable systems. Launching products and teams successfully across global companies.",
-    images: ["https://kblnsk.me/open_graph_1200x630.png"],
-  },
-};
-
-export default function CVWebsitePage() {
+export default async function Page() {
   return (
     <>
       <script

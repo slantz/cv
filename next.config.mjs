@@ -20,12 +20,10 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  images: {
-    unoptimized: true,
-  },
   serverExternalPackages: [
     'firebase-admin'
   ],
+  transpilePackages: ['lucide-react']
 }
 
 export default nextConfig
