@@ -1,232 +1,68 @@
-"use client"
-
-import {useRef, useState, useEffect} from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import {
-  Github,
-  Linkedin,
-  Icon,
-  ChevronDown,
-  ChevronUp,
-  AlertCircle,
-  Send,
-  MessageCircle,
-  Info,
-  IconNode
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { useCvData, type CVSection } from "@/hooks/use-cv-data"
+import {Metadata} from "next";
 import { AnimatedBackground } from "@/components/animated-background"
-import { GlowButton } from "@/components/glow-button"
-import { SkillBadge } from "@/components/skill-badge"
-import { useAnalytics } from "@/hooks/use-analytics"
-import { event } from "@/lib/analytics"
-import { CVDownload } from "@/components/cv-download"
 import { KeyboardShortcuts } from "@/components/keyboard-shortcuts"
-import {ContactDetails} from "@/components/contact-details";
-import { ContactForm } from "@/components/contact-form"
-import { AuthButton } from "@/components/auth-button"
-import { LoginModal } from "@/components/login-modal"
-import { useAdminHotkey } from "@/hooks/use-admin-hotkey"
-import { LanguageCard } from "@/components/language-card"
 import { AchievementsSection } from "@/components/achievements-section"
-import {Logo} from "@/components/logo";
-import {Avatar} from "@/components/avatar";
-import type {Metadata} from "next";
-import {IconStackOverflow} from "@/components/ui/icon-stack-overflow";
-import {IconMedium} from "@/components/ui/icon-medium";
+import {Header} from "@/components/header";
+import {Footer} from "@/components/footer";
+import {HeroSection} from "@/components/ui/hero-section";
+import {EssaySection} from "@/components/essay-section";
+import {AdminLoginModalTrigger} from "@/components/admin-login-modal-trigger";
+import {SkillsLangContactSection} from "@/components/skills-lang-contact-section";
+import {PageView} from "@/components/page-view";
 
-// export const metadata: Metadata = {
-//   title: "Alex | Senior Software Engineer & Engineering Leader",
-//   description:
-//     "Senior Software Engineer and Engineering Leader with 12+ years in full-stack development (JS/TS/Java) and 6+ years in technical leadership. Specialized in Web3, blockchain, scalable systems, and launching products and teams from scratch.",
-//   keywords: [
-//     "Senior Software Engineer",
-//     "Engineering Leader",
-//     "Full-Stack Developer",
-//     "Web3 Developer",
-//     "Blockchain Architect",
-//     "Cardano Developer",
-//     "Technical Manager",
-//     "JavaScript",
-//     "TypeScript",
-//     "Java",
-//     "AWS",
-//     "Docker",
-//     "React",
-//     "Vue.js",
-//     "Cardano Spot",
-//     "APEX Fusion SPO",
-//     "USDA Stablecoin",
-//     "AboutYou Outlet",
-//   ],
-//   authors: [{ name: "Alex", url: "https://kblnsk.me/" }],
-//   alternates: {
-//     canonical: "https://kblnsk.me/",
-//   },
-//   openGraph: {
-//     title: "Alex | Senior Software Engineer & Engineering Leader",
-//     description:
-//       "12+ years in full-stack development and 6+ years leading engineering teams. Expert in Web3, blockchain solutions, and scalable systems architecture.",
-//     type: "website",
-//     url: "https://kblnsk.me/",
-//     images: [
-//       {
-//         url: "https://kblnsk.me/open_graph_1200x630.png",
-//         width: 1200,
-//         height: 630,
-//         alt: "Alex Portfolio Logo",
-//       },
-//     ],
-//   },
-//   twitter: {
-//     card: "summary_large_image",
-//     title: "Alex | Senior Software Engineer & Engineering Leader",
-//     description:
-//       "Experienced Software Engineer and Team Leader specializing in Web3, blockchain, and scalable systems. Launching products and teams successfully across global companies.",
-//     images: ["https://kblnsk.me/open_graph_1200x630.png"],
-//   },
-// };
+export const metadata: Metadata = {
+  title: "Alex | Senior Software Engineer & Engineering Leader",
+  description:
+    "Senior Software Engineer and Engineering Leader with 12+ years in full-stack development (JS/TS/Java) and 6+ years in technical leadership. Specialized in Web3, blockchain, scalable systems, and launching products and teams from scratch.",
+  keywords: [
+    "Senior Software Engineer",
+    "Engineering Leader",
+    "Full-Stack Developer",
+    "Web3 Developer",
+    "Blockchain Architect",
+    "Cardano Developer",
+    "Technical Manager",
+    "JavaScript",
+    "TypeScript",
+    "Java",
+    "AWS",
+    "Docker",
+    "React",
+    "Vue.js",
+    "Cardano Spot",
+    "APEX Fusion SPO",
+    "USDA Stablecoin",
+    "AboutYou Outlet",
+  ],
+  authors: [{ name: "Alex", url: "https://kblnsk.me/" }],
+  alternates: {
+    canonical: "https://kblnsk.me/",
+  },
+  openGraph: {
+    title: "Alex | Senior Software Engineer & Engineering Leader",
+    description:
+      "12+ years in full-stack development and 6+ years leading engineering teams. Expert in Web3, blockchain solutions, and scalable systems architecture.",
+    type: "website",
+    url: "https://kblnsk.me/",
+    images: [
+      {
+        url: "https://kblnsk.me/open_graph_1200x630.png",
+        width: 1200,
+        height: 630,
+        alt: "Alex Portfolio Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Alex | Senior Software Engineer & Engineering Leader",
+    description:
+      "Experienced Software Engineer and Team Leader specializing in Web3, blockchain, and scalable systems. Launching products and teams successfully across global companies.",
+    images: ["https://kblnsk.me/open_graph_1200x630.png"],
+  },
+};
 
 export default function CVWebsitePage() {
-  const { cvData, isLoading, error, usingMockData } = useCvData()
-  const [expandedId, setExpandedId] = useState<string | null>(null)
-  const [isContactFormOpen, setIsContactFormOpen] = useState(false)
-  const { isLoginModalOpen, setIsLoginModalOpen } = useAdminHotkey()
-  const skillsContainerRef = useRef<HTMLDivElement>(null)
-  const [skillsData, setSkillsData] = useState({
-    JavaScript: [
-      ["TypeScript", "CoffeeScript"],
-      [
-        "React",
-        "Next.js",
-        "Vue.js",
-        "Nuxt",
-        "AngularJS",
-        "Angular",
-        "RxJS",
-        "Backbone.js",
-        "Marionette JS",
-        "Ember.js",
-        "Redux",
-        "MobX",
-        "Cordova",
-        "React Native",
-      ],
-      ["jQuery", "Lodash", "REQUIRE.JS"],
-      ["Grunt", "Gulp", "Webpack", "Vite"],
-      ["npm", "bower", "yarn", "pnpm"],
-    ],
-    Solidity: [
-      ["ERC Standards", "ERC-20", "ERC-721", "ERC-1155"],
-      ["OpenZeppelin", "Hardhat", "Truffle", "Foundry"],
-      ["Ethers.js", "Web3.js", "Ganache"],
-      ["Gas Optimization", "Security Patterns"],
-    ],
-    "Smart Contracts": [
-      ["DeFi Protocols", "AMMs", "Lending", "Staking"],
-      ["NFT Marketplaces", "Royalties", "Metadata"],
-      ["DAO Governance", "Voting Systems"],
-      ["Multi-sig", "Proxy Patterns", "Diamond Standard"],
-    ],
-    React: [
-      ["Hooks", "Context API", "Custom Hooks"],
-      ["Redux", "MobX", "Zustand", "Jotai", "Recoil"],
-      ["Styled Components", "Emotion", "Tailwind CSS"],
-      ["React Query", "SWR", "Apollo Client"],
-      ["Testing Library", "Jest", "Cypress"],
-    ],
-    TypeScript: [
-      ["Advanced Types", "Generics", "Utility Types"],
-      ["Type Guards", "Discriminated Unions"],
-      ["Decorators", "Metadata Reflection"],
-      ["TSX", "Module Augmentation"],
-    ],
-    "Ethers.js": [
-      ["Providers", "Signers", "Contract Interaction"],
-      ["Transaction Management", "Gas Estimation"],
-      ["ENS Integration", "Event Listening"],
-      ["Multicall", "Batching"],
-    ],
-    DeFi: [
-      ["Lending Protocols", "Aave", "Compound"],
-      ["DEXs", "Uniswap", "Curve", "Balancer"],
-      ["Yield Farming", "Liquidity Mining"],
-      ["Stablecoins", "Synthetics", "Derivatives"],
-    ],
-    NFTs: [
-      ["ERC-721", "ERC-1155", "Metadata Standards"],
-      ["IPFS", "Arweave", "Filecoin"],
-      ["Marketplaces", "Royalties", "Fractionalization"],
-      ["Dynamic NFTs", "On-chain SVG"],
-    ],
-    "The Graph": [
-      ["Subgraph Development", "GraphQL Schema"],
-      ["Entity Relationships", "Event Handling"],
-      ["Mappings", "AssemblyScript"],
-      ["Query Optimization", "Pagination"],
-    ],
-    Hardhat: [
-      ["Tasks", "Scripts", "Plugins"],
-      ["Testing", "Fixtures", "Mocks"],
-      ["Deployment", "Verification"],
-      ["Gas Reporting", "Coverage"],
-    ],
-    Tokenomics: [
-      ["Token Distribution", "Vesting", "Lockups"],
-      ["Incentive Mechanisms", "Game Theory"],
-      ["Governance", "Voting Power"],
-      ["Inflation", "Burning Mechanisms"],
-    ],
-    "Layer 2": [
-      ["Optimistic Rollups", "Optimism", "Arbitrum"],
-      ["ZK Rollups", "zkSync", "StarkNet"],
-      ["Sidechains", "Polygon", "Gnosis Chain"],
-      ["Cross-chain Bridges", "LayerZero", "Axelar"],
-    ],
-  })
-
-  // Initialize analytics
-  const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || ""
-  useAnalytics(GA_MEASUREMENT_ID)
-
-  // Close expanded skill badges when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (skillsContainerRef.current && !skillsContainerRef.current.contains(event.target as Node)) {
-        // This will trigger a re-render which will collapse all badges
-        // We're using a new object reference to ensure the re-render
-        setSkillsData({ ...skillsData })
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [])
-
-  const toggleExpand = (id: string) => {
-    setExpandedId(expandedId === id ? null : id)
-
-    // Track section expansion as an event
-    if (expandedId !== id) {
-      event({
-        action: "expand_section",
-        category: "user_interaction",
-        label: id,
-      })
-    }
-  }
-
-  const trackButtonClick = (buttonName: string) => {
-    event({
-      action: "button_click",
-      category: "user_interaction",
-      label: buttonName,
-    })
-  }
-
   return (
     <>
       <script
@@ -246,322 +82,20 @@ export default function CVWebsitePage() {
           }),
         }}
       />
+      <PageView />
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-gray-900 dark:text-white relative overflow-hidden">
         <KeyboardShortcuts />
         <AnimatedBackground />
-        {/* Background grid effect */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
-
-        <header className="container mx-auto py-0 md:py-6 px-4 flex justify-between items-center relative z-10">
-          <Logo />
-          <div className="flex items-center gap-4">
-            <AuthButton />
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                size="icon"
-                className="rounded-full border-purple-500 hover:border-purple-400 hover:bg-purple-950/20"
-                onClick={() => trackButtonClick("linkedin")}
-                asChild
-              >
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-                  <Linkedin className="h-5 w-5 text-purple-400" />
-                  <span className="sr-only">LinkedIn</span>
-                </a>
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                className="rounded-full border-pink-500 hover:border-pink-400 hover:bg-pink-950/20"
-                onClick={() => trackButtonClick("github")}
-                asChild
-              >
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-                  <Github className="h-5 w-5 text-pink-400" />
-                  <span className="sr-only">GitHub</span>
-                </a>
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                className="rounded-full border-sky-500 hover:border-sky-400 hover:bg-sky-950/20"
-                onClick={() => trackButtonClick("github")}
-                asChild
-              >
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-                  <IconStackOverflow className="text-sky-500"/>
-                  <span className="sr-only">GitHub</span>
-                </a>
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                className="rounded-full border-teal-500 hover:border-teal-400 hover:bg-teal-950/20"
-                onClick={() => trackButtonClick("github")}
-                asChild
-              >
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-                  <IconMedium className="text-teal-500"/>
-                  <span className="sr-only">GitHub</span>
-                </a>
-              </Button>
-            </div>
-          </div>
-        </header>
-
+        <div id="background-grid" className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+        <Header />
         <main className="container mx-auto py-12 px-4 relative z-10">
-          <section className="max-w-5xl mx-auto mb-24 flex flex-col md:flex-row items-center gap-8 md:gap-12">
-            <Avatar />
-            <div className="w-full md:w-1/2 text-center md:text-left">
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-                <h2 className="text-4xl md:text-6xl font-display font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500 leading-tight">
-                  Software Developer
-                </h2>
-                <p className="font-mono text-md md:text-lg text-gray-300 mb-8 leading-relaxed">
-                  Engineering Lead & Full-Stack Developer with {new Date().getFullYear() - new Date('2013').getFullYear()}+ years in JS/TS/Java
-                  and {new Date().getFullYear() - new Date('2019').getFullYear()}+ years leading teams. Delivered complex products (Cardano Spot,
-                  USDA, Opower, aboutyou.de / aboutyou-outlet.de), drove architecture,
-                  and mentored engineers. Active SPO in Apex Fusion Chain.
-                </p>
-                <div className="flex flex-wrap justify-center md:justify-start gap-4">
-                  <div data-shortcut="download">
-                    <CVDownload />
-                  </div>
-                  <div data-shortcut="contact">
-                    <GlowButton
-                      variant="secondary"
-                      onClick={() => {
-                        trackButtonClick("contact_me")
-                        setIsContactFormOpen(true)
-                      }}
-                    >
-                    <span className="flex items-center justify-center">
-                      <span>Contact Me</span>
-                    </span>
-                    </GlowButton>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </section>
-
-          {usingMockData && (
-            <div className="max-w-5xl mx-auto mb-6">
-              <div className="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-3 flex items-center gap-3">
-                <Info className="h-5 w-5 text-yellow-400 flex-shrink-0" />
-                <p className="text-sm text-yellow-200">
-                  Firebase connection unavailable. Displaying mock data instead. Please check your Firebase configuration.
-                </p>
-              </div>
-            </div>
-          )}
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="max-w-5xl mx-auto mb-16"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-start mb-12">
-              <div className="md:col-span-2">
-                <div className="flex flex-col items-stretch justify-stretch">
-                  <div className="inline-block text-center px-6 py-2 rounded-full bg-gray-800/80 backdrop-blur-sm border border-gray-700 mb-8">
-                    <h3 className="text-xl font-medium text-gray-300">
-                      <span className="text-purple-400 font-semibold">{new Date().getFullYear() - new Date('2013').getFullYear()}+</span> Years Experience in{" "}
-                      <span className="text-cyan-400 font-semibold">Software Development</span>
-                    </h3>
-                  </div>
-
-                  <div ref={skillsContainerRef} className="flex flex-wrap justify-center md:justify-start gap-2 relative">
-                    {Object.keys(skillsData).map((skill) => (
-                      <SkillBadge
-                        key={skill}
-                        name={skill}
-                        level={
-                          skill === "Solidity" ||
-                          skill === "Smart Contracts" ||
-                          skill === "React" ||
-                          skill === "JavaScript"
-                            ? 5
-                            : skill === "TypeScript" ||
-                            skill === "Ethers.js" ||
-                            skill === "DeFi" ||
-                            skill === "NFTs" ||
-                            skill === "Hardhat"
-                              ? 4
-                              : 3
-                        }
-                        details={skillsData[skill as keyof typeof skillsData]}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="md:col-span-1">
-                <LanguageCard />
-              </div>
-
-              <div className="md:col-span-1">
-                <ContactDetails />
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Achievements Section */}
+          <HeroSection />
+          <SkillsLangContactSection />
           <AchievementsSection />
-
-          <section className="max-w-5xl mx-auto grid gap-6">
-            {isLoading ? (
-              <div className="flex justify-center py-20">
-                <div className="animate-pulse flex space-x-4">
-                  <div className="h-3 w-3 bg-purple-400 rounded-full"></div>
-                  <div className="h-3 w-3 bg-pink-400 rounded-full"></div>
-                  <div className="h-3 w-3 bg-cyan-400 rounded-full"></div>
-                </div>
-              </div>
-            ) : error && !usingMockData ? (
-              <div className="rounded-xl overflow-hidden border border-red-500/50 bg-red-950/10 p-6 text-center">
-                <AlertCircle className="h-8 w-8 text-red-400 mx-auto mb-2" />
-                <h3 className="text-lg font-semibold text-red-400 mb-1">Error Loading Data</h3>
-                <p className="text-gray-300">{error}</p>
-                <p className="text-gray-400 text-sm mt-2">
-                  Please check your Firebase configuration and ensure your collections are set up correctly.
-                </p>
-              </div>
-            ) : cvData.length === 0 ? (
-              <div className="rounded-xl overflow-hidden border border-yellow-500/50 bg-yellow-950/10 p-6 text-center">
-                <AlertCircle className="h-8 w-8 text-yellow-400 mx-auto mb-2" />
-                <h3 className="text-lg font-semibold text-yellow-400 mb-1">No Data Found</h3>
-                <p className="text-gray-300">No CV sections were found in your Firebase database.</p>
-                <p className="text-gray-400 text-sm mt-2">
-                  Please add some data to your 'cv-sections' collection in Firebase.
-                </p>
-              </div>
-            ) : (
-              cvData.map((section, index) => (
-                <div
-                  key={section.id}
-                  className="rounded-xl overflow-hidden border border-gray-700 bg-gray-800/50 backdrop-blur-sm hover:shadow-[0_0_25px_rgba(168,85,247,0.2)] transition-all duration-300"
-                >
-                  <button
-                    onClick={() => toggleExpand(section.id)}
-                    className="w-full p-6 flex justify-between items-center text-left"
-                  >
-                    <div>
-                      <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500">
-                        {section.title}
-                      </h3>
-                      <p className="text-gray-300 mt-1">{section.description}</p>
-                    </div>
-                    {expandedId === section.id ? (
-                      <ChevronUp className="h-5 w-5 text-purple-400" />
-                    ) : (
-                      <ChevronDown className="h-5 w-5 text-purple-400" />
-                    )}
-                  </button>
-
-                  <AnimatePresence>
-                    {expandedId === section.id && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="overflow-hidden border-t border-gray-700"
-                      >
-                        <div className="p-6 bg-gray-800/80">
-                          {section.details.length > 0 ? (
-                            section.details.map((detail, index) => (
-                              <div key={index} className="mb-4 last:mb-0">
-                                <h4 className="font-semibold text-cyan-400">{detail.title}</h4>
-                                <p className="text-sm text-gray-300 mt-1">{detail.description}</p>
-                                {detail.tags && (
-                                  <div className="flex flex-wrap gap-2 mt-2">
-                                    {detail.tags.map((tag, tagIndex) => (
-                                      <span
-                                        key={tagIndex}
-                                        className="px-2 py-1 text-xs rounded-full bg-gray-700 text-gray-300"
-                                      >
-                                      {tag}
-                                    </span>
-                                    ))}
-                                  </div>
-                                )}
-                              </div>
-                            ))
-                          ) : (
-                            <p className="text-gray-400 text-center italic">No details available for this section.</p>
-                          )}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              ))
-            )}
-          </section>
+          <EssaySection />
         </main>
-
-        <footer className="container mx-auto pt-12 pb-8 md:py-12 px-4 mt-32 relative z-10">
-          <div className="max-w-5xl mx-auto border-t border-gray-800 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <p className="text-gray-400 text-sm">
-                © {new Date().getFullYear()} John Doe. Built with
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500 mx-1">
-                passion
-              </span>
-                for Web3.
-              </p>
-
-              {/* Footer Contact Links */}
-              <div className="flex gap-4">
-                <a
-                  href="https://t.me/johndoe_web3"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackButtonClick("telegram_footer")}
-                  className="text-gray-400 hover:text-purple-400 transition-colors"
-                >
-                  <Send className="h-4 w-4" />
-                  <span className="sr-only">Telegram</span>
-                </a>
-                <a
-                  href="https://discord.com/users/johndoe#1234"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackButtonClick("discord_footer")}
-                  className="text-gray-400 hover:text-pink-400 transition-colors"
-                >
-                  <MessageCircle className="h-4 w-4" />
-                  <span className="sr-only">Discord</span>
-                </a>
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackButtonClick("linkedin_footer")}
-                  className="text-gray-400 hover:text-blue-400 transition-colors"
-                >
-                  <Linkedin className="h-4 w-4" />
-                  <span className="sr-only">LinkedIn</span>
-                </a>
-                <a
-                  href="https://github.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackButtonClick("github_footer")}
-                  className="text-gray-400 hover:text-gray-300 transition-colors"
-                >
-                  <Github className="h-4 w-4" />
-                  <span className="sr-only">GitHub</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </footer>
-        <ContactForm isOpen={isContactFormOpen} onClose={() => setIsContactFormOpen(false)} />
-        <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
+        <Footer />
+        <AdminLoginModalTrigger />
       </div>
     </>
   )

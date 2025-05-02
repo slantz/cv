@@ -4,6 +4,7 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronDown, ChevronUp } from "lucide-react"
 import { cn } from "@/lib/utils"
+import {useOutsideClick} from "@/hooks/use-outside-click";
 
 interface SkillBadgeProps {
   name: string
@@ -14,6 +15,10 @@ interface SkillBadgeProps {
 
 export function SkillBadge({ name, level = 5, className, details }: SkillBadgeProps) {
   const [isExpanded, setIsExpanded] = useState(false)
+
+  const modalRef = useOutsideClick<HTMLDivElement>(() => {
+    setIsExpanded(false)
+  }, isExpanded)
 
   // Ensure level is between 1-5
   const normalizedLevel = Math.max(1, Math.min(5, level))
@@ -72,7 +77,7 @@ export function SkillBadge({ name, level = 5, className, details }: SkillBadgePr
             transition={{ duration: 0.2 }}
             className="absolute z-20 left-0 mt-2 w-64 bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden"
           >
-            <div className="p-3">
+            <div ref={modalRef} className="p-3">
               <h4 className="font-medium text-sm mb-2 text-white">{name} Skills</h4>
               <div className="space-y-2">
                 {details.map((group, groupIndex) => (

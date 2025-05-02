@@ -1,3 +1,5 @@
+"use client"
+
 import {useEffect, useRef} from "react"
 import {animate, stagger, svg} from "animejs";
 import {useIsMobile} from "@/hooks/use-mobile";

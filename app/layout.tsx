@@ -22,8 +22,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  // Replace with your actual Google Analytics Measurement ID
-  const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || ""
+  const GA_MEASUREMENT_ID = String(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID)
 
   return (
     <html lang="en" suppressHydrationWarning>
