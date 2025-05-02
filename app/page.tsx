@@ -2,9 +2,20 @@
 
 import {useRef, useState, useEffect} from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import {Github, Linkedin, ChartBarStacked, ChevronDown, ChevronUp, AlertCircle, Send, MessageCircle, Info} from "lucide-react"
+import {
+  Github,
+  Linkedin,
+  Icon,
+  ChevronDown,
+  ChevronUp,
+  AlertCircle,
+  Send,
+  MessageCircle,
+  Info,
+  IconNode
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useCVData, type CVSection } from "@/hooks/use-cv-data"
+import { useCvData, type CVSection } from "@/hooks/use-cv-data"
 import { AnimatedBackground } from "@/components/animated-background"
 import { GlowButton } from "@/components/glow-button"
 import { SkillBadge } from "@/components/skill-badge"
@@ -22,6 +33,8 @@ import { AchievementsSection } from "@/components/achievements-section"
 import {Logo} from "@/components/logo";
 import {Avatar} from "@/components/avatar";
 import type {Metadata} from "next";
+import {IconStackOverflow} from "@/components/ui/icon-stack-overflow";
+import {IconMedium} from "@/components/ui/icon-medium";
 
 // export const metadata: Metadata = {
 //   title: "Alex | Senior Software Engineer & Engineering Leader",
@@ -76,7 +89,7 @@ import type {Metadata} from "next";
 // };
 
 export default function CVWebsitePage() {
-  const { cvData, isLoading, error, usingMockData } = useCVData()
+  const { cvData, isLoading, error, usingMockData } = useCvData()
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [isContactFormOpen, setIsContactFormOpen] = useState(false)
   const { isLoginModalOpen, setIsLoginModalOpen } = useAdminHotkey()
@@ -276,7 +289,19 @@ export default function CVWebsitePage() {
                 asChild
               >
                 <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-                  <ChartBarStacked className="h-5 w-5 text-sky-400" />
+                  <IconStackOverflow className="text-sky-500"/>
+                  <span className="sr-only">GitHub</span>
+                </a>
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                className="rounded-full border-teal-500 hover:border-teal-400 hover:bg-teal-950/20"
+                onClick={() => trackButtonClick("github")}
+                asChild
+              >
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+                  <IconMedium className="text-teal-500"/>
                   <span className="sr-only">GitHub</span>
                 </a>
               </Button>

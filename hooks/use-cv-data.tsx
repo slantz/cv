@@ -117,7 +117,7 @@ const mockCVData: CVSection[] = [
   },
 ]
 
-export function useCVData(initialData: CVSection[] | null = null) {
+export function useCvData(initialData: CVSection[] | null = null) {
   const [cvData, setCVData] = useState<CVSection[]>(initialData || [])
   const [isLoading, setIsLoading] = useState(!initialData)
   const [error, setError] = useState<string | null>(null)
@@ -146,13 +146,10 @@ export function useCVData(initialData: CVSection[] | null = null) {
           return
         }
 
-        // Try to fetch data from Firestore
         try {
-          // Query the cv-sections collection, ordered by the 'order' field
-          const sectionsQuery = query(collection(db, "cv-sections"), orderBy("order", "asc"))
-          const sectionsSnapshot = await getDocs(sectionsQuery)
+          const snapshot = await getDocs(collection(db, "cv-data"));
 
-          if (sectionsSnapshot.empty) {
+          if (snapshot.empty) {
             console.log("No CV data found in Firestore, using mock data")
             setUsingMockData(true)
             setCVData(mockCVData)
@@ -162,7 +159,7 @@ export function useCVData(initialData: CVSection[] | null = null) {
           const sections: CVSection[] = []
 
           // Process each section document
-          for (const sectionDoc of sectionsSnapshot.docs) {
+          for (const sectionDoc of snapshot.docs) {
             const sectionData = sectionDoc.data() as Omit<CVSection, "id" | "details">
 
             // Query the details subcollection for this section

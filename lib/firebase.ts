@@ -1,6 +1,3 @@
-// This file is for client-side Firebase usage only
-// It should be used for authentication
-
 "use client"
 
 import { initializeApp, getApps, getApp } from "firebase/app"
@@ -25,33 +22,31 @@ let db
 let auth
 let analytics
 
-if (typeof window !== "undefined") {
-  try {
-    // Check if Firebase is already initialized
-    app = !getApps().length ? initializeApp(firebaseConfig) : getApp()
+try {
+  // Check if Firebase is already initialized
+  app = !getApps().length ? initializeApp(firebaseConfig) : getApp()
 
-    // Initialize Firestore
-    db = getFirestore(app)
+  // Initialize Firestore
+  db = getFirestore(app)
 
-    // Initialize Auth
-    auth = getAuth(app)
+  // Initialize Auth
+  auth = getAuth(app)
 
-    // Initialize Analytics
-    // const initAnalytics = async () => {
-    //   try {
-    //     const analyticsSupported = await isSupported()
-    //     if (analyticsSupported) {
-    //       analytics = getAnalytics(app)
-    //     }
-    //   } catch (error) {
-    //     console.error("Firebase Analytics error:", error)
-    //   }
-    // }
-    //
-    // initAnalytics()
-  } catch (error) {
-    console.error("Firebase initialization error:", error)
-  }
+  // Initialize Analytics
+  // const initAnalytics = async () => {
+  //   try {
+  //     const analyticsSupported = await isSupported()
+  //     if (analyticsSupported) {
+  //       analytics = getAnalytics(app)
+  //     }
+  //   } catch (error) {
+  //     console.error("Firebase Analytics error:", error)
+  //   }
+  // }
+  //
+  // initAnalytics()
+} catch (error) {
+  console.error("Firebase initialization error:", error)
 }
 
 export { app, db, auth, analytics }
