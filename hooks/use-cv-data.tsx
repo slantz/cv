@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { collection, getDocs, query, orderBy } from "firebase/firestore"
+import {collection, getDocs, query, orderBy} from "firebase/firestore"
 import { db } from "@/lib/firebase"
 
 // This type represents the structure of our CV data
@@ -160,6 +160,7 @@ export function useCvData(initialData: CVSection[] | null = null) {
 
           // Process each section document
           for (const sectionDoc of snapshot.docs) {
+            console.log(sectionDoc.data())
             const sectionData = sectionDoc.data() as Omit<CVSection, "id" | "details">
 
             // Query the details subcollection for this section

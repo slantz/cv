@@ -8,6 +8,8 @@ import AnalyticsConsent from "@/components/analytics-consent"
 import { Suspense } from "react"
 import { AuthProvider } from "@/components/auth-context"
 
+export const revalidate = 86400; // 24 hours
+
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   variable: '--font-space-grotesk',

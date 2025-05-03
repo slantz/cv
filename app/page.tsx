@@ -8,8 +8,11 @@ import {EssaySection} from "@/components/essay-section";
 import {AdminLoginModalTrigger} from "@/components/admin-login-modal-trigger";
 import {SkillsLangContactSection} from "@/components/skills-lang-contact-section";
 import {PageView} from "@/components/page-view";
+import {fetchCVDocuments} from "@/lib/fetch-cv-documents";
 
 export default async function Page() {
+  const data = await fetchCVDocuments();
+
   return (
     <>
       <script
