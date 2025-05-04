@@ -1,5 +1,4 @@
 import { getAdminDB } from "@/lib/firebase-admin"
-import {FieldPath} from "firebase-admin/firestore";
 
 export async function fetchCVDocuments(): Promise<Record<string, any>> {
   const db = getAdminDB();
@@ -9,15 +8,11 @@ export async function fetchCVDocuments(): Promise<Record<string, any>> {
     return [];
   }
 
-  const snapshotWithAbout = await db
-    .collection("cv-data")
-    .where(FieldPath.documentId(), "!=", "about")
-    .orderBy(FieldPath.documentId())
-    .get()
-
-  snapshotWithAbout.forEach(doc => {
-    console.log(doc.id)
-  })
+  // const snapshotWithAbout = await db
+  //   .collection("cv-data")
+  //   .where(FieldPath.documentId(), "!=", "about")
+  //   .orderBy(FieldPath.documentId())
+  //   .get()
 
   const snapshot = await db.collection("cv-data").get()
 

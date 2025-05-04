@@ -98,7 +98,12 @@ export function EssaySection() {
                       {section.details.length > 0 ? (
                         section.details.map((detail, index) => (
                           <div key={index} className="mb-4 last:mb-0">
-                            <h4 className="font-semibold text-cyan-400">{detail.title}</h4>
+                            <div className="flex justify-between items-center">
+                              <h4 className="font-semibold text-cyan-400">{detail.title}</h4>
+                              {detail.dateRange && (
+                                <span className="text-xs text-gray-400 font-medium">{detail.dateRange}</span>
+                              )}
+                            </div>
                             <p className="text-sm text-gray-300 mt-1">{detail.description}</p>
                             {detail.tags && (
                               <div className="flex flex-wrap gap-2 mt-2">

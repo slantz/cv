@@ -13,7 +13,8 @@ export interface CVSection {
   details: {
     title: string
     description: string
-    tags?: string[]
+    tags?: string[],
+    dateRange?: string
   }[]
 }
 
@@ -30,18 +31,21 @@ const mockCVData: CVSection[] = [
         description:
           "Developed a decentralized lending protocol with automated interest rate adjustments based on market conditions.",
         tags: ["Solidity", "OpenZeppelin", "Hardhat", "Ethers.js"],
+        dateRange: "06.2023 - 05.2024",
       },
       {
         title: "NFT Marketplace",
         description:
           "Built a gas-optimized NFT marketplace with royalty distribution and on-chain metadata verification.",
         tags: ["ERC-721", "ERC-1155", "IPFS", "Solidity"],
+        dateRange: "01.2023 - 05.2023",
       },
       {
         title: "DAO Governance",
         description:
           "Implemented a decentralized autonomous organization with proposal voting and treasury management.",
         tags: ["Compound Governor", "Snapshot", "Solidity"],
+        dateRange: "08.2022 - 12.2022",
       },
     ],
   },
@@ -56,16 +60,19 @@ const mockCVData: CVSection[] = [
         description:
           "Seamless integration with multiple wallet providers including MetaMask, WalletConnect, and Coinbase Wallet.",
         tags: ["ethers.js", "web3-react", "React", "TypeScript"],
+        dateRange: "03.2023 - 07.2023",
       },
       {
         title: "DApp Dashboard",
         description: "Built an analytics dashboard for tracking on-chain metrics and user interactions with DApps.",
         tags: ["React", "TailwindCSS", "The Graph", "D3.js"],
+        dateRange: "10.2022 - 02.2023",
       },
       {
         title: "Cross-chain Bridge UI",
         description: "Designed and implemented a user interface for a cross-chain bridge supporting multiple networks.",
         tags: ["Next.js", "framer-motion", "Chakra UI"],
+        dateRange: "05.2022 - 09.2022",
       },
     ],
   },
@@ -79,16 +86,19 @@ const mockCVData: CVSection[] = [
         title: "Token Distribution Model",
         description: "Created a fair launch token distribution model with vesting schedules for team and investors.",
         tags: ["Economic Modeling", "Game Theory"],
+        dateRange: "02.2024 - 04.2024",
       },
       {
         title: "Staking Mechanism",
         description: "Designed a staking mechanism with dynamic rewards based on network participation.",
         tags: ["Tokenomics", "DeFi", "Yield Farming"],
+        dateRange: "11.2023 - 01.2024",
       },
       {
         title: "Governance Token",
         description: "Implemented a governance token with quadratic voting to prevent whale dominance.",
         tags: ["DAO", "Governance", "Voting Systems"],
+        dateRange: "08.2023 - 10.2023",
       },
     ],
   },
@@ -102,16 +112,19 @@ const mockCVData: CVSection[] = [
         title: "Layer 2 Integration",
         description: "Integrated Optimistic Rollups and ZK-Rollups for scalable and cost-effective transactions.",
         tags: ["Optimism", "zkSync", "Arbitrum", "Polygon"],
+        dateRange: "12.2023 - 03.2024",
       },
       {
         title: "Node Operation",
         description: "Set up and maintained validator nodes for multiple proof-of-stake networks.",
         tags: ["Ethereum", "Solana", "Avalanche", "Docker"],
+        dateRange: "09.2023 - 11.2023",
       },
       {
         title: "Cross-chain Messaging",
         description: "Implemented secure cross-chain messaging protocols for interoperability between blockchains.",
         tags: ["LayerZero", "Axelar", "Wormhole"],
+        dateRange: "06.2023 - 08.2023",
       },
     ],
   },
@@ -138,7 +151,7 @@ export function useCvData(initialData: CVSection[] | null = null) {
 
       try {
         // Check if Firebase and Firestore are available
-        if (typeof window === "undefined" || !db) {
+        if (true || typeof window === "undefined" || !db) {
           console.log("Firestore not available, using mock data")
           setUsingMockData(true)
           setCVData(mockCVData)

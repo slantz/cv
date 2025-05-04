@@ -11,7 +11,7 @@ import {PageView} from "@/components/page-view";
 import {fetchCVDocuments} from "@/lib/fetch-cv-documents";
 
 export default async function Page() {
-  const data = await fetchCVDocuments();
+  const cv = await fetchCVDocuments();
 
   return (
     <>
