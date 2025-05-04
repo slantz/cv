@@ -12,8 +12,9 @@ export interface CVSection {
   order: number
   details: {
     title: string
-    description: string
-    tags?: string[],
+    subtitle?: string // Additional data to show after the title
+    description: string | { text: string; url: string }[] // Can be either text or array of links
+    tags?: string[]
     dateRange?: string
   }[]
 }
@@ -28,6 +29,7 @@ const mockCVData: CVSection[] = [
     details: [
       {
         title: "DeFi Lending Protocol",
+        subtitle: "Aave Fork - some additional detail",
         description:
           "Developed a decentralized lending protocol with automated interest rate adjustments based on market conditions.",
         tags: ["Solidity", "OpenZeppelin", "Hardhat", "Ethers.js"],
@@ -35,13 +37,18 @@ const mockCVData: CVSection[] = [
       },
       {
         title: "NFT Marketplace",
-        description:
-          "Built a gas-optimized NFT marketplace with royalty distribution and on-chain metadata verification.",
+        subtitle: "OpenSea Alternative",
+        description: [
+          { text: "GitHub Repository", url: "https://github.com/johndoe/nft-marketplace" },
+          { text: "Live Demo", url: "https://nft-marketplace-demo.com" },
+          { text: "Technical Documentation", url: "https://docs.nft-marketplace-demo.com" },
+        ],
         tags: ["ERC-721", "ERC-1155", "IPFS", "Solidity"],
         dateRange: "01.2023 - 05.2023",
       },
       {
         title: "DAO Governance",
+        subtitle: "Compound-based - some additional detail",
         description:
           "Implemented a decentralized autonomous organization with proposal voting and treasury management.",
         tags: ["Compound Governor", "Snapshot", "Solidity"],
@@ -57,20 +64,28 @@ const mockCVData: CVSection[] = [
     details: [
       {
         title: "Web3 Wallet Integration",
-        description:
-          "Seamless integration with multiple wallet providers including MetaMask, WalletConnect, and Coinbase Wallet.",
+        subtitle: "Multi-chain Support - some additional detail",
+        description: [
+          { text: "Integration Guide", url: "https://docs.wallet-integration.com" },
+          { text: "Demo Application", url: "https://wallet-demo.com" },
+        ],
         tags: ["ethers.js", "web3-react", "React", "TypeScript"],
         dateRange: "03.2023 - 07.2023",
       },
       {
         title: "DApp Dashboard",
+        subtitle: "Analytics Platform",
         description: "Built an analytics dashboard for tracking on-chain metrics and user interactions with DApps.",
         tags: ["React", "TailwindCSS", "The Graph", "D3.js"],
         dateRange: "10.2022 - 02.2023",
       },
       {
         title: "Cross-chain Bridge UI",
-        description: "Designed and implemented a user interface for a cross-chain bridge supporting multiple networks.",
+        subtitle: "LayerZero Integration - some additional detail",
+        description: [
+          { text: "Bridge Interface", url: "https://bridge-ui.example.com" },
+          { text: "Technical Specification", url: "https://docs.bridge-ui.example.com" },
+        ],
         tags: ["Next.js", "framer-motion", "Chakra UI"],
         dateRange: "05.2022 - 09.2022",
       },
@@ -84,18 +99,24 @@ const mockCVData: CVSection[] = [
     details: [
       {
         title: "Token Distribution Model",
+        subtitle: "Fair Launch Protocol - some additional detail",
         description: "Created a fair launch token distribution model with vesting schedules for team and investors.",
         tags: ["Economic Modeling", "Game Theory"],
         dateRange: "02.2024 - 04.2024",
       },
       {
         title: "Staking Mechanism",
-        description: "Designed a staking mechanism with dynamic rewards based on network participation.",
+        subtitle: "Dynamic Rewards System",
+        description: [
+          { text: "Staking Documentation", url: "https://docs.staking-protocol.com" },
+          { text: "Economic Paper", url: "https://papers.staking-protocol.com/economics" },
+        ],
         tags: ["Tokenomics", "DeFi", "Yield Farming"],
         dateRange: "11.2023 - 01.2024",
       },
       {
         title: "Governance Token",
+        subtitle: "Quadratic Voting - some additional detail",
         description: "Implemented a governance token with quadratic voting to prevent whale dominance.",
         tags: ["DAO", "Governance", "Voting Systems"],
         dateRange: "08.2023 - 10.2023",
@@ -110,18 +131,24 @@ const mockCVData: CVSection[] = [
     details: [
       {
         title: "Layer 2 Integration",
+        subtitle: "Optimistic & ZK Rollups - some additional detail",
         description: "Integrated Optimistic Rollups and ZK-Rollups for scalable and cost-effective transactions.",
         tags: ["Optimism", "zkSync", "Arbitrum", "Polygon"],
         dateRange: "12.2023 - 03.2024",
       },
       {
         title: "Node Operation",
-        description: "Set up and maintained validator nodes for multiple proof-of-stake networks.",
+        subtitle: "Validator Setup",
+        description: [
+          { text: "Node Setup Guide", url: "https://docs.node-operation.com" },
+          { text: "Monitoring Dashboard", url: "https://monitor.node-operation.com" },
+        ],
         tags: ["Ethereum", "Solana", "Avalanche", "Docker"],
         dateRange: "09.2023 - 11.2023",
       },
       {
         title: "Cross-chain Messaging",
+        subtitle: "Interoperability Protocol - some additional detail",
         description: "Implemented secure cross-chain messaging protocols for interoperability between blockchains.",
         tags: ["LayerZero", "Axelar", "Wormhole"],
         dateRange: "06.2023 - 08.2023",

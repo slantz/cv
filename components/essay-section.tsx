@@ -1,6 +1,6 @@
 "use client"
 
-import {AlertCircle, ChevronDown, ChevronUp, Info} from "lucide-react";
+import {AlertCircle, ChevronDown, ChevronUp, Info, ExternalLink} from "lucide-react";
 import {AnimatePresence, motion} from "framer-motion";
 import {useCvData} from "@/hooks/use-cv-data";
 import {useState} from "react";
@@ -21,6 +21,48 @@ export function EssaySection() {
         label: id,
       })
     }
+  }
+
+  // Helper function to render description based on its type
+  const renderDescription = (description: string | { text: string; url: string }[]) => {
+    if (typeof description === "string") {
+      return <p className="text-sm text-gray-300 mt-1">{description}</p>
+    } else if (Array.isArray(description)) {
+      return (
+        <div className="mt-2 space-y-1">
+          {description.map((link, index) => (
+            <a
+              key={index}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
+            >
+              <ExternalLink className="h-3 w-3 mr-1.5" />
+              {link.text}
+            </a>
+          ))}
+        </div>
+      )
+    }
+    return null
+  }
+
+  // Helper function to format subtitle with italic styling for "some additional detail"
+  const formatSubtitle = (subtitle: string) => {
+    if (!subtitle) return null
+
+    // Check if the subtitle contains "some additional detail"
+    const parts = subtitle.split(" - ")
+    if (parts.length === 2 && parts[1] === "some additional detail") {
+      return (
+        <>
+          {parts[0]} - <i className="text-gray-400">some additional detail</i>
+        </>
+      )
+    }
+
+    return subtitle
   }
 
   return (
@@ -99,12 +141,21 @@ export function EssaySection() {
                         section.details.map((detail, index) => (
                           <div key={index} className="mb-4 last:mb-0">
                             <div className="flex justify-between items-center">
-                              <h4 className="font-semibold text-cyan-400">{detail.title}</h4>
+                              <div className="flex-1">
+                                <h4 className="font-semibold text-cyan-400">
+                                  {detail.title}
+                                  {detail.subtitle && (
+                                    <span className="font-normal text-gray-300 ml-1">
+                                        , {formatSubtitle(detail.subtitle)}
+                                      </span>
+                                  )}
+                                </h4>
+                              </div>
                               {detail.dateRange && (
-                                <span className="text-xs text-gray-400 font-medium">{detail.dateRange}</span>
+                                <span className="text-xs text-gray-400 font-medium ml-2">{detail.dateRange}</span>
                               )}
                             </div>
-                            <p className="text-sm text-gray-300 mt-1">{detail.description}</p>
+                            {renderDescription(detail.description)}
                             {detail.tags && (
                               <div className="flex flex-wrap gap-2 mt-2">
                                 {detail.tags.map((tag, tagIndex) => (
