@@ -3,7 +3,7 @@
 import {AlertCircle, ChevronDown, ChevronUp, Info, ExternalLink} from "lucide-react";
 import {AnimatePresence, motion} from "framer-motion";
 import {useCvData} from "@/hooks/use-cv-data";
-import {useState} from "react";
+import {useState, type ReactNode} from "react";
 import {event} from "@/lib/analytics";
 
 export function EssaySection() {
@@ -21,6 +21,48 @@ export function EssaySection() {
         label: id,
       })
     }
+  }
+
+  const parseTextWithLinks = (text: string): ReactNode[] => {
+    const result: ReactNode[] = []
+
+    // Split by the custom link structure
+    const linkRegex = /{{link}}.*?{{title}}(.*?){{title}}.*?{{url}}(.*?){{url}}.*?{{link}}/g
+
+    let lastIndex = 0
+    let match: RegExpExecArray | null
+
+    while ((match = linkRegex.exec(text)) !== null) {
+      const [fullMatch, title, url] = match
+      const index = match.index
+
+      // Push plain text before the link
+      if (lastIndex < index) {
+        result.push(text.slice(lastIndex, index))
+      }
+
+      // Push the link as an <a> element
+      result.push(
+        <a
+          key={index}
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline text-sky-400 hover:text-sky-300"
+        >
+          {title}
+        </a>
+      )
+
+      lastIndex = index + fullMatch.length
+    }
+
+    // Push remaining text after the last match
+    if (lastIndex < text.length) {
+      result.push(text.slice(lastIndex))
+    }
+
+    return result
   }
 
   // Helper function to render description based on its type
