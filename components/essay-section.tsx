@@ -26,25 +26,26 @@ export function EssaySection() {
   const parseTextWithLinks = (text: string): ReactNode[] => {
     const result: ReactNode[] = []
 
-    // Split by the custom link structure
-    const linkRegex = /{{link}}.*?{{title}}(.*?){{title}}.*?{{url}}(.*?){{url}}.*?{{link}}/g
+    const linkRegex =
+      /{{link}}.*?{{title}}(.*?){{title}}.*?{{url}}(.*?){{url}}.*?{{link}}/g
 
-    let lastIndex = 0
-    let match: RegExpExecArray | null
+    let currentIndex = 0
 
-    while ((match = linkRegex.exec(text)) !== null) {
+    const matches = [...text.matchAll(linkRegex)]
+
+    for (const match of matches) {
       const [fullMatch, title, url] = match
-      const index = match.index
+      const matchIndex = match.index ?? 0
 
-      // Push plain text before the link
-      if (lastIndex < index) {
-        result.push(text.slice(lastIndex, index))
+      // Add plain text before the match
+      if (currentIndex < matchIndex) {
+        result.push(text.slice(currentIndex, matchIndex))
       }
 
-      // Push the link as an <a> element
+      // Add the matched <a> tag
       result.push(
         <a
-          key={index}
+          key={matchIndex}
           href={url}
           target="_blank"
           rel="noopener noreferrer"
@@ -54,12 +55,12 @@ export function EssaySection() {
         </a>
       )
 
-      lastIndex = index + fullMatch.length
+      currentIndex = matchIndex + fullMatch.length
     }
 
-    // Push remaining text after the last match
-    if (lastIndex < text.length) {
-      result.push(text.slice(lastIndex))
+    // Add remaining text after the last match
+    if (currentIndex < text.length) {
+      result.push(text.slice(currentIndex))
     }
 
     return result
@@ -148,11 +149,16 @@ export function EssaySection() {
           </div>
         ) : (
           cvData.map((section, index) => (
-            <div
+            <motion.div
               key={section.id}
-              className="rounded-xl overflow-hidden border border-gray-700 bg-gray-800/50 backdrop-blur-sm hover:shadow-[0_0_25px_rgba(168,85,247,0.2)] transition-all duration-300"
+              layout
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              className="rounded-xl overflow-hidden border border-gray-700 bg-gray-800/50 backdrop-blur-sm hover:shadow-[0_0_25px_rgba(168,85,247,0.2)] transition-all duration-300 hover:-translate-y-1"
             >
-              <button
+              <motion.button
+                layout
                 onClick={() => toggleExpand(section.id)}
                 className="w-full p-6 flex justify-between items-center text-left"
               >
@@ -167,7 +173,7 @@ export function EssaySection() {
                 ) : (
                   <ChevronDown className="h-5 w-5 text-purple-400" />
                 )}
-              </button>
+              </motion.button>
 
               <AnimatePresence>
                 {expandedId === section.id && (
@@ -219,7 +225,7 @@ export function EssaySection() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </motion.div>
           ))
         )}
       </section>
