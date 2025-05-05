@@ -6,7 +6,8 @@
     "dev": "bun --bun run next dev",
     "build": "bun --bun run next build",
     "start": "bun --bun run next start",
-    "lint": "bun --bun run next lint"
+    "lint": "bun --bun run next lint",
+    "test": "bun test"
   },
   "dependencies": {
     "@auth/core": "latest",
@@ -48,7 +49,7 @@
     "embla-carousel-react": "8.5.1",
     "firebase": "latest",
     "firebase-admin": "^13.3.0",
-    "framer-motion": "^12.9.4",
+    "framer-motion": "12.9.4",
     "input-otp": "1.4.1",
     "lucide-react": "^0.454.0",
     "next": "15.3.1",
