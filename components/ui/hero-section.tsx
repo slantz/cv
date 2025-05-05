@@ -7,8 +7,15 @@ import {GlowButton} from "@/components/glow-button";
 import {useTracking} from "@/hooks/use-tracking";
 import {ContactForm} from "@/components/contact-form";
 import {useState} from "react";
+import {CVData} from "@/types/core";
+import {parseTemplateString} from "@/lib/utils";
 
-export function HeroSection() {
+interface Props {
+  title: CVData['about']['title'];
+  description: CVData['about']['description'];
+}
+
+export function HeroSection(props: Props) {
   const {trackButtonClick} = useTracking();
   const [isContactFormOpen, setIsContactFormOpen] = useState(false)
 
@@ -18,13 +25,13 @@ export function HeroSection() {
       <div className="w-full md:w-1/2 text-center md:text-left">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
           <h2 className="text-4xl md:text-6xl font-display font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500 leading-tight">
-            Software Developer
+            {props.title}
           </h2>
           <p className="font-mono text-md md:text-lg text-gray-300 mb-8 leading-relaxed">
-            Engineering Lead & Full-Stack Developer with {new Date().getFullYear() - new Date('2013').getFullYear()}+ years in JS/TS/Java
-            and {new Date().getFullYear() - new Date('2019').getFullYear()}+ years leading teams. Delivered complex products (Cardano Spot,
-            USDA, Opower, aboutyou.de / aboutyou-outlet.de), drove architecture,
-            and mentored engineers. Active SPO in Apex Fusion Chain.
+            {parseTemplateString(props.description, {
+              devExperienceYears: new Date().getFullYear() - new Date('2013').getFullYear(),
+              manageExperienceYears: new Date().getFullYear() - new Date('2019').getFullYear()
+            })}
           </p>
           <div className="flex flex-wrap justify-center md:justify-start gap-4">
             <div data-shortcut="download">

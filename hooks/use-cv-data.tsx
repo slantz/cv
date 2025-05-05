@@ -178,7 +178,7 @@ export function useCvData(initialData: CVSection[] | null = null) {
 
       try {
         // Check if Firebase and Firestore are available
-        if (true || typeof window === "undefined" || !db) {
+        if (typeof window === "undefined" || !db) {
           console.log("Firestore not available, using mock data")
           setUsingMockData(true)
           setCVData(mockCVData)

@@ -1,5 +1,5 @@
 import { describe, test, expect } from "bun:test";
-import { snakeKebabToCamel } from "../utils";
+import {parseTemplateString, snakeKebabToCamel} from "../utils";
 
 describe("snakeKebabToCamel", () => {
   // Test snake_case conversion
@@ -52,4 +52,65 @@ describe("snakeKebabToCamel", () => {
     expect(snakeKebabToCamel("with_123_numbers")).toBe("with_123Numbers");
     expect(snakeKebabToCamel("with-123-numbers")).toBe("with-123Numbers");
   });
+});
+
+describe("parseTemplateString", () => {
+  test("replaces a single placeholder", () => {
+    const input = "Hello {{name}}!"
+    const result = parseTemplateString(input, { name: "Alex" })
+    expect(result).toBe("Hello Alex!")
+  })
+
+  test("replaces multiple placeholders", () => {
+    const input = "Name: {{name}}, Age: {{age}}"
+    const result = parseTemplateString(input, { name: "Alex", age: 30 })
+    expect(result).toBe("Name: Alex, Age: 30")
+  })
+
+  test("replaces same placeholder multiple times", () => {
+    const input = "{{word}} is the word. Yes, {{word}}!"
+    const result = parseTemplateString(input, { word: "Test" })
+    expect(result).toBe("Test is the word. Yes, Test!")
+  })
+
+  test("leaves unknown placeholders intact", () => {
+    const input = "Hello {{name}}, your code is {{status}}"
+    const result = parseTemplateString(input, { name: "Alex" })
+    expect(result).toBe("Hello Alex, your code is {{status}}")
+  })
+
+  test("handles placeholders with spaces", () => {
+    const input = "Hello {{ name }}!"
+    const result = parseTemplateString(input, { name: "Alex" })
+    expect(result).toBe("Hello Alex!")
+  })
+
+  test("works with numeric values", () => {
+    const input = "You have {{count}} unread messages"
+    const result = parseTemplateString(input, { count: 5 })
+    expect(result).toBe("You have 5 unread messages")
+  })
+
+  test("works with empty values", () => {
+    const input = "Field: {{empty}}"
+    const result = parseTemplateString(input, { empty: "" })
+    expect(result).toBe("Field: ")
+  })
+
+  test("does not replace if no match found", () => {
+    const input = "No placeholders here"
+    const result = parseTemplateString(input, { anything: "value" })
+    expect(result).toBe("No placeholders here")
+  })
+
+  test("handles template with adjacent placeholders", () => {
+    const input = "{{a}}{{b}}{{c}}"
+    const result = parseTemplateString(input, { a: 1, b: 2, c: 3 })
+    expect(result).toBe("123")
+  })
+
+  test("returns empty string when passed undefined", () => {
+    const result = parseTemplateString(undefined, { name: "Alex" })
+    expect(result).toBe("")
+  })
 });
