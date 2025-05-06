@@ -1,12 +1,15 @@
 import { getAdminDB } from "@/lib/firebase-admin"
 import {snakeKebabToCamel} from "@/lib/utils";
-import type {AboutSection, CVData, EssaySection} from "@/types/core";
+import type {AboutSection, CVData, EssaySection, SectionMeta} from "@/types/core";
 
 export async function fetchCVDocuments(): Promise<CVData> {
   const db = getAdminDB();
 
   const fallback: CVData = {
     about: {
+      meta: {
+        order: 0
+      },
       title: '',
       description: '',
       subtitle: {
@@ -18,11 +21,36 @@ export async function fetchCVDocuments(): Promise<CVData> {
       languages: [],
       skills: []
     },
-    education: [],
-    employment: [],
-    projects: [],
-    ownProjects: [],
-    publications: []
+    education: {
+      meta: {
+        order: 3
+      },
+      data: []
+    },
+    employment: {
+      meta: {
+        order: 1
+      },
+      data: []
+    },
+    projects: {
+      meta: {
+        order: 2
+      },
+      data: []
+    },
+    ownProjects: {
+      meta: {
+        order: 4
+      },
+      data: []
+    },
+    publications: {
+      meta: {
+        order: 5
+      },
+      data: []
+    }
   };
 
   if (!db) {
@@ -46,14 +74,14 @@ export async function fetchCVDocuments(): Promise<CVData> {
 
     switch (key) {
       case "about":
-        documents.about = data as AboutSection
+        documents.about = data as SectionMeta & AboutSection
         break
       case "education":
       case "employment":
       case "projects":
       case "ownProjects":
       case "publications":
-        documents[key] = data as EssaySection[]
+        documents[key] = data as SectionMeta & {data: EssaySection[]}
         break
       default:
         console.warn(`Unexpected section "${key}" found in cv-data.`)

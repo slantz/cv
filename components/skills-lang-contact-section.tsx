@@ -110,7 +110,7 @@ export function SkillsLangContactSection() {
         <div className="md:col-span-2">
           <div className="flex flex-col items-stretch justify-stretch">
             <div className="inline-block text-center px-6 py-2 rounded-full bg-gray-800/80 backdrop-blur-sm border border-gray-700 mb-8">
-              <h3 className="text-xl font-medium text-gray-300">
+              <h3 className="text-lg font-medium text-gray-300">
                 <span className="text-purple-400 font-semibold">{new Date().getFullYear() - new Date('2013').getFullYear()}+</span> Years Experience in{" "}
                 <span className="text-cyan-400 font-semibold">Software Development</span>
               </h3>

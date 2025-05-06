@@ -24,10 +24,10 @@ export function HeroSection(props: Props) {
       <Avatar />
       <div className="w-full md:w-1/2 text-center md:text-left">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          <h2 className="text-4xl md:text-6xl font-display font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500 leading-tight">
+          <h2 className="font-orbitron text-3xl md:text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500 leading-tight">
             {props.title}
           </h2>
-          <p className="font-mono text-md md:text-lg text-gray-300 mb-8 leading-relaxed">
+          <p className="text-md md:text-lg text-gray-300 mb-8 leading-relaxed">
             {parseTemplateString(props.description, {
               devExperienceYears: new Date().getFullYear() - new Date('2013').getFullYear(),
               manageExperienceYears: new Date().getFullYear() - new Date('2019').getFullYear()

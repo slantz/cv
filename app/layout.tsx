@@ -1,6 +1,6 @@
 import type React from "react"
 import type {Metadata} from "next";
-import { Space_Grotesk, Roboto_Mono } from "next/font/google"
+import { Space_Grotesk, Roboto_Mono, Outfit, Iceland, Orbitron } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import GoogleAnalytics from "@/components/google-analytics"
@@ -13,6 +13,23 @@ export const revalidate = 86400; // 24 hours
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   variable: '--font-space-grotesk',
+})
+
+const outfit = Outfit({
+  weight: ["300", "400", "600"],
+  subsets: ['latin'],
+  variable: '--font-outfit',
+})
+
+const iceland = Iceland({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-iceland',
+})
+
+const orbitron = Orbitron({
+  subsets: ['latin'],
+  variable: '--font-orbitron',
 })
 
 const robotoMono = Roboto_Mono({
@@ -84,7 +101,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${spaceGrotesk.variable} ${robotoMono.variable} font-sans antialiased bg-pool-richBlack`}>
+      <body className={`${spaceGrotesk.variable} ${robotoMono.variable} ${outfit.variable} ${iceland.variable} ${orbitron.variable} font-outfit antialiased bg-pool-richBlack`}>
         <AuthProvider>
           <ThemeProvider
             attribute="class"

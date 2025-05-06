@@ -31,8 +31,14 @@ interface Language {
 interface Skill {
   key: string;
   order: number;
-  level: 1  | 2 | 3 | 4 | 5;
+  level: 1 | 2 | 3 | 4 | 5;
   details: string[];
+}
+
+export interface SectionMeta {
+  meta: {
+    order: number;
+  }
 }
 
 export interface AboutSection {
@@ -51,7 +57,7 @@ export interface EssaySection {
   title: string;
   dates: {
     startDate: Date;
-    endDate: Date | null;
+    endDate?: Date;
   }
   description: string;
   keyProjects: Array<string>;
@@ -64,10 +70,10 @@ export interface EssaySection {
 }
 
 export interface CVData {
-  about: AboutSection;
-  education: Array<EssaySection>;
-  employment: Array<EssaySection>
-  projects: Array<EssaySection>
-  ownProjects: Array<EssaySection>
-  publications: Array<EssaySection>
+  about: AboutSection & SectionMeta;
+  education: SectionMeta & {data: Array<EssaySection>}
+  employment: SectionMeta & {data: Array<EssaySection>}
+  projects: SectionMeta & {data: Array<EssaySection>}
+  ownProjects: SectionMeta & {data: Array<EssaySection>}
+  publications: SectionMeta & {data: Array<EssaySection>}
 }
