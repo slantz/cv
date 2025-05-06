@@ -14,7 +14,42 @@ export async function fetchCVDocuments(): Promise<CVData> {
       description: '',
       subtitle: {
         major: '',
-        duration: ''
+        duration: '',
+        years: ''
+      },
+      social: {
+        github: {
+          link: {
+            type: 'link',
+            value: '',
+            link: 'https://'
+          },
+          tracking: ''
+        },
+        linkedin: {
+          link: {
+            type: 'link',
+            value: '',
+            link: 'https://'
+          },
+          tracking: ''
+        },
+        medium: {
+          link: {
+            type: 'link',
+            value: '',
+            link: 'https://'
+          },
+          tracking: ''
+        },
+        stackOverflow: {
+          link: {
+            type: 'link',
+            value: '',
+            link: 'https://'
+          },
+          tracking: ''
+        }
       },
       achievements: [],
       contact: [],
