@@ -1,6 +1,6 @@
 interface Link {
   type: "link";
-  link: URL;
+  link: `https://${string}` | `http://${string}`;
   value: string;
 }
 
@@ -36,6 +36,25 @@ interface Skill {
   details: string[];
 }
 
+interface Social {
+  github: {
+    link: Link;
+    tracking: string;
+  };
+  linkedin: {
+    link: Link;
+    tracking: string;
+  };
+  medium: {
+    link: Link;
+    tracking: string;
+  };
+  stackOverflow: {
+    link: Link;
+    tracking: string;
+  };
+}
+
 export interface SectionMeta {
   meta: {
     order: number;
@@ -50,6 +69,7 @@ export interface AboutSection {
   contact: Array<Contact>;
   languages: Array<Language>;
   skills: Array<Skill>;
+  social: Social
 }
 
 export interface EssaySection {
