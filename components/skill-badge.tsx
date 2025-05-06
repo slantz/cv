@@ -16,7 +16,7 @@ interface SkillBadgeProps {
 export function SkillBadge({ name, level = 5, className, details }: SkillBadgeProps) {
   const [isExpanded, setIsExpanded] = useState(false)
 
-  const modalRef = useOutsideClick<HTMLDivElement>(() => {
+  const outsideClickListenerRef = useOutsideClick<HTMLDivElement>(() => {
     setIsExpanded(false)
   }, isExpanded)
 
@@ -39,7 +39,10 @@ export function SkillBadge({ name, level = 5, className, details }: SkillBadgePr
   }
 
   return (
-    <div className="relative">
+    <div
+      ref={outsideClickListenerRef}
+      className="relative"
+    >
       <motion.div
         whileHover={{ scale: 1.05 }}
         className={cn(
@@ -77,7 +80,7 @@ export function SkillBadge({ name, level = 5, className, details }: SkillBadgePr
             transition={{ duration: 0.2 }}
             className="absolute z-20 left-0 mt-2 w-64 bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden"
           >
-            <div ref={modalRef} className="p-3">
+            <div className="p-3">
               <h4 className="font-medium text-sm mb-2 text-white capitalize">{name} Skills</h4>
               <div className="space-y-2">
                 {details.map((group, groupIndex) => (
