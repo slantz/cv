@@ -9,7 +9,7 @@ interface Text {
   value: string;
 }
 
-interface Contact {
+export interface Contact {
   title: string;
   type: 'location' | 'email' | 'telegram' | 'discord';
   value: string;
@@ -20,6 +20,7 @@ interface Contact {
 interface AboutSubTitle {
   major: string;
   duration: string;
+  years: string;
 }
 
 interface Language {

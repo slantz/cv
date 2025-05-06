@@ -2,8 +2,10 @@
 
 import { motion } from "framer-motion"
 import { Globe } from "lucide-react"
+import type {CVData} from "@/types/core";
 
 interface LanguageCardProps {
+  languages: CVData['about']['languages']
   className?: string
 }
 
@@ -13,15 +15,7 @@ interface Language {
   proficiency: string
 }
 
-export function LanguageCard({ className }: LanguageCardProps) {
-  // Sample language data - in a real app, this could come from your Firebase database
-  const languages: Language[] = [
-    { name: "English", level: 5, proficiency: "Native" },
-    { name: "Spanish", level: 4, proficiency: "Fluent" },
-    { name: "French", level: 3, proficiency: "Intermediate" },
-    { name: "German", level: 2, proficiency: "Basic" },
-  ]
-
+export function LanguageCard({ languages, className }: LanguageCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -41,7 +35,7 @@ export function LanguageCard({ className }: LanguageCardProps) {
                 <div className="w-6 h-6 rounded-full bg-cyan-900/40 flex items-center justify-center border border-cyan-500/30 group-hover:border-cyan-500/60 transition-all">
                   <Globe className="h-3 w-3 text-cyan-400" />
                 </div>
-                <span className="text-sm font-medium text-white">{language.name}</span>
+                <span className="text-sm font-medium text-white capitalize">{language.name}</span>
               </div>
               <span className="text-xs text-gray-400">{language.proficiency}</span>
             </div>

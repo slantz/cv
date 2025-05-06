@@ -10,7 +10,7 @@ interface SkillBadgeProps {
   name: string
   level?: number
   className?: string
-  details?: string[][]
+  details?: string[]
 }
 
 export function SkillBadge({ name, level = 5, className, details }: SkillBadgeProps) {
@@ -46,7 +46,7 @@ export function SkillBadge({ name, level = 5, className, details }: SkillBadgePr
           "inline-flex items-center px-3 py-1 rounded-full text-xs font-medium cursor-pointer",
           "bg-gradient-to-r",
           colorClass,
-          "text-white shadow-sm",
+          "text-white shadow-sm uppercase",
           className,
         )}
         onClick={toggleExpand}
@@ -78,12 +78,12 @@ export function SkillBadge({ name, level = 5, className, details }: SkillBadgePr
             className="absolute z-20 left-0 mt-2 w-64 bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden"
           >
             <div ref={modalRef} className="p-3">
-              <h4 className="font-medium text-sm mb-2 text-white">{name} Skills</h4>
+              <h4 className="font-medium text-sm mb-2 text-white capitalize">{name} Skills</h4>
               <div className="space-y-2">
                 {details.map((group, groupIndex) => (
                   <div key={groupIndex} className="space-y-1">
                     <div className="flex flex-wrap gap-1">
-                      {group.map((skill, skillIndex) => (
+                      {group.split(":").map(skill => skill.trim()).map((skill, skillIndex) => (
                         <span
                           key={skillIndex}
                           className={`inline-block px-2 py-0.5 text-xs rounded-md ${
