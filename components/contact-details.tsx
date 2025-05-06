@@ -53,9 +53,9 @@ export function ContactDetails({ contact, className }: ContactDetailsProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
-      className={`rounded-xl border border-gray-700 bg-gray-800/50 backdrop-blur-sm p-5 ${className}`}
+      className={`rounded-xl border border-gray-700 bg-gray-800/50 backdrop-blur-sm p-5 h-full ${className}`}
     >
-      <h3 className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500 mb-3 md:mb-1">
+      <h3 className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500 mb-3">
         Get in Touch
       </h3>
 

@@ -22,8 +22,8 @@ export function SkillsLangContactSection(props: Props) {
       transition={{ duration: 0.8, delay: 0.3 }}
       className="max-w-5xl mx-auto mb-16"
     >
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-start mb-12">
-        <div className="md:col-span-2">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-stretch mb-12">
+        <div className="md:col-span-2 h-full">
           <div className="flex flex-col items-stretch justify-stretch">
             <div className="inline-block text-center px-6 py-2 rounded-full bg-gray-800/80 backdrop-blur-sm border border-gray-700 mb-8">
               <h3 className="text-lg font-medium text-gray-300">
@@ -50,11 +50,11 @@ export function SkillsLangContactSection(props: Props) {
           </div>
         </div>
 
-        <div className="md:col-span-1">
+        <div className="md:col-span-1 h-full">
           <LanguageCard languages={props.languages} />
         </div>
 
-        <div className="md:col-span-1">
+        <div className="md:col-span-1 h-full">
           <ContactDetails contact={props.contact} />
         </div>
       </div>

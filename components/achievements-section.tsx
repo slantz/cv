@@ -32,14 +32,14 @@ export function AchievementsSection(props: AchievementsProps) {
   const achievementsIcons = [
     <Trophy className="h-4 w-4 text-amber-400" />,
     <Star className="h-4 w-4 text-purple-400" />,
-    <BarChart className="h-4 w-4 text-cyan-400" />,
+    <Crown className="h-4 w-4 text-cyan-400" />,
     <Zap className="h-4 w-4 text-yellow-400" />,
     <Globe className="h-4 w-4 text-blue-400" />,
     <Lightbulb className="h-4 w-4 text-amber-400" />,
     <Target className="h-4 w-4 text-red-400" />,
     <Award className="h-4 w-4 text-green-400" />,
     <Medal className="h-4 w-4 text-indigo-400" />,
-    <Crown className="h-4 w-4 text-pink-400" />
+    <BarChart className="h-4 w-4 text-pink-400" />
   ];
 
   const achievementsWithIcons = props.achievements.map((achievement, index) => ({

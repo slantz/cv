@@ -21,7 +21,7 @@ export function LanguageCard({ languages, className }: LanguageCardProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
-      className={`rounded-xl border border-gray-700 bg-gray-800/50 backdrop-blur-sm p-5 ${className}`}
+      className={`rounded-xl border border-gray-700 bg-gray-800/50 backdrop-blur-sm p-5 h-full ${className}`}
     >
       <h3 className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500 mb-3">
         Languages
