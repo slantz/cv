@@ -1,5 +1,4 @@
 import { getAdminDB } from "@/lib/firebase-admin"
-import { Timestamp } from "firebase-admin/firestore";
 import {snakeKebabToCamel} from "@/lib/utils";
 import type {AboutSection, CVData, EssaySection, SectionMeta} from "@/types/core";
 
@@ -8,7 +7,7 @@ const fallback: CVData = {
     meta: {
       order: 0,
       title: 'about',
-      subtitle: ''
+      subtitle: 'mock'
     },
     title: '',
     description: '',
@@ -60,7 +59,7 @@ const fallback: CVData = {
     meta: {
       order: 3,
       title: 'education',
-      subtitle: ''
+      subtitle: 'mock'
     },
     data: []
   },
@@ -68,7 +67,7 @@ const fallback: CVData = {
     meta: {
       order: 1,
       title: 'employment',
-      subtitle: ''
+      subtitle: 'mock'
     },
     data: []
   },
@@ -76,7 +75,7 @@ const fallback: CVData = {
     meta: {
       order: 2,
       title: 'projects',
-      subtitle: ''
+      subtitle: 'mock'
     },
     data: []
   },
@@ -84,7 +83,7 @@ const fallback: CVData = {
     meta: {
       order: 4,
       title: 'personal projects',
-      subtitle: ''
+      subtitle: 'mock'
     },
     data: []
   },
@@ -92,7 +91,7 @@ const fallback: CVData = {
     meta: {
       order: 5,
       title: 'publications',
-      subtitle: ''
+      subtitle: 'mock'
     },
     data: []
   }
