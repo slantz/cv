@@ -6,7 +6,10 @@ import {useCvData} from "@/hooks/use-cv-data";
 import {useState} from "react";
 import {event} from "@/lib/analytics";
 import {CVData} from "@/types/core";
-import {formatSubtitle, parseTextWithLinks, renderDescription} from "@/lib/render-utils"
+import {EssayHeading} from "@/components/essay/essay-heading";
+import {EssayDescription} from "@/components/essay/essay-description";
+import {EssayLinks} from "@/components/essay/essay-links";
+import {EssayKeyProjects} from "@/components/essay/essay-key-projects";
 
 interface EssaySectionProps {
   data: Omit<CVData, 'about'>;
@@ -19,6 +22,8 @@ export function EssaySection({data}: EssaySectionProps) {
   const sortedSections =
     Object.entries(data)
       .sort(([, a], [, b]) => a.meta.order - b.meta.order);
+
+  console.log(sortedSections)
 
   const toggleExpand = (id: string) => {
     setExpandedId(expandedId === id ? null : id)
@@ -73,9 +78,9 @@ export function EssaySection({data}: EssaySectionProps) {
             </p>
           </div>
         ) : (
-          cvData.map((section, index) => (
+          sortedSections.map(([sectionKey, section], index) => (
             <motion.div
-              key={section.id}
+              key={sectionKey}
               layout
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -84,16 +89,16 @@ export function EssaySection({data}: EssaySectionProps) {
             >
               <motion.button
                 layout
-                onClick={() => toggleExpand(section.id)}
+                onClick={() => toggleExpand(sectionKey)}
                 className="w-full p-6 flex justify-between items-center text-left"
               >
                 <div>
-                  <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500">
-                    {section.title}
+                  <h3 className="text-xl font-bold bg-clip-text text-transparent capitalize bg-gradient-to-r from-purple-400 to-pink-500">
+                    {section.meta.title}
                   </h3>
-                  <p className="text-gray-300 mt-1">{section.description}</p>
+                  <p className="text-gray-300 mt-1">{section.meta.subtitle}</p>
                 </div>
-                {expandedId === section.id ? (
+                {expandedId === sectionKey ? (
                   <ChevronUp className="h-5 w-5 text-purple-400" />
                 ) : (
                   <ChevronDown className="h-5 w-5 text-purple-400" />
@@ -101,7 +106,7 @@ export function EssaySection({data}: EssaySectionProps) {
               </motion.button>
 
               <AnimatePresence>
-                {expandedId === section.id && (
+                {expandedId === sectionKey && (
                   <motion.div
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
@@ -110,37 +115,13 @@ export function EssaySection({data}: EssaySectionProps) {
                     className="overflow-hidden border-t border-gray-700"
                   >
                     <div className="p-6 bg-gray-800/80">
-                      {section.details.length > 0 ? (
-                        section.details.map((detail, index) => (
+                      {section.data.length > 0 ? (
+                        section.data.map((essay, index) => (
                           <div key={index} className="mb-4 last:mb-0">
-                            <div className="flex justify-between items-center">
-                              <div className="flex-1">
-                                <h4 className="font-semibold text-cyan-400">
-                                  {detail.title}
-                                  {detail.subtitle && (
-                                    <span className="font-normal text-gray-300 ml-1">
-                                        , {formatSubtitle(detail.subtitle)}
-                                      </span>
-                                  )}
-                                </h4>
-                              </div>
-                              {detail.dateRange && (
-                                <span className="text-xs text-gray-400 font-medium ml-2">{detail.dateRange}</span>
-                              )}
-                            </div>
-                            {renderDescription(detail.description)}
-                            {detail.tags && (
-                              <div className="flex flex-wrap gap-2 mt-2">
-                                {detail.tags.map((tag, tagIndex) => (
-                                  <span
-                                    key={tagIndex}
-                                    className="px-2 py-1 text-xs rounded-full bg-gray-700 text-gray-300"
-                                  >
-                                      {tag}
-                                    </span>
-                                ))}
-                              </div>
-                            )}
+                            <EssayHeading essay={essay} />
+                            <EssayDescription description={essay.description} />
+                            <EssayLinks links={essay.links} />
+                            <EssayKeyProjects keyProjects={essay.keyProjects} />
                           </div>
                         ))
                       ) : (

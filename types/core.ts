@@ -58,6 +58,8 @@ interface Social {
 export interface SectionMeta {
   meta: {
     order: number;
+    title: string;
+    subtitle: string;
   }
 }
 
@@ -73,21 +75,32 @@ export interface AboutSection {
 }
 
 export interface EssaySection {
+  // main titles
   company?: string;
-  location?: string;
-  title?: string;
-  dates?: {
-    startDate: Date;
-    endDate?: Date;
-  }
-  description?: string;
-  keyProjects?: Array<string>;
   institution?: string;
-  major?: string;
-  projects?: Array<Link | Text>;
   project?: string;
   platform?: string;
+
+  // additional to title
+  location?: string;
+
+  // title, link or major
+  title?: string;
+  major?: string;
+  projects?: Array<Link | Text>;
+
+  // sub header like dates
+  dates?: {
+    startDate: string;
+    endDate?: string;
+  }
+
+  // description or the list of links
+  description?: string;
   links?: Array<Link>
+
+  // badges
+  keyProjects?: Array<string>;
 }
 
 export interface CVData {

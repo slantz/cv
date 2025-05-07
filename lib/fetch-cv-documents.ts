@@ -6,7 +6,9 @@ import type {AboutSection, CVData, EssaySection, SectionMeta} from "@/types/core
 const fallback: CVData = {
   about: {
     meta: {
-      order: 0
+      order: 0,
+      title: 'about',
+      subtitle: ''
     },
     title: '',
     description: '',
@@ -56,52 +58,67 @@ const fallback: CVData = {
   },
   education: {
     meta: {
-      order: 3
+      order: 3,
+      title: 'education',
+      subtitle: ''
     },
     data: []
   },
   employment: {
     meta: {
-      order: 1
+      order: 1,
+      title: 'employment',
+      subtitle: ''
     },
     data: []
   },
   projects: {
     meta: {
-      order: 2
+      order: 2,
+      title: 'projects',
+      subtitle: ''
     },
     data: []
   },
   ownProjects: {
     meta: {
-      order: 4
+      order: 4,
+      title: 'personal projects',
+      subtitle: ''
     },
     data: []
   },
   publications: {
     meta: {
-      order: 5
+      order: 5,
+      title: 'publications',
+      subtitle: ''
     },
     data: []
   }
 };
 
-function normalizeEssaySection(section: any): EssaySection {
+function normalizeEssaySection(section: EssaySection): EssaySection {
   if (!section.dates) {
     return section;
   }
 
+  const formatDate = (dateStr: string): string => {
+    const date = new Date(dateStr);
+    return new Intl.DateTimeFormat("en", {
+      year: "numeric",
+      month: "long",
+      timeZone: "UTC",
+    }).format(date);
+  };
+
   return {
     ...section,
     dates: {
-      startDate: section.dates.startDate instanceof Timestamp
-        ? section.dates.startDate.toDate()
-        : section.dates.startDate,
+      startDate: formatDate(section.dates.startDate),
       ...(section.dates.endDate && {
-        endDate: section.dates.endDate instanceof Timestamp
-          ? section.dates.endDate.toDate()
-          : section.dates.endDate
-      })
+        endDate: formatDate(section.dates.endDate),
+      }),
     },
   };
 }
