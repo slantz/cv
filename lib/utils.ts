@@ -23,3 +23,10 @@ export const parseTemplateString = (
       : `{{${trimmedKey}}}`
   })
 }
+
+export const parseTemplateDescriptionWithDates = (description: string) => {
+  return parseTemplateString(description, {
+    devExperienceYears: new Date().getFullYear() - new Date('2013').getFullYear(),
+    manageExperienceYears: new Date().getFullYear() - new Date('2019').getFullYear()
+  })
+}

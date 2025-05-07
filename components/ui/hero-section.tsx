@@ -8,7 +8,7 @@ import {useTracking} from "@/hooks/use-tracking";
 import {ContactForm} from "@/components/contact-form";
 import {useState} from "react";
 import {CVData} from "@/types/core";
-import {parseTemplateString} from "@/lib/utils";
+import {parseTemplateDescriptionWithDates, parseTemplateString} from "@/lib/utils";
 
 interface Props {
   title: CVData['about']['title'];
@@ -27,11 +27,8 @@ export function HeroSection(props: Props) {
           <h2 className="font-orbitron text-3xl md:text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500 leading-tight">
             {props.title}
           </h2>
-          <p className="text-md md:text-lg text-gray-300 mb-8 leading-relaxed">
-            {parseTemplateString(props.description, {
-              devExperienceYears: new Date().getFullYear() - new Date('2013').getFullYear(),
-              manageExperienceYears: new Date().getFullYear() - new Date('2019').getFullYear()
-            })}
+          <p className="text-md text-gray-300 mb-8 leading-relaxed">
+            {parseTemplateDescriptionWithDates(props.description)}
           </p>
           <div className="flex flex-wrap justify-center md:justify-start gap-4">
             <div data-shortcut="download">
