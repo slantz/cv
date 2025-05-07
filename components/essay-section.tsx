@@ -16,6 +16,10 @@ export function EssaySection({data}: EssaySectionProps) {
   const { cvData, isLoading, error, usingMockData } = useCvData()
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
+  const sortedSections =
+    Object.entries(data)
+      .sort(([, a], [, b]) => a.meta.order - b.meta.order);
+
   const toggleExpand = (id: string) => {
     setExpandedId(expandedId === id ? null : id)
 

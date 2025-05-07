@@ -73,21 +73,21 @@ export interface AboutSection {
 }
 
 export interface EssaySection {
-  company: string;
-  location: string;
-  title: string;
-  dates: {
+  company?: string;
+  location?: string;
+  title?: string;
+  dates?: {
     startDate: Date;
     endDate?: Date;
   }
-  description: string;
-  keyProjects: Array<string>;
-  institution: string;
-  major: string;
-  projects: Array<Link | Text>;
-  project: string;
-  platform: string;
-  links: Array<Link>
+  description?: string;
+  keyProjects?: Array<string>;
+  institution?: string;
+  major?: string;
+  projects?: Array<Link | Text>;
+  project?: string;
+  platform?: string;
+  links?: Array<Link>
 }
 
 export interface CVData {

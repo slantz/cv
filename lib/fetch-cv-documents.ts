@@ -1,4 +1,5 @@
 import { getAdminDB } from "@/lib/firebase-admin"
+import { Timestamp } from "firebase-admin/firestore";
 import {snakeKebabToCamel} from "@/lib/utils";
 import type {AboutSection, CVData, EssaySection, SectionMeta} from "@/types/core";
 
@@ -85,6 +86,26 @@ const fallback: CVData = {
   }
 };
 
+function normalizeEssaySection(section: any): EssaySection {
+  if (!section.dates) {
+    return section;
+  }
+
+  return {
+    ...section,
+    dates: {
+      startDate: section.dates.startDate instanceof Timestamp
+        ? section.dates.startDate.toDate()
+        : section.dates.startDate,
+      ...(section.dates.endDate && {
+        endDate: section.dates.endDate instanceof Timestamp
+          ? section.dates.endDate.toDate()
+          : section.dates.endDate
+      })
+    },
+  };
+}
+
 export async function fetchCVDocuments(): Promise<CVData> {
   const db = getAdminDB();
 
@@ -101,7 +122,7 @@ export async function fetchCVDocuments(): Promise<CVData> {
 
   const snapshot = await db.collection("cv-data").get()
 
-  const sectionEntries: [keyof CVData, CVData[keyof CVData]][] = [];
+  const documents = {...fallback};
 
   snapshot.forEach((doc) => {
     const key = snakeKebabToCamel(doc.id) as keyof CVData
@@ -109,34 +130,22 @@ export async function fetchCVDocuments(): Promise<CVData> {
 
     switch (key) {
       case "about":
-        sectionEntries.push([key, data as AboutSection & SectionMeta]);
-        break;
+        documents.about = data as SectionMeta & AboutSection
+        break
       case "education":
       case "employment":
       case "projects":
       case "ownProjects":
       case "publications":
-        sectionEntries.push([key, data as SectionMeta & {data: Array<EssaySection>}]);
-        break;
+        documents[key] = {
+          meta: (data as SectionMeta).meta,
+          data: (data as SectionMeta & {data: EssaySection[]}).data.map(normalizeEssaySection),
+        };
+        break
       default:
         console.warn(`Unexpected section "${key}" found in cv-data.`)
     }
   })
 
-  sectionEntries.sort(([, a], [, b]) => a.meta.order - b.meta.order);
-
-  const documents: CVData = {...fallback};
-
-  for (const [key, value] of sectionEntries) {
-    if (key === "about") {
-      documents[key] = value as AboutSection & SectionMeta;
-    }
-    else {
-      documents[key] = value as SectionMeta & {data: Array<EssaySection>};
-    }
-  }
-
-  return {
-    ...documents
-  };
+  return documents;
 }
