@@ -47,7 +47,7 @@ export default function ContactMessagesPage() {
         setIsAdmin(true)
 
         // Now fetch messages
-        fetchMessages()
+        await fetchMessages()
       } catch (err) {
         console.error("Auth check error:", err)
         router.push("/auth/login?from=/admin/contact-messages")

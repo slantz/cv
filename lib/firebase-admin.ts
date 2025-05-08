@@ -3,6 +3,7 @@ import "server-only";
 import {cert, getApps, initializeApp} from "firebase-admin/app"
 import {getFirestore} from "firebase-admin/firestore"
 import {getAuth} from "firebase-admin/auth"
+import {getStorage} from "firebase-admin/storage";
 
 export function getFirebaseAdminApp() {
   const apps = getApps()
@@ -37,9 +38,7 @@ export function getFirebaseAdminApp() {
   }
 
   // Return the existing admin app
-  const app = apps.find((app) => app.name === "cvAdminApp") || apps[0]
-  console.log("Using existing Firebase Admin app:", app.name)
-  return app
+  return apps.find((app) => app.name === "cvAdminApp") || apps[0]
 }
 
 // Export Firestore and Auth if admin app is initialized
@@ -51,6 +50,11 @@ export const getAdminDB = () => {
 export const getAdminAuth = () => {
   const adminApp = getFirebaseAdminApp();
   return adminApp ? getAuth(adminApp) : null
+}
+
+export const getAdminStorage = () => {
+  const adminApp = getFirebaseAdminApp();
+  return adminApp ? getStorage(adminApp) : null;
 }
 
 // Verify a Firebase ID token and return the decoded token

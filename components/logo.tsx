@@ -27,7 +27,7 @@ export function Logo() {
 
   if (isMobile) {
     return (
-      <h1 ref={logoRoot} id="logo" className="text-2xl font-bold cursor-pointer text-violet-300 flex-1 pr-16">
+      <h1 ref={logoRoot} id="logo" className="text-2xl font-bold cursor-pointer text-violet-300 flex-1 pr-8">
         <svg width="396" height="134.77258794309418" viewBox="0 0 350.00000000000006 119.11718631334084" className="w-full">
           <g id="svg-code-symbol"
              transform="matrix(1.2962962962962963,0,0,1.2962962962962963,110.51851851851852,-38.23279910617404)"

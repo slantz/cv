@@ -6,10 +6,6 @@ import { GlowButton } from "@/components/glow-button"
 import { PasswordModal } from "@/components/password-modal"
 import { event } from "@/lib/analytics"
 
-// In a real application, this would be stored securely on the server
-// This is just for demonstration purposes
-const CV_PASSWORD = "web3portfolio"
-
 interface CVDownloadProps {
   className?: string
 }
@@ -30,24 +26,40 @@ export function CVDownload({ className }: CVDownloadProps) {
     setIsModalOpen(false)
   }
 
-  const handleDownloadSuccess = () => {
-    // In a real application, this would trigger the actual file download
-    // For demonstration, we'll just log the success
-    console.log("CV download authorized!")
+  const handleDownloadSuccess = async (inputPassword: string) => {
+    try {
+      const res = await fetch(`/api/cv/get-cv-file?key=${btoa(encodeURIComponent(inputPassword))}`)
 
-    // Simulate file download by creating a temporary link
-    const link = document.createElement("a")
-    link.href = "/john-doe-cv.pdf" // This would be your actual CV file path
-    link.download = "john-doe-cv.pdf"
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+      if (!res.ok) {
+        console.error("CV download failed")
+        return
+      }
 
-    event({
-      action: "cv_download_success",
-      category: "user_interaction",
-      label: "CV Downloaded Successfully",
-    })
+      const blob = await res.blob()
+      const url = window.URL.createObjectURL(blob)
+
+      // Force download of the CV as a file with a meaningful name.
+      // Alternatives:
+      // - To open in a new tab without download: use `window.open(url, "_blank")` (shows blob URL, no filename)
+      // - To use native browser download with correct filename: redirect to a signed Firebase Storage URL (exposes bucket URL temporarily),
+      //   but in here we can set Content-Disposition": `attachment; filename=" from server and it will be used,
+      //   otherwise now I need to expose filename as a public variable
+      const a = document.createElement("a")
+      a.href = url
+      a.download = process.env.NEXT_PUBLIC_CV_FILE_DOWNLOAD_NAME || 'cv'
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      window.URL.revokeObjectURL(url)
+
+      event({
+        action: "cv_download_success",
+        category: "user_interaction",
+        label: "CV Downloaded Successfully",
+      })
+    } catch (err) {
+      console.error("Failed to download CV:", err)
+    }
   }
 
   return (
@@ -63,7 +75,6 @@ export function CVDownload({ className }: CVDownloadProps) {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onSuccess={handleDownloadSuccess}
-        password={CV_PASSWORD}
       />
     </>
   )

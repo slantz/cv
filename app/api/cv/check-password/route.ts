@@ -1,11 +1,16 @@
-import { type NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from "next/server"
 
-type ResponseData = {
-  message: string
-}
+export async function POST(req: NextRequest) {
+  const body = await req.json()
+  const inputPassword = Buffer.from(body.password, 'base64').toString('utf8')
 
-export async function GET(
-  req: NextRequest,
-) {
-  return NextResponse.json<ResponseData>({ message: 'Hello from Next.js!' })
+  if (!inputPassword) {
+    return NextResponse.json({ success: false, message: "Missing password" }, { status: 400 })
+  }
+
+  if (inputPassword === process.env.CV_PASSWORD) {
+    return NextResponse.json({ success: true })
+  } else {
+    return NextResponse.json({ success: false, message: "Incorrect password" }, { status: 401 })
+  }
 }

@@ -13,17 +13,16 @@ import { event } from "@/lib/analytics"
 interface PasswordModalProps {
   isOpen: boolean
   onClose: () => void
-  onSuccess: () => void
-  password: string
+  onSuccess: (inputPassword: string) => void
 }
 
-export function PasswordModal({ isOpen, onClose, onSuccess, password }: PasswordModalProps) {
+export function PasswordModal({ isOpen, onClose, onSuccess }: PasswordModalProps) {
   const [inputPassword, setInputPassword] = useState("")
   const [error, setError] = useState<string | null>(null)
   const [isVerifying, setIsVerifying] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!inputPassword.trim()) {
@@ -34,34 +33,42 @@ export function PasswordModal({ isOpen, onClose, onSuccess, password }: Password
     setIsVerifying(true)
     setError(null)
 
-    // Simulate API verification with a slight delay
-    setTimeout(() => {
-      if (inputPassword === password) {
+    try {
+      const res = await fetch("/api/cv/check-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: btoa(inputPassword) }),
+      })
+
+      const data = await res.json()
+
+      if (res.ok && data.success) {
         setIsSuccess(true)
+
         event({
           action: "cv_password_success",
           category: "authentication",
           label: "CV Download Password Success",
         })
 
-        // Delay before closing modal and triggering download
-        setTimeout(() => {
-          onSuccess()
-          onClose()
-          // Reset state for next time
-          setInputPassword("")
-          setIsSuccess(false)
-        }, 1500)
+        onSuccess(inputPassword)
+        onClose()
+        setInputPassword("")
+        setIsSuccess(false)
       } else {
-        setError("Incorrect password. Please try again.")
+        setError(data.message || "Incorrect password. Please try again.")
         event({
           action: "cv_password_failure",
           category: "authentication",
-          label: "CV Download Password Failure",
+          label: "CV Download Password Failure with Incorrect Password",
         })
       }
-      setIsVerifying(false)
-    }, 800)
+    } catch (err) {
+      console.error("Error checking password:", err)
+      setError("Something went wrong. Please try again.")
+    }
+
+    setIsVerifying(false)
   }
 
   // Close modal when clicking outside
@@ -87,8 +94,7 @@ export function PasswordModal({ isOpen, onClose, onSuccess, password }: Password
               className="relative w-full max-w-md bg-gray-900 border border-gray-800 rounded-xl shadow-lg overflow-hidden"
               onClick={(e) => e.stopPropagation()} // Prevent clicks from bubbling to backdrop
             >
-              {/* Glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 pointer-events-none" />
+              <div id="password-modal-glow-effect" className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 pointer-events-none" />
 
               <div className="relative p-6">
                 <div className="absolute top-4 right-4">
