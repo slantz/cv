@@ -72,7 +72,8 @@ export function EssaySection({data}: EssaySectionProps) {
           <div className="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-3 flex items-center gap-3">
             <Info className="h-5 w-5 text-yellow-400 flex-shrink-0" />
             <p className="text-sm text-yellow-200">
-              Something is wrong with fetching CV data, but only some sections appear to be broken: [], the rest are fine.
+              Something is wrong with fetching CV data, but only some sections appear to be broken: [{partiallyMocked}], the rest are fine.
+              Do not hesitate to ping Alex.
             </p>
           </div>
         </div>
@@ -84,7 +85,7 @@ export function EssaySection({data}: EssaySectionProps) {
             <h3 className="text-lg font-semibold text-red-400 mb-1">Error Loading Data</h3>
             <p className="text-gray-300">Seems like we use full mock for all the sections.</p>
             <p className="text-gray-400 text-sm mt-2">
-              Please ping Alex to check the Firebase configuration and ensure the collections are set up correctly.
+              Please ping Alex to check the Firebase configuration / database and ensure the collections are set up correctly or connection to firebase is up.
             </p>
           </div>
         ) : sortedSections.length === 0 ? (
