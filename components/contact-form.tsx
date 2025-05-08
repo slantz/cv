@@ -42,40 +42,34 @@ export function ContactForm({ isOpen, onClose }: ContactFormProps) {
     setErrorMessage("")
 
     try {
-      // Check if Firebase is available
-      if (!db) {
-        throw new Error("Firebase is not available. Please try again later.")
-      }
-
-      // Validate form
       if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
         throw new Error("Please fill in all required fields.")
       }
 
-      // Basic email validation
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!emailRegex.test(formData.email)) {
         throw new Error("Please enter a valid email address.")
       }
 
-      // Add to Firebase
-      await addDoc(collection(db, "contact-messages"), {
-        ...formData,
-        timestamp: serverTimestamp(),
-        read: false,
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       })
 
-      // Track successful submission
+      const result = await res.json()
+      if (!res.ok || !result.success) {
+        throw new Error(result.message || "Something went wrong. Please try again.")
+      }
+
       event({
         action: "contact_form_submit",
         category: "engagement",
         label: "Contact Form Submission",
       })
 
-      // Show success state
       setFormStatus("success")
 
-      // Reset form after 3 seconds
       setTimeout(() => {
         setFormData({
           name: "",
@@ -85,13 +79,12 @@ export function ContactForm({ isOpen, onClose }: ContactFormProps) {
         })
         setFormStatus("idle")
         onClose()
-      }, 3000)
+      }, 10000)
     } catch (error) {
       console.error("Error submitting contact form:", error)
       setFormStatus("error")
-      setErrorMessage(error instanceof Error ? error.message : "An unknown error occurred. Please try again.")
+      setErrorMessage(error instanceof Error ? error.message : "Unknown error occurred.")
 
-      // Track error
       event({
         action: "contact_form_error",
         category: "error",

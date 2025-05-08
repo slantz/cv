@@ -8,7 +8,7 @@ import {useTracking} from "@/hooks/use-tracking";
 import {ContactForm} from "@/components/contact-form";
 import {useState} from "react";
 import {CVData} from "@/types/core";
-import {parseTemplateDescriptionWithDates, parseTemplateString} from "@/lib/utils";
+import {parseTemplateDescriptionWithDates} from "@/lib/utils";
 
 interface Props {
   title: CVData['about']['title'];
