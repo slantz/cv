@@ -76,7 +76,7 @@ export const metadata: Metadata = {
     url: "https://kblnsk.me/",
     images: [
       {
-        url: "https://kblnsk.me/open_graph_1200x630.png",
+        url: "https://kblnsk.me/seo_1200x630.png",
         width: 1200,
         height: 630,
         alt: "Alex Portfolio Logo",
@@ -88,7 +88,7 @@ export const metadata: Metadata = {
     title: "Alex | Senior Software Engineer & Engineering Leader",
     description:
       "Experienced Software Engineer and Team Leader specializing in Web3, blockchain, and scalable systems. Launching products and teams successfully across global companies.",
-    images: ["https://kblnsk.me/open_graph_1200x630.png"],
+    images: ["https://kblnsk.me/seo_1200x630.png"],
   },
 };
 
