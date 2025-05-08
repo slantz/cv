@@ -34,6 +34,5 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     )
   }
 
-  // Render admin content if user is authenticated and authorized
   return <>{children}</>
 }

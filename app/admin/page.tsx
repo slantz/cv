@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Mail, User, Plus, Home } from "lucide-react"
+import { Mail, User, Home } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
@@ -14,14 +14,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import type {GithubUser} from "@/types/core";
 
 export default function AdminPage() {
   const router = useRouter()
-  const [sections, setSections] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
   const [isAdmin, setIsAdmin] = useState(false)
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState<GithubUser | null>(null)
 
   useEffect(() => {
     // Check if user is authenticated and admin
@@ -43,9 +41,6 @@ export default function AdminPage() {
         }
 
         setIsAdmin(true)
-
-        // Now fetch sections
-        fetchSections()
       } catch (err) {
         console.error("Auth check error:", err)
         router.push("/auth/login?from=/admin")
@@ -54,22 +49,6 @@ export default function AdminPage() {
 
     checkAuth()
   }, [router])
-
-  const fetchSections = async () => {
-    try {
-      const response = await fetch("/api/admin/cv-sections")
-      if (!response.ok) {
-        throw new Error("Failed to fetch sections")
-      }
-      const data = await response.json()
-      setSections(data)
-    } catch (err) {
-      console.error("Error fetching sections:", err)
-      setError(err.message)
-    } finally {
-      setLoading(false)
-    }
-  }
 
   const handleSignOut = async () => {
     try {
@@ -172,18 +151,42 @@ export default function AdminPage() {
 
           <div className="bg-gray-900 p-4 rounded border border-gray-700 font-mono text-sm overflow-x-auto">
             <pre>
-              {`cv-sections/
-  ├── {sectionId}/
+              {`cv-data/
+  ├── about/
   │   ├── title: string
   │   ├── description: string
-  │   ├── order: number
-  │   └── details/
-  │       ├── {detailId}/
-  │       │   ├── title: string
-  │       │   ├── description: string
-  │       │   ├── tags: string[]
-  │       │   └── order: number
-  
+  │   ├── subtitle: { major, duration, years }
+  │   ├── achievements: Array<{ text: string }>
+  │   ├── contact: Array<{ title, type, value, tracking?, link? }>
+  │   ├── languages: Array<{ name, proficiency, level }>
+  │   ├── skills: Array<{ key, order, level, details }>
+  │   ├── social:
+  │   │   ├── github: { link: { type, value, link }, tracking }
+  │   │   ├── linkedin: { ... }
+  │   │   ├── medium: { ... }
+  │   │   └── stackOverflow: { ... }
+  │   └── meta: { order, title, subtitle }
+
+  ├── education/
+  │   ├── meta: { order, title, subtitle }
+  │   └── data: Array<EssaySection>
+
+  ├── employment/
+  │   ├── meta: { order, title, subtitle }
+  │   └── data: Array<EssaySection>
+
+  ├── projects/
+  │   ├── meta: { order, title, subtitle }
+  │   └── data: Array<EssaySection>
+
+  ├── own-projects/
+  │   ├── meta: { order, title, subtitle }
+  │   └── data: Array<EssaySection>
+
+  └── publications/
+      ├── meta: { order, title, subtitle }
+      └── data: Array<EssaySection>
+
 contact-messages/
   ├── {messageId}/
   │   ├── name: string
@@ -191,20 +194,10 @@ contact-messages/
   │   ├── subject: string
   │   ├── message: string
   │   ├── timestamp: timestamp
-  │   └── read: boolean`}
+  │   └── read: boolean
+`}
             </pre>
           </div>
-        </div>
-
-        <div className="bg-gray-800 rounded-lg p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4">Instructions</h2>
-          <ol className="list-decimal list-inside space-y-2 text-gray-300">
-            <li>Click the "+" button in the bottom right to add a new section</li>
-            <li>Fill in the section details including title, description, and order</li>
-            <li>Add one or more detail items for each section</li>
-            <li>For each detail, provide a title, description, and optional tags</li>
-            <li>Click "Save Section" to add the section to your CV</li>
-          </ol>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
@@ -219,15 +212,6 @@ contact-messages/
           </Link>
         </div>
       </div>
-
-      {/* Add Section Button */}
-      <Button
-        onClick={() => router.push("/admin/add-section")}
-        className="fixed bottom-4 right-4 z-50 rounded-full w-12 h-12 p-0 bg-gradient-to-r from-purple-500 to-pink-600 shadow-lg"
-      >
-        <Plus className="h-6 w-6" />
-        <span className="sr-only">Add CV Section</span>
-      </Button>
     </div>
   )
 }

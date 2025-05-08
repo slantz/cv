@@ -4,6 +4,12 @@ interface Link {
   value: string;
 }
 
+export interface GithubUser {
+  displayName: string;
+  photoURL: `https://${string}` | `http://${string}`;
+  email: `${string}@${string}`;
+}
+
 interface Text {
   type: "text";
   value: string;
@@ -110,4 +116,18 @@ export interface CVData {
   projects: SectionMeta & {data: Array<EssaySection>}
   ownProjects: SectionMeta & {data: Array<EssaySection>}
   publications: SectionMeta & {data: Array<EssaySection>}
+}
+
+export interface FirestoreContactMessage {
+  id: string
+  name: string
+  email: `${string}@${string}` // basic email pattern
+  subject: string
+  message: string
+  read: boolean
+  timestamp:
+    | { _seconds: number; _nanoseconds: number }   // Firestore Admin SDK / serialized
+    | { seconds: number; nanoseconds: number }     // Firestore Web SDK
+    | Date                                         // in case it's converted early
+    | string                                       // fallback for ISO strings
 }

@@ -30,3 +30,37 @@ export const parseTemplateDescriptionWithDates = (description: string) => {
     manageExperienceYears: new Date().getFullYear() - new Date('2019').getFullYear()
   })
 }
+
+export const format = (date: Date) =>
+  new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(date)
+
+export const formatFirestoreTimestampDate = (timestamp: any): string => {
+  if (!timestamp) return "Unknown date"
+
+  try {
+    // Firestore Timestamp (client SDK)
+    if (typeof timestamp.toDate === "function") {
+      return format(timestamp.toDate())
+    }
+
+    // Firestore Timestamp (admin SDK or serialized)
+    if ("_seconds" in timestamp) {
+      return format(new Date(timestamp._seconds * 1000))
+    }
+
+    if ("seconds" in timestamp) {
+      return format(new Date(timestamp.seconds * 1000))
+    }
+
+    // ISO string or fallback
+    return format(new Date(timestamp))
+  } catch {
+    return "Invalid date"
+  }
+}

@@ -5,25 +5,16 @@ import { Button } from "@/components/ui/button"
 import { Trash, Mail, MailOpen, ArrowLeft, AlertTriangle, Loader } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-
-interface ContactMessage {
-  id: string
-  name: string
-  email: string
-  subject: string
-  message: string
-  timestamp: any
-  read: boolean
-}
+import {formatFirestoreTimestampDate} from "@/lib/utils";
+import type {FirestoreContactMessage} from "@/types/core";
 
 export default function ContactMessagesPage() {
   const router = useRouter()
-  const [messages, setMessages] = useState<ContactMessage[]>([])
+  const [messages, setMessages] = useState<FirestoreContactMessage[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [selectedMessage, setSelectedMessage] = useState<ContactMessage | null>(null)
+  const [selectedMessage, setSelectedMessage] = useState<FirestoreContactMessage | null>(null)
   const [isAdmin, setIsAdmin] = useState(false)
-  const [user, setUser] = useState(null)
 
   useEffect(() => {
     // Check if user is authenticated and admin
@@ -37,7 +28,6 @@ export default function ContactMessagesPage() {
         }
 
         const userData = await authResponse.json()
-        setUser(userData.user)
 
         if (!userData.isAdmin) {
           router.push("/auth/unauthorized")
@@ -129,42 +119,7 @@ export default function ContactMessagesPage() {
     }
   }
 
-  const formatDate = (timestamp: any) => {
-    if (!timestamp) return "Unknown date"
-
-    try {
-      // Handle Firestore timestamp objects
-      if (timestamp.toDate && typeof timestamp.toDate === "function") {
-        const date = timestamp.toDate()
-        return new Intl.DateTimeFormat("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-        }).format(date)
-      }
-
-      // Handle serialized timestamps from API
-      if (timestamp.seconds) {
-        const date = new Date(timestamp.seconds * 1000)
-        return new Intl.DateTimeFormat("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-        }).format(date)
-      }
-
-      // Handle string dates
-      return new Date(timestamp).toLocaleString()
-    } catch (err) {
-      return "Invalid date"
-    }
-  }
-
-  const viewMessage = (message: ContactMessage) => {
+  const viewMessage = (message: FirestoreContactMessage) => {
     setSelectedMessage(message)
     if (!message.read) {
       markAsRead(message.id)
@@ -235,7 +190,7 @@ export default function ContactMessagesPage() {
                         </h3>
                         <div className="flex items-center">
                           {!message.read && <div className="w-2 h-2 rounded-full bg-cyan-500 mr-2"></div>}
-                          <span className="text-xs text-gray-400">{formatDate(message.timestamp)}</span>
+                          <span className="text-xs text-gray-400">{formatFirestoreTimestampDate(message.timestamp)}</span>
                         </div>
                       </div>
                       <p className="text-sm text-gray-400 truncate">{message.subject || "(No subject)"}</p>
@@ -273,7 +228,7 @@ export default function ContactMessagesPage() {
                             {selectedMessage.email}
                           </a>
                         </div>
-                        <div className="text-sm text-gray-400">{formatDate(selectedMessage.timestamp)}</div>
+                        <div className="text-sm text-gray-400">{formatFirestoreTimestampDate(selectedMessage.timestamp)}</div>
                       </div>
 
                       <div className="bg-gray-700/50 rounded-lg p-4 whitespace-pre-wrap">{selectedMessage.message}</div>

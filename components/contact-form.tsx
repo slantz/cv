@@ -9,8 +9,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Portal } from "@/components/ui/portal"
-import { collection, addDoc, serverTimestamp } from "firebase/firestore"
-import { db } from "@/lib/firebase"
 import { event } from "@/lib/analytics"
 
 interface ContactFormProps {
