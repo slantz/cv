@@ -1,7 +1,0 @@
-version: '3'
-
-services:
-    cv:
-        build:
-            context: .
-        image: kblnsk/cv
