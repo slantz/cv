@@ -2,20 +2,27 @@ import {motion} from "framer-motion";
 import Image from "next/image";
 import {useEffect, useRef, useState} from "react";
 import { animate, createScope, createSpring, createDraggable, type Scope } from 'animejs';
+import {event} from "@/lib/analytics";
 
 export function Avatar() {
   const root = useRef(null);
+  const debounceTimer = useRef<NodeJS.Timeout | null>(null);
+  const clickCount = useRef(0);
   const scope = useRef<Scope | null>(null);
   const [ rotations, setRotations ] = useState(0);
 
   useEffect(() => {
-
     scope.current = createScope({ root }).add( scope => {
       // Every anime.js instances declared here are now scopped to <div ref={root}>
 
       createDraggable('#logo-anim', {
         container: [0, 0, 0, 0],
-        releaseEase: createSpring({ stiffness: 200 })
+        releaseEase: createSpring({ stiffness: 200 }),
+        onGrab: () => event({
+          action: "logo_drag-grab",
+          category: "user_interaction",
+          label: "User grab logo to drag"
+        })
       });
 
       // Register function methods to be used outside the useEffect
@@ -38,6 +45,23 @@ export function Avatar() {
     setRotations(i);
     // Animate logo rotation on click using the method declared inside the scope
     scope.current!.methods.rotateLogo(i);
+    clickCount.current += 1;
+
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+
+    debounceTimer.current = setTimeout(() => {
+      if (clickCount.current > 0) {
+        event({
+          action: "logo_click-around",
+          category: "user_interaction",
+          label: "User clicked on logo",
+          value: clickCount.current,
+        });
+        clickCount.current = 0;
+      }
+    }, 300);
   };
 
 
