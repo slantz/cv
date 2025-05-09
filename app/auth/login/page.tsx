@@ -19,7 +19,11 @@ export default function Login() {
   useEffect(() => {
     // If user is already logged in and is an admin, redirect to the requested page
     if (user && isAdmin) {
-      router.push(from)
+      const timeout = setTimeout(() => {
+        router.push(from)
+      }, 300)
+
+      return () => clearTimeout(timeout)
     }
   }, [user, isAdmin, router, from])
 

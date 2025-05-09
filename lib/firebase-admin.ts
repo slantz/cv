@@ -92,8 +92,9 @@ export async function verifySessionCookie(sessionCookie: string) {
 // Check if a user is authorized to access admin pages
 export async function isAuthorizedAdmin(uid: string) {
   const adminDB = getAdminDB();
+  const adminAuth = getAdminAuth();
 
-  if (!adminDB) {
+  if (!adminDB || !adminAuth) {
     throw new Error("Firebase Admin Firestore is not initialized")
   }
 
@@ -104,8 +105,11 @@ export async function isAuthorizedAdmin(uid: string) {
   }
 
   try {
+    const firebaseUser = await adminAuth.getUser(uid)
+    const githubUID = firebaseUser.providerData.find(p => p.providerId === "github.com")?.uid
+
     // First check if the user's UID matches the allowed GitHub ID
-    if (process.env.ALLOWED_GITHUB_ID === uid) {
+    if (process.env.ALLOWED_GITHUB_ID === githubUID) {
       return true
     }
 

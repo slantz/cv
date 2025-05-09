@@ -30,19 +30,17 @@ export const signInWithGitHub = async () => {
     })
 
     // Get additional GitHub user data if needed
-    if (token) {
-      const response = await fetch("https://api.github.com/user", {
-        headers: {
-          Authorization: `token ${token}`,
-        },
-      })
-
-      if (response.ok) {
-        const githubUser = await response.json()
-        // You can store additional GitHub user data in Firestore here if needed
-        console.log("GitHub user data:", githubUser)
-      }
-    }
+    // if (token) {
+    //   const response = await fetch("https://api.github.com/user", {
+    //     headers: {
+    //       Authorization: `token ${token}`,
+    //     },
+    //   })
+    //
+    //   if (response.ok) {
+    //     const githubUser = await response.json()
+    //   }
+    // }
 
     return result.user
   } catch (error: any) {

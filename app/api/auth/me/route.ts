@@ -31,8 +31,10 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 })
     }
 
-    // Check if the user is an admin
-    const isAdmin = await isAuthorizedAdmin(decodedClaims.uid)
+    const githubId = user.providerData.find(p => p.providerId === "github.com")?.uid
+    const isAdmin =
+      githubId === process.env.ALLOWED_GITHUB_ID ||
+      (await isAuthorizedAdmin(decodedClaims.uid))
 
     // Return the user data and admin status
     return NextResponse.json({
