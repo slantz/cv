@@ -9,5 +9,5 @@ export function EssayHeadingDateRange({dates}: Props) {
     return null;
   }
 
-  return <span className="text-xs text-gray-400 font-medium ml-2">{dates.startDate}{dates.endDate ? ` – ${dates.endDate}` : ` – Present`}</span>;
+  return <span className="text-sm text-gray-400 font-medium ml-2">{dates.startDate}{dates.endDate ? ` – ${dates.endDate}` : ` – Present`}</span>;
 }

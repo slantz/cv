@@ -137,7 +137,7 @@ export function EssaySection({data}: EssaySectionProps) {
                     <div className="p-6 bg-gray-800/80">
                       {section.data.length > 0 ? (
                         section.data.map((essay, index) => (
-                          <div key={index} className="mb-4 last:mb-0">
+                          <div key={index} className="mb-6 last:mb-0">
                             <EssayHeading essay={essay} />
                             <EssayDescription description={essay.description} />
                             <EssayLinks links={essay.links} />

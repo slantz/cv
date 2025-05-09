@@ -48,6 +48,22 @@ const fallback: CVData = {
           link: 'https://'
         },
         tracking: ''
+      },
+      telegram: {
+        link: {
+          type: 'link',
+          value: '',
+          link: 'https://'
+        },
+        tracking: ''
+      },
+      discord: {
+        link: {
+          type: 'link',
+          value: '',
+          link: 'https://'
+        },
+        tracking: ''
       }
     },
     achievements: [],

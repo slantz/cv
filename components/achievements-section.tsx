@@ -24,7 +24,7 @@ const Achievement = ({ icon, text }: AchievementProps) => (
     <div className="w-8 h-8 rounded-full bg-gray-800/80 flex items-center justify-center border border-gray-700 group-hover:border-slate-500/50 transition-all mt-0.5 flex-shrink-0">
       {icon}
     </div>
-    <p className="text-sm text-gray-300 group-hover:text-white transition-colors">{text}</p>
+    <p className="text-md text-gray-300 group-hover:text-white transition-colors">{text}</p>
   </motion.div>
 )
 

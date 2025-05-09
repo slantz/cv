@@ -59,6 +59,14 @@ interface Social {
     link: Link;
     tracking: string;
   };
+  telegram: {
+    link: Link;
+    tracking: string;
+  };
+  discord: {
+    link: Link;
+    tracking: string;
+  };
 }
 
 export interface SectionMeta {

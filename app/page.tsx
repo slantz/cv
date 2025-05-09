@@ -59,7 +59,9 @@ export default async function Page() {
           />
           <EssaySection data={cvWithoutAbout} />
         </main>
-        <Footer />
+        <Footer
+          social={about.social}
+        />
         <AdminLoginModalTrigger />
       </div>
     </>

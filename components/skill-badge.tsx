@@ -89,7 +89,7 @@ export function SkillBadge({ name, level = 5, className, details }: SkillBadgePr
                       {group.split(":").map(skill => skill.trim()).map((skill, skillIndex) => (
                         <span
                           key={skillIndex}
-                          className={`inline-block px-2 py-0.5 text-xs rounded-md ${
+                          className={`inline-block px-2 py-0.5 text-sm rounded-md ${
                             skillIndex === 0 ? "bg-gray-700 text-white" : "bg-gray-700/50 text-gray-300"
                           }`}
                         >

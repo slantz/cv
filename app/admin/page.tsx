@@ -164,7 +164,9 @@ export default function AdminPage() {
   │   │   ├── github: { link: { type, value, link }, tracking }
   │   │   ├── linkedin: { ... }
   │   │   ├── medium: { ... }
-  │   │   └── stackOverflow: { ... }
+  │   │   ├── stackOverflow: { ... }
+  │   │   ├── discord: { ... }
+  │   │   └── telegram: { ... }
   │   └── meta: { order, title, subtitle }
 
   ├── education/

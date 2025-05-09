@@ -32,6 +32,11 @@ export function CVDownload({ className }: CVDownloadProps) {
 
       if (!res.ok) {
         console.error("CV download failed")
+        event({
+          action: "cv_download_failure",
+          category: "server",
+          label: "/api/cv/get-cv-file error",
+        })
         return
       }
 
@@ -59,6 +64,11 @@ export function CVDownload({ className }: CVDownloadProps) {
       })
     } catch (err) {
       console.error("Failed to download CV:", err)
+      event({
+        action: "cv_download_failure",
+        category: "server",
+        label: `cv download error ${err}`,
+      })
     }
   }
 

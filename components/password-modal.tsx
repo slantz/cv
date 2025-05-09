@@ -66,6 +66,11 @@ export function PasswordModal({ isOpen, onClose, onSuccess }: PasswordModalProps
     } catch (err) {
       console.error("Error checking password:", err)
       setError("Something went wrong. Please try again.")
+      event({
+        action: "cv_password_failure",
+        category: "server",
+        label: `password check error ${err}`,
+      })
     }
 
     setIsVerifying(false)
@@ -114,7 +119,7 @@ export function PasswordModal({ isOpen, onClose, onSuccess }: PasswordModalProps
                     <Lock className="h-6 w-6 text-purple-400" />
                   </div>
                   <h2 className="text-xl font-bold text-white mb-1">Protected Content</h2>
-                  <p className="text-gray-400 text-sm">Please enter the password to download the CV</p>
+                  <p className="text-gray-400 text-sm">Please request one-time password from Alex to download CV</p>
                 </div>
 
                 <form onSubmit={handleSubmit}>
