@@ -10,6 +10,7 @@ import {SkillsLangContactSection} from "@/components/skills-lang-contact-section
 import {PageView} from "@/components/page-view";
 import {fetchCVDocuments} from "@/lib/fetch-cv-documents";
 import {parseTemplateDescriptionWithDates} from "@/lib/utils";
+import {Accordion, AccordionContent} from "@/components/ui/accordion";
 
 const schemaOrgJsonLd = (description: string) => ({
   "@context": "https://schema.org",
