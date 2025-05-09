@@ -81,3 +81,11 @@ so to not have an infinite loop issue locally when going to admin pages logged i
 2. `mkcert localhost 127.0.0.1 ::1` # or add other local IPs that are used as well, this will generate 2 *.pem files that are already in .gitignore
 
 or another option to avoid the infinite loop for testing only locally would be to set secure: false and login on production build will be working finally over http.
+
+## Firebase APP Hosting
+
+This CV uses the Firebase App Hosting, for this to function several things needs to be done:
+- `firebase init apphosting` which will create 3 files: `apphosting.yaml`, `.firebaserc`, `firebase.json`.
+- `apphosting.yaml` defines the resources utilized and environment variables names stored in Cloud Secret Manager.
+- then each for each environment variable firebase app hosting backend should get access to the cloud manager secret variable, like
+`firebase apphosting:secrets:grantaccess --backend <BACKEND_NAME> --project <PROJECT_NAME> --location <PROJECT_LOCATION> ALLOWED_GITHUB_ID`.
