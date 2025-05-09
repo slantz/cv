@@ -1,12 +1,14 @@
 {
   "name": "cv",
-  "version": "6.0.1",
+  "version": "6.0.2",
   "private": true,
   "scripts": {
-    "dev": "bun --bun run next dev",
-    "build": "bun --bun run next build",
-    "start": "bun --bun run next start",
-    "lint": "bun --bun run next lint",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "bun-dev": "bun --bun run next dev",
+    "bun-build": "bun --bun run next build",
+    "lint": "next lint",
     "test": "bun test"
   },
   "dependencies": {
