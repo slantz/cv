@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     responseCookies.set("__session", sessionCookie, {
       maxAge: expiresIn / 1000, // Convert to seconds
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production" && !isLocalhost(request),
+      secure: process.env.NODE_ENV === "production" && (request.headers.get("x-forwarded-proto") === "https" || request.url.startsWith("https://")),
       path: "/",
       sameSite: "lax",
     })

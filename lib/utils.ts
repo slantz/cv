@@ -64,9 +64,3 @@ export const formatFirestoreTimestampDate = (timestamp: any): string => {
     return "Invalid date"
   }
 }
-
-function isLocalhost(req: NextRequest) {
-  const host = req.headers.get("host") || ""
-  return host.startsWith("localhost") || host.startsWith("192.168.") || host.startsWith("127.0.0.1")
-}
-

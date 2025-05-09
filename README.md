@@ -66,3 +66,18 @@ This will generate the `bun.lockb` file and install all dependencies using Bun.
 - [Radix UI](https://www.radix-ui.com/)
 - [Framer Motion](https://www.framer.com/motion/)
 - [Firebase](https://firebase.google.com/)
+
+## Use HTTPS for local development
+
+When having a production build locally the session cookie for admin will be set as secure since
+```typescript
+secure: process.env.NODE_ENV === "production" && 
+  (request.headers.get("x-forwarded-proto") === "https" || 
+  request.url.startsWith("https://"))
+```
+
+so to not have an infinite loop issue locally when going to admin pages logged in as admin, the following should be set up:
+1. `brew install mkcert`
+2. `mkcert localhost 127.0.0.1 ::1` # or add other local IPs that are used as well, this will generate 2 *.pem files that are already in .gitignore
+
+or another option to avoid the infinite loop for testing only locally would be to set secure: false and login on production build will be working finally over http.
