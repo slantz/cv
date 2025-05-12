@@ -131,13 +131,15 @@ export function ContactForm({ isOpen, onClose }: ContactFormProps) {
                   </Button>
                 </div>
 
-                <div className="flex flex-col items-center text-center mb-6">
-                  <div className="w-12 h-12 rounded-full bg-cyan-900/40 flex items-center justify-center mb-4 border border-cyan-500/30">
-                    <Send className="h-6 w-6 text-cyan-400" />
+                {formStatus !== "success" && formStatus !== "error" && (
+                  <div className="flex flex-col items-center text-center mb-6">
+                    <div className="w-12 h-12 rounded-full bg-cyan-900/40 flex items-center justify-center mb-4 border border-cyan-500/30">
+                      <Send className="h-6 w-6 text-cyan-400" />
+                    </div>
+                    <h2 className="text-xl font-bold text-white mb-1">Get in Touch</h2>
+                    <p className="text-gray-400 text-sm">Send me a message and I'll get back to you soon</p>
                   </div>
-                  <h2 className="text-xl font-bold text-white mb-1">Get in Touch</h2>
-                  <p className="text-gray-400 text-sm">Send me a message and I'll get back to you soon</p>
-                </div>
+                )}
 
                 {formStatus === "success" ? (
                   <div className="flex flex-col items-center py-6">

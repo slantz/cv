@@ -39,8 +39,10 @@ const blockedPatterns = [
   "/web/wp-",
   "/2020",
   "/2021",
-  "/2019",
+  "/2019"
+]
 
+const blockedFileEndExtensions = [
   // Known scanning file types and filenames
   "wlwmanifest.xml",
   "license.txt",
@@ -50,14 +52,15 @@ const blockedPatterns = [
   ".ini",
   ".cfg",
   ".log",
-  ".env",
+  ".env"
 ]
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname.toLowerCase()
 
   const isBlocked = blockedPatterns.some((pattern) =>
-    pathname.includes(pattern)
+    pathname.startsWith(pattern) ||
+    blockedFileEndExtensions.some(ext => pathname.endsWith(ext))
   )
 
   if (isBlocked) {
@@ -72,5 +75,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/:path*"]
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|avatar.webp|seo_1200x630.webp).*)']
 }
