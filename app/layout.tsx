@@ -43,11 +43,12 @@ export const metadata: Metadata = {
     template: "%s | Alex | Senior Software Engineer & Engineering Leader"
   },
   description:
-    "Senior Software Engineer and Engineering Leader with 12+ years in full-stack development (JS/TS/Java) and 6+ years in technical leadership. Specialized in Web3, blockchain, scalable systems, and launching products and teams from scratch.",
+    "Engineering Lead & Full-Stack Developer with 12+ years of hands-on experience in JS/TS/Java and 6+ years leading teams. Delivered and scaled high-load systems including Cardano Spot, USDA, Opower, aboutyou.de, and AY Outlet. Led architecture, execution, and cross-functional mentoring. Deep expertise in microservices, SSR, blockchain infrastructure, and UI/UX systems. Active SPO in Apex Fusion Chain and contributor to Cardano ecosystem tools.",
   keywords: [
     "Senior Software Engineer",
     "Engineering Leader",
     "Full-Stack Developer",
+    "Frontend Developer",
     "Web3 Developer",
     "Blockchain Architect",
     "Cardano Developer",
@@ -59,6 +60,7 @@ export const metadata: Metadata = {
     "Docker",
     "React",
     "Vue.js",
+    "Next.js",
     "Cardano Spot",
     "APEX Fusion SPO",
     "USDA Stablecoin",
@@ -71,12 +73,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Alex | Senior Software Engineer & Engineering Leader",
     description:
-      "12+ years in full-stack development and 6+ years leading engineering teams. Expert in Web3, blockchain solutions, and scalable systems architecture.",
+      "Engineering Lead with 12+ years in full-stack development and 6+ years leading teams. Specialized in Web3, blockchain, and scalable systems architecture.",
     type: "website",
     url: "https://kblnsk.me/",
     images: [
       {
-        url: "https://kblnsk.me/seo_1200x630.png",
+        url: "https://kblnsk.me/seo_1200x630.webp",
         width: 1200,
         height: 630,
         alt: "Alex Portfolio Logo",
@@ -87,8 +89,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Alex | Senior Software Engineer & Engineering Leader",
     description:
-      "Experienced Software Engineer and Team Leader specializing in Web3, blockchain, and scalable systems. Launching products and teams successfully across global companies.",
-    images: ["https://kblnsk.me/seo_1200x630.png"],
+      "Engineering Lead with 12+ years in full-stack development and 6+ years leading teams. Specialized in Web3, blockchain, and scalable systems architecture.",
+    images: ["https://kblnsk.me/seo_1200x630.webp"],
   },
 };
 
@@ -101,6 +103,15 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* ✅ Preconnect to Google's APIs */}
+        <link rel="preconnect" href="https://www.googleapis.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://apis.google.com" crossOrigin="anonymous" />
+
+        {/* (Optional) dns-prefetch fallback */}
+        <link rel="dns-prefetch" href="https://www.googleapis.com" />
+        <link rel="dns-prefetch" href="https://apis.google.com" />
+      </head>
       <body className={`${spaceGrotesk.variable} ${robotoMono.variable} ${outfit.variable} ${iceland.variable} ${orbitron.variable} font-outfit antialiased bg-pool-richBlack`}>
         <AuthProvider>
           <ThemeProvider

@@ -83,10 +83,10 @@ export function Avatar() {
           <div className="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-purple-500/30 shadow-[0_0_30px_rgba(168,85,247,0.3)]">
             <div className="w-full h-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-5xl md:text-6xl font-bold text-white font-display relaitve">
               <Image
-                src="/avatar.png"
+                src="/avatar.webp"
                 alt="Alex1 stake pool logo"
-                width={250}
-                height={250}
+                width={248}
+                height={248}
                 priority
                 className="w-full h-full object-cover"/>
             </div>
