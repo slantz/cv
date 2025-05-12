@@ -57,12 +57,12 @@ export function AuthButton() {
         {isAdmin && (
           <>
             <DropdownMenuItem asChild>
-              <Link href="/admin" className="cursor-pointer">
+              <Link href="/owner" className="cursor-pointer">
                 Admin Dashboard
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/admin/contact-messages" className="cursor-pointer">
+              <Link href="/owner/contact-messages" className="cursor-pointer">
                 Contact Messages
               </Link>
             </DropdownMenuItem>

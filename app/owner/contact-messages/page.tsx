@@ -23,7 +23,7 @@ export default function ContactMessagesPage() {
         // First check if user is logged in
         const authResponse = await fetch("/api/auth/me")
         if (!authResponse.ok) {
-          router.push("/auth/login?from=/admin/contact-messages")
+          router.push("/auth/login?from=/owner/contact-messages")
           return
         }
 
@@ -40,7 +40,7 @@ export default function ContactMessagesPage() {
         await fetchMessages()
       } catch (err) {
         console.error("Auth check error:", err)
-        router.push("/auth/login?from=/admin/contact-messages")
+        router.push("/auth/login?from=/owner/contact-messages")
       }
     }
 
@@ -142,7 +142,7 @@ export default function ContactMessagesPage() {
     <div className="min-h-screen bg-gray-900 text-white p-8">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <Link href="/admin" className="inline-flex items-center text-gray-400 hover:text-white transition-colors">
+          <Link href="/owner" className="inline-flex items-center text-gray-400 hover:text-white transition-colors">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Admin
           </Link>

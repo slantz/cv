@@ -18,7 +18,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
     // If auth is loaded and user is not logged in, redirect to login page
     if (!isLoading && !user) {
-      router.push("/auth/login?from=/admin")
+      router.push("/auth/login?from=/owner")
     }
   }, [user, isLoading, isAdmin, router])
 

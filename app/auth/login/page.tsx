@@ -14,7 +14,7 @@ export default function Login() {
   const { user, isAdmin } = useAuth()
   const router = useRouter()
   const searchParams = useSearchParams()
-  const from = searchParams?.get("from") || "/admin"
+  const from = searchParams?.get("from") || "/owner"
 
   useEffect(() => {
     // If user is already logged in and is an admin, redirect to the requested page

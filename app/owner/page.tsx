@@ -28,7 +28,7 @@ export default function AdminPage() {
         // First check if user is logged in
         const authResponse = await fetch("/api/auth/me")
         if (!authResponse.ok) {
-          router.push("/auth/login?from=/admin")
+          router.push("/auth/login?from=/owner")
           return
         }
 
@@ -43,7 +43,7 @@ export default function AdminPage() {
         setIsAdmin(true)
       } catch (err) {
         console.error("Auth check error:", err)
-        router.push("/auth/login?from=/admin")
+        router.push("/auth/login?from=/owner")
       }
     }
 
@@ -203,7 +203,7 @@ contact-messages/
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-          <Link href="/admin/contact-messages" className="block">
+          <Link href="/owner/contact-messages" className="block">
             <div className="bg-gray-800 rounded-lg p-6 border border-gray-700 hover:border-cyan-500/50 transition-colors group">
               <div className="bg-cyan-900/20 w-12 h-12 rounded-full flex items-center justify-center mb-4 group-hover:bg-cyan-900/30 transition-colors">
                 <Mail className="h-6 w-6 text-cyan-400" />
