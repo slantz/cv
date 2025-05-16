@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server"
 
 const blockedPatterns = [
   // WordPress & common CMS files
+  "/wp",
   "/wp-",
   "/xmlrpc.php",
   "/cms",
@@ -32,6 +33,9 @@ const blockedPatterns = [
   "/mail",
   "/test",
   "/old",
+  "/new",
+  "/main",
+  "/index",
   "/wp1/",
   "/wp2/",
   "/cms/wp-",
