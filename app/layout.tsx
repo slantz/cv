@@ -1,5 +1,5 @@
 import type React from "react"
-import type {Metadata} from "next";
+import type {Metadata, Viewport} from "next";
 import { Space_Grotesk, Roboto_Mono, Outfit, Iceland, Orbitron } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -93,6 +93,14 @@ export const metadata: Metadata = {
     images: ["https://kblnsk.me/seo_1200x630.webp"],
   },
 };
+
+export const viewport: Viewport = {
+  // width: 'device-width',
+  // initialScale: 1,
+  // maximumScale: 1,
+  // userScalable: false,
+  viewportFit: 'cover'
+}
 
 export default function RootLayout({
   children,
