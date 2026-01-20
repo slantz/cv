@@ -115,6 +115,8 @@ export interface EssaySection {
 
   // badges
   keyProjects?: Array<string>;
+
+  order?: number;
 }
 
 export interface CVData {

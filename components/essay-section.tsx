@@ -4,7 +4,7 @@ import {AlertCircle, ChevronDown, ChevronUp, Info} from "lucide-react";
 import {AnimatePresence, motion} from "framer-motion";
 import {useEffect, useMemo, useState} from "react";
 import {event} from "@/lib/analytics";
-import {CVData} from "@/types/core";
+import {CVData, EssaySection as EssaySectionType} from "@/types/core";
 import {EssayHeading} from "@/components/essay/essay-heading";
 import {EssayDescription} from "@/components/essay/essay-description";
 import {EssayLinks} from "@/components/essay/essay-links";
@@ -27,6 +27,8 @@ export function EssaySection({data}: EssaySectionProps) {
       ),
     [data]
   );
+
+  const sortSectionsContent = (data: Array<EssaySectionType>) => data.sort((a, b) => a.order && b.order ? a.order - b.order : 0);
 
   const toggleExpand = (id: string) => {
     setExpandedId(expandedId === id ? null : id)
@@ -136,7 +138,7 @@ export function EssaySection({data}: EssaySectionProps) {
                   >
                     <div className="p-6 bg-gray-800/80">
                       {section.data.length > 0 ? (
-                        section.data.map((essay, index) => (
+                        sortSectionsContent(section.data).map((essay, index) => (
                           <div key={index} className="mb-6 last:mb-0">
                             <EssayHeading essay={essay} />
                             <EssayDescription description={essay.description} />
